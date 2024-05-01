@@ -5,11 +5,11 @@ from psycopg2.extras import RealDictCursor
 
 def connect_to_db():
     try:
-        connection = psycopg2.connect(user="basdat",
-                                      password="admin",
-                                      host="localhost",
-                                      port="5432",
-                                      database="marmut")
+        connection = psycopg2.connect(user="",
+                                      password="",
+                                      host="",
+                                      port="",
+                                      database="")
         connection.autocommit = True
         return connection
     except (Exception, Error) as error:
