@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play User Playlist - Marmut</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <nav class="navbar navbar-dark bg-danger">
+        <div class="container">
+            <a class="navbar-brand" href="#">Navigation</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Chart</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Search Bar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Kelola Playlist</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Langganan Paket</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Kelola Downloaded Songs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Kelola Podcast</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Kelola Album & Songs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Kelola Album</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Cek Royalti</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <style>
+        body {
+            background-color: #f8f9fa; /* Warna latar belakang */
+        }
+        .card {
+            border: none;
+            border-radius: 0.5rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); /* Efek bayangan */
+        }
+        .card-header {
+            background-color: #d9534f; /* Warna merah */
+            color: white; /* Warna teks */
+            border-bottom: none;
+        }
+        .btn-primary {
+            background-color: #d9534f; /* Warna merah */
+            border-color: #d9534f; /* Warna border */
+        }
+        .btn-primary:hover {
+            background-color: #c9302c; /* Warna merah yang sedikit lebih gelap */
+            border-color: #c9302c;
+        }
+        .btn-outline-secondary {
+            color: #d9534f; /* Warna merah */
+            border-color: #d9534f;
+        }
+        .btn-outline-secondary:hover {
+            background-color: #f8f9fa; /* Warna latar belakang */
+        }
+        .card-title,
+        .card-text {
+            color: #212529; /* Warna teks utama */
+        }
+
+        .modal-header {
+            background-color: #d9534f;
+            color: white;
+        }
+        .modal-title {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="card mb-3">
+            <div class="card-header text-center">
+                USER PLAYLIST DETAIL
+            </div>
+            <div class="card-body">
+                <hp class="card-text" id="judul-playlist">Judul: Playlist1</p>
+                <p class="card-text" id="pembuat">Pembuat: Pembuat1</p>
+                <p class="card-text" id="jumlah-lagu">Jumlah Lagu: 12</p>
+                <p class="card-text" id="total-durasi">Total Durasi: 8 jam 20 menit</p>
+                <p class="card-text" id="tanggal-dibuat">Tanggal Dibuat: 18/03/24</p>
+                <p class="card-text" id="deskripsi-playlist">Deskripsi: Lorem Ipsum ….</p>
+                <div class="text-center">
+                    <button class="btn btn-primary mb-2" id="shuffle-play">Shuffle Play</button>
+                    <button class="btn btn-primary mb-2" id="kembali">Kembali</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header text-center">
+                DAFTAR LAGU
+            </div>
+            <table class="table table-hover text-center">
+                <thead>
+                    <tr>
+                        <th>Judul Lagu</th>
+                        <th>Oleh</th>
+                        <th>Durasi</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Contoh Daftar Lagu -->
+                    <tr>
+                        <td>Song1</td>
+                        <td>Artist1</td>
+                        <td>2 menit</td>
+                        <td>
+                            <a href="#" class="btn btn-info btn-sm">Lihat</a>
+                            <button class="btn btn-primary btn-sm" onclick="playSong('Song1')">Play</button>
+                            <button class="btn btn-danger btn-sm">Hapus</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Song2</td>
+                        <td>Artist2</td>
+                        <td>3 menit</td>
+                        <td>
+                            <a href="#" class="btn btn-info btn-sm">Lihat</a>
+                            <button class="btn btn-primary btn-sm" onclick="playSong('Song2')">Play</button>
+                            <button class="btn btn-danger btn-sm">Hapus</button>
+                        </td>
+                    </tr>
+                    <!-- Daftar lagu akan dilanjutkan... -->
+                </tbody>
+            </table>
+            <div class="text-center">
+                <!-- Tombol tambah lagu -->
+                <button class="btn btn-secondary" id="add-to-playlist" data-toggle="modal" data-target="#addToPlaylistModal">Add to Playlist</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Add to Playlist -->
+    <div class="modal fade" id="addToPlaylistModal" tabindex="-1" role="dialog" aria-labelledby="addToPlaylistModalLabel" aria-hidden="true">
+        <div class="modal-dialog text-center" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addToPlaylistModalLabel">Add Song to User Playlist</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="add-to-playlist-form">
+                        <p>Judul: Song1</p>
+                        <p>Artist: Artist1</p>
+                        <div class="form-group">
+                            <label for="playlist">Playlist:</label>
+                            <select class="form-control" id="playlist" required>
+                                <!-- Options should be populated based on user's playlists -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Tambah</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Custom JS for handling the shuffle play and individual play song logic -->
+    <script>
+        document.getElementById('shuffle-play').addEventListener('click', function() {
+            // Logic to create AKUN_SHUFFLE_PLAY entry for the playlist
+            alert('Shuffling playlist');
+            // Stay on the same page
+        });
+
+        function playSong(judul) {
+            // Logic to create AKUN_PLAY_SONG entry for the song
+            alert('Playing ' + judul);
+            // Stay on the same page
+        }
+    </script>
+</body>
+</html>
