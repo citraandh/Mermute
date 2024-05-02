@@ -115,13 +115,12 @@
             </tr>
         </thead>
         <tbody>
-            <<<<<<< HEAD {for chart in chart} <tr>
+            {for chart in chart} <tr>
                 <td>{{chart.tipe}}</td>
                 <td>
                     <a href="/chart/{chart.id}">Detail</a>
                 </td>
                 </tr>
-                =======
                 {% for chart in chart %}
                 <tr>
                     <td>{{ chart.tipe }}</td>
@@ -130,8 +129,6 @@
                     </td>
                 </tr>
                 {% endfor %}
-                >>>>>>> c85f5cff6c06606ddf67210831fdffd572c3bb62
-        </tbody>
     </table>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>

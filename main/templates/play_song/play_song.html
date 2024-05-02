@@ -198,7 +198,7 @@
                 </div>
                 <div class="modal-body">
                     <p id="success-message"></p>
-                    <a href="#" class="btn btn-primary">Ke Playlist</a>
+                    <a href="#" class="btn btn-primary">Ke Daftar Download</a>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
                 </div>
             </div>
@@ -221,6 +221,37 @@
         });
 
         // logic for adding to playlist and downloading song
+        // Function to handle adding song to playlist
+        document.getElementById('add-to-playlist-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Logic to add song to playlist
+            var selectedPlaylist = document.getElementById('playlist').value;
+            // Perform the necessary operations to add the song to the selected playlist
+
+            // Display success message
+            $('#successMessageModal #success-message').text('Berhasil menambahkan Lagu dengan judul ‘Song1’ ke ‘' + selectedPlaylist + '’!');
+            $('#successMessageModal').modal('show');
+        });
+
+        // Function to handle downloading song
+        document.getElementById('download').addEventListener('click', function() {
+            // Logic to download the song
+            // Display success message
+            $('#successMessageModal #success-message').text('Berhasil mengunduh Lagu dengan judul ‘Song1’!');
+            $('#successMessageModal').modal('show');
+        });
+
+        // Function to handle redirection to playlist page
+        $('#successMessageModal #toPlaylistPage').on('click', function() {
+            window.location.href = 'playlist.html'; // Ganti dengan URL yang sesuai
+        });
+
+        // Function to handle redirection to download page
+        $('#successMessageModal #toDownloadPage').on('click', function() {
+            window.location.href = 'download.html'; // Ganti dengan URL yang sesuai
+        });
+
     </script>
 </body>
 
