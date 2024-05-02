@@ -107,20 +107,18 @@
 
 <body>
     <h1 style="text-align: center;">Podcast</h1>
-    <<<<<<< HEAD <div style="display: flex; justify-content: center;">
+    <div style="display: flex; justify-content: center;">
         <p style="margin-right: 10px;">Judul: {{podcast.title}}</p>
 
         <p style="margin-right: 10px;">Genre(s):</p>
         {% for genre in podcast.genres %}
         <p style="margin-right: 10px;">- {{genre}}</p>
-        =======
 
         <div class="card" style="width: 50%; margin: 0 auto; ">
             <p style="margin-left: 10px;">Judul: {{podcast.title}}</p>
             <p style="margin-left: 10px;">Genre(s):</p>
             {% for genre in podcast.genres %}
             <p style="margin-left: 10px;">- {{genre}}</p>
-            >>>>>>> c85f5cff6c06606ddf67210831fdffd572c3bb62
             {% endfor %}
             <p style="margin-left: 10px;">Podcaster: {{podcast.podcaster}}</p>
             <p style="margin-left: 10px;">Total Durasi: {{podcast.time}}</p>

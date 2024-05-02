@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chart Details</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <nav class="navbar navbar-dark bg-danger">
         <div class="container">
             <a class="navbar-brand" href="#">Navigation</a>
@@ -71,7 +72,7 @@
         </thead>
         <tbody>
             {for data in chart.playlist}
-            <<<<<<< HEAD <tr>
+            <tr>
                 <td>{{data.judul}}</td>
                 <td>{{data.artist}}</td>
                 <td>{{data.tanggal_rilis}}</td>
@@ -80,7 +81,6 @@
                     <a href="/chart/{chart.id}/play/{data.id}">Song Detail</a>
                 </td>
                 </tr>
-                =======
                 <tr>
                     <td>{{data.judul}}</td>
                     <td>{{data.artist}}</td>
@@ -90,7 +90,7 @@
                         <a href="/chart/{{chart.id}}/play/{{data.id}}">Song Detail</a>
                     </td>
                 </tr>
-                >>>>>>> c85f5cff6c06606ddf67210831fdffd572c3bb62
+
                 {endfor}
         </tbody>
     </table>
