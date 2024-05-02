@@ -6,11 +6,53 @@
     <title>Play Song - Marmut</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa; /* Warna latar belakang */
+        }
+        .card {
+            border: none;
+            border-radius: 0.5rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); /* Efek bayangan */
+            height: auto;
+        }
+        .card-header {
+            background-color: #d9534f; /* Warna merah */
+            color: white; /* Warna teks */
+            border-bottom: none;
+        }
+        .modal-header {
+            background-color: #d9534f;
+            color: white;
+        }
+        .modal-title {
+            color: white;
+        }
+        .btn-primary {
+            background-color: #d9534f; /* Warna merah */
+            border-color: #d9534f; /* Warna border */
+        }
+        .btn-primary:hover {
+            background-color: #c9302c; /* Warna merah yang sedikit lebih gelap */
+            border-color: #c9302c;
+        }
+        .btn-outline-secondary {
+            color: #d9534f; /* Warna merah */
+            border-color: #d9534f;
+        }
+        .btn-outline-secondary:hover {
+            background-color: #f8f9fa; /* Warna latar belakang */
+        }
+        .card-title,
+        .card-text {
+            color: #212529; /* Warna teks utama */
+        }
+    </style>
 </head>
 <body>
     <div class="container mt-4">
-        <div class="card">
-            <div class="card-header">
+        <div class="card" style="margin: auto">
+            <div class="card-header text-center">
                 SONG DETAIL
             </div>
             <div class="card-body">
@@ -33,7 +75,7 @@
                 <p class="card-text" id="total-downloads">Total Downloads: 0</p>
                 <p class="card-text" id="album">Album: Album1</p>
                 <input type="range" class="form-control-range" id="song-progress" min="0" max="100">
-                <div class="mt-3">
+                <div class="mt-3 text-center">
                     <button class="btn btn-primary" id="play">Play</button>
                     <button class="btn btn-secondary" id="add-to-playlist" data-toggle="modal" data-target="#addToPlaylistModal">Add to Playlist</button>
                     <!-- Download button should only display if the user is premium -->
@@ -46,7 +88,7 @@
 
     <!-- Modal Add to Playlist -->
     <div class="modal fade" id="addToPlaylistModal" tabindex="-1" role="dialog" aria-labelledby="addToPlaylistModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog text-center" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="addToPlaylistModalLabel">Add Song to User Playlist</h5>
@@ -64,8 +106,10 @@
                                 <!-- Options should be populated based on user's playlists -->
                             </select>
                         </div>
+                        <div class="form-group">
                         <button type="submit" class="btn btn-primary">Tambah</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
+                    </div>
                     </form>
                 </div>
             </div>
@@ -99,17 +143,14 @@
     <script>
         // Example functionality for play button
         document.getElementById('play').addEventListener('click', function() {
+            alert('Playing song');
             var progress = document.getElementById('song-progress').value;
             if (progress > 70) {
-                // Add logic to update AKUN_PLAY_SONG entry here
-                // Update the total play count on the page
-                var totalPlayElement = document.getElementById('total-play');
-                var totalPlay = parseInt(totalPlayElement.textContent.split(': ')[1]) + 1;
-                totalPlayElement.textContent = 'Total Play: ' + totalPlay;
+                // logic to update AKUN_PLAY_SONG entry
             }
         });
 
-        // Add logic for adding to playlist and downloading song
+        // logic for adding to playlist and downloading song
     </script>
 </body>
 </html>

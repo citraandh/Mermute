@@ -6,27 +6,63 @@
     <title>Play User Playlist - Marmut</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa; /* Warna latar belakang */
+        }
+        .card {
+            border: none;
+            border-radius: 0.5rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); /* Efek bayangan */
+        }
+        .card-header {
+            background-color: #d9534f; /* Warna merah */
+            color: white; /* Warna teks */
+            border-bottom: none;
+        }
+        .btn-primary {
+            background-color: #d9534f; /* Warna merah */
+            border-color: #d9534f; /* Warna border */
+        }
+        .btn-primary:hover {
+            background-color: #c9302c; /* Warna merah yang sedikit lebih gelap */
+            border-color: #c9302c;
+        }
+        .btn-outline-secondary {
+            color: #d9534f; /* Warna merah */
+            border-color: #d9534f;
+        }
+        .btn-outline-secondary:hover {
+            background-color: #f8f9fa; /* Warna latar belakang */
+        }
+        .card-title,
+        .card-text {
+            color: #212529; /* Warna teks utama */
+        }
+    </style>
 </head>
 <body>
     <div class="container mt-4">
         <div class="card mb-3">
-            <div class="card-header">
+            <div class="card-header text-center">
                 USER PLAYLIST DETAIL
             </div>
             <div class="card-body">
-                <h5 class="card-title" id="judul-playlist">Judul: Playlist1</h5>
+                <hp class="card-text" id="judul-playlist">Judul: Playlist1</p>
                 <p class="card-text" id="pembuat">Pembuat: Pembuat1</p>
                 <p class="card-text" id="jumlah-lagu">Jumlah Lagu: 12</p>
                 <p class="card-text" id="total-durasi">Total Durasi: 8 jam 20 menit</p>
                 <p class="card-text" id="tanggal-dibuat">Tanggal Dibuat: 18/03/24</p>
                 <p class="card-text" id="deskripsi-playlist">Deskripsi: Lorem Ipsum ….</p>
-                <button class="btn btn-primary mb-2" id="shuffle-play">Shuffle Play</button>
-                <a href="#" class="btn btn-outline-secondary">Kembali</a>
+                <div class="text-center">
+                    <button class="btn btn-primary mb-2" id="shuffle-play">Shuffle Play</button>
+                    <button class="btn btn-primary mb-2" id="kembali">Kembali</button>
+                </div>
             </div>
         </div>
 
         <div class="card">
-            <div class="card-header">
+            <div class="card-header text-center">
                 DAFTAR LAGU
             </div>
             <table class="table table-hover">
@@ -71,16 +107,14 @@
     <!-- Custom JS for handling the shuffle play and individual play song logic -->
     <script>
         document.getElementById('shuffle-play').addEventListener('click', function() {
-            // Logic to create AKUN_PLAY_PLAYLIST entry with current timestamp
-            // And create AKUN_PLAY_SONG entries for each song in the playlist
-            // with the same timestamp
-            // After successful execution, stay on the same page
+            // Logic to create AKUN_SHUFFLE_PLAY entry for the playlist
+            alert('Shuffling playlist');
+            // Stay on the same page
         });
 
-        function playSong(songTitle) {
+        function playSong(judul) {
             // Logic to create AKUN_PLAY_SONG entry for the song
-            // For simplicity, showing an alert. This should be replaced with actual logic.
-            alert('Playing ' + songTitle);
+            alert('Playing ' + judul);
             // Stay on the same page
         }
     </script>

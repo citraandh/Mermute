@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelola Playlist - Marmut</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa; /* Warna latar belakang */
+        }
+        .playlist-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Mengisi tinggi seluruh viewport */
+        }
+        .playlist-card {
+            border: none;
+            border-radius: 0.5rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); /* Efek bayangan */
+            height: auto;
+            width: 400px;
+            padding: 20px; /* Tambahkan padding */
+            margin: 20px; /* Atur margin agar tidak terlalu dekat dengan tepi kontainer */
+        }
+        
+        .card-header {
+            background-color: #d9534f; /* Warna merah */
+            color: white; /* Warna teks */
+            border-bottom: none;
+        }
+        .btn-red {
+            background-color: #d9534f; /* Warna merah */
+            border-color: #d9534f; /* Warna border */
+            color: white; /* Warna teks */
+        }
+        .btn-red:hover {
+            background-color: #c9302c; /* Warna merah yang sedikit lebih gelap */
+            border-color: #c9302c;
+        }
+        .btn-outline-secondary {
+            color: #d9534f; /* Warna merah */
+            border-color: #d9534f;
+        }
+        .btn-outline-secondary:hover {
+            background-color: #f8f9fa; /* Warna latar belakang */
+        }
+        .card-title,
+        .card-text {
+            color: #212529; /* Warna teks utama */
+        }
+        .modal-header {
+            background-color: #d9534f;
+            color: white;
+        }
+        .modal-title {
+            color: white;
+        }
+        .close {
+            color: white;
+            opacity: 1;
+        }
+        #tambahPlaylistModal .modal-content {
+            border-radius: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="playlist-container">
+        <div class="card playlist-card">
+            <div class="card-header text-center">
+                <h3>USER PLAYLIST</h3>
+            </div>
+            <div class="card-body text-center">
+                <p class="card-text">Anda Belum Memiliki Playlist</p>
+                <button class="btn btn-red mb-3" data-toggle="modal" data-target="#tambahPlaylistModal">Tambah Playlist</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Tambah Playlist -->
+    <div class="modal fade" id="tambahPlaylistModal" tabindex="-1" role="dialog" aria-labelledby="tambahPlaylistModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tambahPlaylistModalLabel">Tambah Playlist</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="form-tambah-playlist">
+                        <div class="form-group">
+                            <label for="judul">Judul:</label>
+                            <input type="text" class="form-control" id="judul" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="deskripsi">Deskripsi:</label>
+                            <textarea class="form-control" id="deskripsi" required></textarea>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-red">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Optional JavaScript and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
