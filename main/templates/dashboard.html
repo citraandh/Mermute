@@ -1,15 +1,87 @@
-{% block content %}
-    <h1>Daftar Akun</h1>
-    <table>
-        <tr>
-            <th>Username</th>
-            <th>Email</th>
-        </tr>
-        {% for akun in akun %}
-            <tr>
-                <td>{{ akun.nama }}</td>
-                <td>{{ akun.email }}</td>
-            </tr>
-        {% endfor %}
-    </table>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Pengguna</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <!-- Profil Pengguna -->
+        <div class="card">
+            <div class="card-header">
+                Profil Pengguna
+            </div>
+            <div class="card-body">
+                <h5 class="card-title" id="nama">Nama: John Doe</h5>
+                <p class="card-text" id="email">Email: john.doe@example.com</p>
+                <p class="card-text" id="kontak" style="display: none;">Kontak: +123456789</p>
+                <p class="card-text" id="kota-asal" style="display: none;">Kota Asal: Jakarta</p>
+                <p class="card-text" id="gender" style="display: none;">Gender: Laki-laki</p>
+                <p class="card-text" id="tempat-lahir" style="display: none;">Tempat Lahir: Bandung</p>
+                <p class="card-text" id="tanggal-lahir" style="display: none;">Tanggal Lahir: 1980-01-01</p>
+                <p class="card-text" id="role">Role: Pengguna Biasa</p>
+            </div>
+        </div>
+
+        <!-- Daftar Playlist Pengguna Biasa -->
+        <div class="card mt-4" id="playlist-card" style="display: none;">
+            <div class="card-header">
+                Daftar Playlist Saya
+            </div>
+            <ul class="list-group list-group-flush" id="playlist-list">
+                <!-- Contoh Playlist -->
+                <li class="list-group-item">My Favorite Songs</li>
+                <!-- Jika tidak memiliki playlist -->
+                <li class="list-group-item">Belum Memiliki Playlist</li>
+            </ul>
+        </div>
+
+        <!-- Daftar Lagu Artist/Songwriter -->
+        <div class="card mt-4" id="lagu-card" style="display: none;">
+            <div class="card-header">
+                Daftar Lagu Saya
+            </div>
+            <ul class="list-group list-group-flush" id="lagu-list">
+                <!-- Contoh Lagu -->
+                <li class="list-group-item">Beautiful Day</li>
+                <!-- Jika belum memiliki lagu -->
+                <li class="list-group-item">Belum Memiliki Lagu</li>
+            </ul>
+        </div>
+
+        <!-- Daftar Podcast Podcaster -->
+        <div class="card mt-4" id="podcast-card" style="display: none;">
+            <div class="card-header">
+                Daftar Podcast Saya
+            </div>
+            <ul class="list-group list-group-flush" id="podcast-list">
+                <!-- Contoh Podcast -->
+                <li class="list-group-item">Weekly Tech Update</li>
+                <!-- Jika belum memiliki podcast -->
+                <li class="list-group-item">Belum Memiliki Podcast</li>
+            </ul>
+        </div>
+
+        <!-- Daftar Album Label -->
+        <div class="card mt-4" id="album-card" style="display: none;">
+            <div class="card-header">
+                Daftar Album Diproduksi
+            </div>
+            <ul class="list-group list-group-flush" id="album-list">
+                <!-- Contoh Album -->
+                <li class="list-group-item">Hits of the Decade</li>
+                <!-- Jika belum memproduksi album -->
+                <li class="list-group-item">Belum Memproduksi Album</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

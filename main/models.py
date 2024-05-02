@@ -264,7 +264,7 @@ class Transaction(models.Model):
 
 class UserPlaylist(models.Model):
     email_pembuat = models.OneToOneField(Akun, models.DO_NOTHING, db_column='email_pembuat', primary_key=True)  # The composite primary key (email_pembuat, id_user_playlist) found, that is not supported. The first column is selected.
-    id_user_playlist = models.UUIDField()
+    id_user_playlist = models.UUIDField(unique=True)
     judul = models.CharField(max_length=100)
     deskripsi = models.CharField(max_length=500)
     jumlah_lagu = models.IntegerField()

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play User Playlist - Marmut</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="card mb-3">
+            <div class="card-header">
+                USER PLAYLIST DETAIL
+            </div>
+            <div class="card-body">
+                <h5 class="card-title" id="judul-playlist">Judul: Playlist1</h5>
+                <p class="card-text" id="pembuat">Pembuat: Pembuat1</p>
+                <p class="card-text" id="jumlah-lagu">Jumlah Lagu: 12</p>
+                <p class="card-text" id="total-durasi">Total Durasi: 8 jam 20 menit</p>
+                <p class="card-text" id="tanggal-dibuat">Tanggal Dibuat: 18/03/24</p>
+                <p class="card-text" id="deskripsi-playlist">Deskripsi: Lorem Ipsum ….</p>
+                <button class="btn btn-primary mb-2" id="shuffle-play">Shuffle Play</button>
+                <a href="#" class="btn btn-outline-secondary">Kembali</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                DAFTAR LAGU
+            </div>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Judul Lagu</th>
+                        <th>Oleh</th>
+                        <th>Durasi</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Contoh Daftar Lagu -->
+                    <tr>
+                        <td>Song1</td>
+                        <td>Artist1</td>
+                        <td>2 menit</td>
+                        <td>
+                            <a href="#" class="btn btn-info btn-sm">Lihat</a>
+                            <button class="btn btn-primary btn-sm" onclick="playSong('Song1')">Play</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Song2</td>
+                        <td>Artist2</td>
+                        <td>3 menit</td>
+                        <td>
+                            <a href="#" class="btn btn-info btn-sm">Lihat</a>
+                            <button class="btn btn-primary btn-sm" onclick="playSong('Song2')">Play</button>
+                        </td>
+                    </tr>
+                    <!-- Daftar lagu akan dilanjutkan... -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Custom JS for handling the shuffle play and individual play song logic -->
+    <script>
+        document.getElementById('shuffle-play').addEventListener('click', function() {
+            // Logic to create AKUN_PLAY_PLAYLIST entry with current timestamp
+            // And create AKUN_PLAY_SONG entries for each song in the playlist
+            // with the same timestamp
+            // After successful execution, stay on the same page
+        });
+
+        function playSong(songTitle) {
+            // Logic to create AKUN_PLAY_SONG entry for the song
+            // For simplicity, showing an alert. This should be replaced with actual logic.
+            alert('Playing ' + songTitle);
+            // Stay on the same page
+        }
+    </script>
+</body>
+</html>

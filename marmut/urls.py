@@ -16,7 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from main.views import *
+app_name = 'main'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('kelola_playlist/', kelola_playlist),
+    path('play_song/<int:song_id>/', play_song),
+    path('play_user_playlist/<int:user_playlist_id>/', play_user_playlist),
+    path('shuffle_play/<int:user_playlist_id>/', shuffle_play),
 ]
