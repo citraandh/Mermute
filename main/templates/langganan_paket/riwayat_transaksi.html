@@ -5,38 +5,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Riwayat Transaksi</title>
-    <style>
-        table,
-        th,
-        td {
-            border: 1px solid black;
-        }
-
-        table {
-            border-collapse: collapse;
-        }
-    </style>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
-    <h1>Riwayat Transaksi Paket</h1>
-    <table>
-        <tr>
-            <th>Jenis</th>
-            <th>Tanggal Dimulai</th>
-            <th>Tanggal Berakhir</th>
-            <th>Metode Pembayaran</th>
-            <th>Nominal</th>
-        </tr>
-        <tr>
-            <td>1 Bulan</td>
-            <td>8 April 2024, 23:00</td>
-            <td>8 Mei 2024, 23:00</td>
-            <td>E-Wallet</td>
-            <td>Rp54.900</td>
-        </tr>
-    </table>
-    <a href="langganan_paket.html">[Kembali]</a>
+    <div class="container mt-4">
+        <h1 class="mb-4">Riwayat Transaksi Paket</h1>
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Jenis</th>
+                    <th>Tanggal Dimulai</th>
+                    <th>Tanggal Berakhir</th>
+                    <th>Metode Pembayaran</th>
+                    <th>Nominal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1 Bulan</td>
+                    <td>8 April 2024, 23:00</td>
+                    <td>8 Mei 2024, 23:00</td>
+                    <td>E-Wallet</td>
+                    <td>Rp54.900</td>
+                </tr>
+            </tbody>
+        </table>
+        <a href="langganan_paket.html" class="btn btn-secondary">Kembali</a>
+    </div>
+
+    <!-- Optional JavaScript and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>

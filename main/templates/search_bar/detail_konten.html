@@ -5,18 +5,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail Konten</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .content {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 50px;
+        }
+
+        .content-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .info-item {
+            margin-bottom: 10px;
+        }
+
+        .info-label {
+            font-weight: bold;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            color: #007bff;
+        }
+
+        .back-link:hover {
+            text-decoration: none;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Judul</h1>
-    <p>Love is in the air</p>
-    <h1>Tanggal Rilis</h1>
-    <p>2021-02-14</p>
-    <h1>Tahun</h1>
-    <p>2021</p>
-    <h1>Durasi</h1>
-    <p>154</p>
-    <a href="search_bar.html">Kembali</a>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="content">
+                    <div class="content-title">Detail Konten</div>
+                    <div class="info-item">
+                        <span class="info-label">Judul:</span> Love is in the air
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Tanggal Rilis:</span> 2021-02-14
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Tahun:</span> 2021
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Durasi:</span> 154 menit
+                    </div>
+                    <a href="search_bar.html" class="back-link">Kembali</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>

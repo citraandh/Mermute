@@ -5,85 +5,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Downloaded Songs</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        table,
-        th,
-        td {
-            border: 1px solid black;
-        }
-
-        th,
-        td {
-            padding: 15px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-
-        caption {
-            font-size: 30px;
-            font-weight: bold;
-        }
-
-        h1 {
-            font-size: 30px;
-            font-weight: bold;
-        }
-
-        a {
-            text-decoration: none;
-            color: black;
-            font-size: 20px;
-            font-weight: bold;
-        }
-
-        a:hover {
-            color: blue;
-        }
-    </style>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
-    <h1>Daftar Lagu</h1>
-    <table>
-        <caption>Riwayat Download</caption>
-        <tr>
-            <th>Judul Lagu</th>
-            <th>Oleh</th>
-            <th>Tanggal Download</th>
-            <th>Actions</th>
-        </tr>
-        <tr>
-            <td>Song1</td>
-            <td>Artist1</td>
-            <td>20/02/2024</td>
-            <td>
-                <br>
-                <a href="lihat.html">[LIHAT]</a><br>
-                <a href="#">[HAPUS]</a>
-            </td>
-        </tr>
-        <tr>
-            <td>Song2</td>
-            <td>Artist2</td>
-            <td>21/03/2024</td>
-            <td>
-                <br>
-                <a href="lihat.html">[LIHAT]</a><br>
-                <a href="#">[HAPUS]</a>
-            </td>
-        </tr>
-        <tr>
-            <th colspan="4">[Kembali]</th>
-        </tr>
-    </table>
+    <div class="container mt-4">
+        <h1 class="mb-4">Daftar Lagu</h1>
+        <table class="table table-bordered">
+            <caption class="text-center">Riwayat Download</caption>
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">Judul Lagu</th>
+                    <th scope="col">Oleh</th>
+                    <th scope="col">Tanggal Download</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Song1</td>
+                    <td>Artist1</td>
+                    <td>20/02/2024</td>
+                    <td>
+                        <a href="lihat.html" class="btn btn-primary btn-sm">LIHAT</a>
+                        <button class="btn btn-danger btn-sm">HAPUS</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Song2</td>
+                    <td>Artist2</td>
+                    <td>21/03/2024</td>
+                    <td>
+                        <a href="lihat.html" class="btn btn-primary btn-sm">LIHAT</a>
+                        <button class="btn btn-danger btn-sm">HAPUS</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <a href="#" class="btn btn-outline-secondary">Kembali</a>
+    </div>
+
+    <!-- Optional JavaScript and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>
