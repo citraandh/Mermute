@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chart Details</title>
+    <nav>
+        <ul>
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="#">Chart</a></li>
+            <li><a href="#">Search Bar</a></li>
+            <li><a href="#">Kelola Playlist</a></li>
+            <li><a href="#">Langganan Paket</a></li>
+            <li><a href="#">Kelola Downloaded Songs</a></li>
+            <li><a href="#">Kelola Podcast</a></li>
+            <li><a href="#">Kelola Album & Songs</a></li>
+            <li><a href="#">Kelola Album</a></li>
+            <li><a href="#">Cek Royalti</a></li>
+            <li><a href="#">Logout</a></li>
+            
+        </ul>
+    </nav>
+</head>
+<body>
+    <h1>Detail Chart</h1>
+    <h2>Chart Type: {chart.tipe}</h2>
+    <a href="/chart">Back to Chart List</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Judul Lagu</th>
+                <th>Artist</th>
+                <th>Tanggal Rilis</th>
+                <th>Total Plays</th>
+                <th>Actions</th>
+            </tr>
+            <tr>
+                <th>Daftar Lagu</th>
+        </thead>
+        <tbody>
+            {for data in chart.playlist}
+                <tr>
+                    <td>{{data.judul}}</td>
+                    <td>{{data.artist}}</td>
+                    <td>{{data.tanggal_rilis}}</td>
+                    <td>{{data.total_plays}}</td>
+                    <td>
+                        <a href="/chart/{chart.id}/play/{data.id}">Song Detail</a>
+                    </td>
+                </tr>
+            {endfor}
+        </tbody>
+    </table>
+    <button>Back</button>
+</body>
+</html>

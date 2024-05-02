@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Landing Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chart</title>
     <nav>
         <ul>
             <li><a href="#">Dashboard</a></li>
@@ -20,8 +22,23 @@
     </nav>
 </head>
 <body>
-    <h1>Marmut - D5</h1>
-    <button class="button">Login</button>
-    <button class="button">Register</button>
+    <table>
+        <tr> Chart List</tr>
+        <thead>
+            <tr>
+                <th>Tipe</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {for chart in chart}
+                <tr>
+                    <td>{{chart.tipe}}</td>
+                    <td>
+                        <a href="/chart/{chart.id}">Detail</a>
+                    </td>
+                </tr>
+        </tbody>
+    </table>
 </body>
 </html>

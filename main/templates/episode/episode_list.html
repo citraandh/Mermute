@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar Akun</title>
+    <title>Episode List</title>
     <nav>
         <ul>
             <li><a href="#">Dashboard</a></li>
@@ -22,22 +22,33 @@
     </nav>
 </head>
 <body>
-    <h1>Daftar Konten</h1>
     <table>
         <tr>
-            <th>Judul</th>
-            <th>Tanggal Rilis</th>
-            <th>Tahun</th>
-            <th>Durasi</th>
+            <td colspan="5" style="text-align: center;">
+                <h1> Daftar Episode </h1>
+            </td>
         </tr>
-        {% for konten in konten %}
+        <thead>
             <tr>
-                <td>{{ konten.judul }}</td>
-                <td>{{ konten.tanggal_rilis }}</td>
-                <td>{{ konten.tahun }}</td>
-                <td>{{ konten.durasi }}</td>
+                <th>Judul</th>
+                <th>Deskripsi</th>
+                <th>Durasi</th>
+                <th>Tanggal</th>
+                <th>Actions</th>
             </tr>
-        {% endfor %}
+        </thead>
+        <tbody>
+            {% for episode in episodes %}
+                <tr>
+                    <td>{{ episode.title }}</td>
+                    <td>{{ episode.description }}</td>
+                    <td>{{ episode.time }}</td>
+                    <td>{{ episode.release }}</td>
+                    <td>
+                        <a href="/episode/{{ episode.id }}/delete">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
     </table>
 </body>
 </html>
