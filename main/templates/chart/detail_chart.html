@@ -71,7 +71,7 @@
         </thead>
         <tbody>
             {for data in chart.playlist}
-            <tr>
+            <<<<<<< HEAD <tr>
                 <td>{{data.judul}}</td>
                 <td>{{data.artist}}</td>
                 <td>{{data.tanggal_rilis}}</td>
@@ -79,11 +79,25 @@
                 <td>
                     <a href="/chart/{chart.id}/play/{data.id}">Song Detail</a>
                 </td>
-            </tr>
-            {endfor}
+                </tr>
+                =======
+                <tr>
+                    <td>{{data.judul}}</td>
+                    <td>{{data.artist}}</td>
+                    <td>{{data.tanggal_rilis}}</td>
+                    <td>{{data.total_plays}}</td>
+                    <td>
+                        <a href="/chart/{{chart.id}}/play/{{data.id}}">Song Detail</a>
+                    </td>
+                </tr>
+                >>>>>>> c85f5cff6c06606ddf67210831fdffd572c3bb62
+                {endfor}
         </tbody>
     </table>
     <button>Back</button>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>

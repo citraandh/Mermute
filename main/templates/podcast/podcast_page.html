@@ -5,6 +5,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Podcast</title>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            /* Warna latar belakang */
+        }
+
+        .card {
+            border: none;
+            border-radius: 0.5rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            /* Efek bayangan */
+        }
+
+        .card-header {
+            background-color: #d9534f;
+            /* Warna merah */
+            color: white;
+            /* Warna teks */
+            border-bottom: none;
+        }
+
+        .btn-primary {
+            background-color: #d9534f;
+            /* Warna merah */
+            border-color: #d9534f;
+            /* Warna border */
+        }
+
+        .btn-primary:hover {
+            background-color: #c9302c;
+            /* Warna merah yang sedikit lebih gelap */
+            border-color: #c9302c;
+        }
+
+        .btn-outline-secondary {
+            color: #d9534f;
+            /* Warna merah */
+            border-color: #d9534f;
+        }
+
+        .btn-outline-secondary:hover {
+            background-color: #f8f9fa;
+            /* Warna latar belakang */
+        }
+
+        .card-title,
+        .card-text {
+            color: #212529;
+            /* Warna teks utama */
+        }
+    </style>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <nav class="navbar navbar-dark bg-danger">
         <div class="container">
             <a class="navbar-brand" href="#">Navigation</a>
@@ -55,42 +107,52 @@
 
 <body>
     <h1 style="text-align: center;">Podcast</h1>
-    <div style="display: flex; justify-content: center;">
+    <<<<<<< HEAD <div style="display: flex; justify-content: center;">
         <p style="margin-right: 10px;">Judul: {{podcast.title}}</p>
 
         <p style="margin-right: 10px;">Genre(s):</p>
         {% for genre in podcast.genres %}
         <p style="margin-right: 10px;">- {{genre}}</p>
-        {% endfor %}
-        <p style="margin-right: 10px;">Podcaster: {{podcast.podcaster}}</p>
-        <p style="margin-right: 10px;">Total Durasi: {{podcast.time}}</p>
-        <p style="margin-right: 10px;">Tanggal Rilis: {{podcast.release}}</p>
-        <p style="margin-right: 10px;">Tahun: {{podcast.year}}</p>
-    </div>
-    <button style="display: block; margin: 0 auto; text-align: center;">Back</button>
-    <h2 style="text-align: center;">Daftar Episode</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Judul</th>
-                <th>Deskripsi</th>
-                <th>Durasi</th>
-                <th>Tanggal Rilis</th>
-            </tr>
+        =======
 
-        </thead>
-        <tbody>
-            {% for episode in podcast.episodes %}
-            <tr>
-                <td>{{episode.title}}</td>
-                <td>{{episode.description}}</td>
-                <td>{{episode.time}}</td>
-                <td>{{episode.release}}</td>
-            </tr>
+        <div class="card" style="width: 50%; margin: 0 auto; ">
+            <p style="margin-left: 10px;">Judul: {{podcast.title}}</p>
+            <p style="margin-left: 10px;">Genre(s):</p>
+            {% for genre in podcast.genres %}
+            <p style="margin-left: 10px;">- {{genre}}</p>
+            >>>>>>> c85f5cff6c06606ddf67210831fdffd572c3bb62
             {% endfor %}
-        </tbody>
-    </table>
+            <p style="margin-left: 10px;">Podcaster: {{podcast.podcaster}}</p>
+            <p style="margin-left: 10px;">Total Durasi: {{podcast.time}}</p>
+            <p style="margin-left: 10px;">Tanggal Rilis: {{podcast.release}}</p>
+            <p style="margin-left: 10px;">Tahun: {{podcast.year}}</p>
+        </div>
+        <button style="display: block; margin: 0 auto; text-align: center;">Back</button>
+        <h2 style="text-align: center;">Daftar Episode</h2>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Judul</th>
+                    <th>Deskripsi</th>
+                    <th>Durasi</th>
+                    <th>Tanggal Rilis</th>
+                </tr>
 
+            </thead>
+            <tbody>
+                {% for episode in podcast.episodes %}
+                <tr>
+                    <td>{{episode.title}}</td>
+                    <td>{{episode.description}}</td>
+                    <td>{{episode.time}}</td>
+                    <td>{{episode.release}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>
