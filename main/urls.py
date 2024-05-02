@@ -4,6 +4,11 @@ from main.views import *
 app_name = 'main'
 
 urlpatterns = [
+    path('', landing_page, name='landing_page'),
+    path('dashboard/', dashboard, name='dashboard'),
+    path('konten/', konten, name='konten'),
+    path('login/', login, name='login'),
+    path('register/', register, name='register'),
     # Add your URL patterns here
     path('kelola_playlist/', kelola_playlist),
     path('play_song/<int:song_id>/', play_song),

@@ -13,6 +13,22 @@ from django.contrib.auth.decorators import login_required
 from datetime import datetime
 import uuid
 
+def dashboard(request):
+  return render(request, 'dashboard.html')
+
+def konten(request):
+  return render(request, 'konten.html')
+
+def landing_page(request):
+  return render(request, 'landing_page.html')
+
+def login(request):
+  return render(request, 'login.html')
+
+def register(request):
+  return render(request, 'register.html')
+
+
 # @login_required
 def kelola_playlist(request):
     # Ambil semua playlist yang dibuat oleh pengguna ini
