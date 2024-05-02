@@ -102,5 +102,3 @@ def add_song_to_playlist(request, song_id):
         'song': Song.objects.get(id_konten=song_id)
     }
     return render(request, 'add_song_to_playlist.html', context)
-
-# Silakan tambahkan logic lainnya sesuai dengan kebutuhan aplikasi
