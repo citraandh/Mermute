@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +10,8 @@
     <nav class="navbar navbar-dark bg-danger">
         <div class="container">
             <a class="navbar-brand" href="#">Navigation</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -55,6 +57,7 @@
         body {
             background-color: #f8f9fa;
         }
+
         .card {
             border: none;
             border-radius: 0.5rem;
@@ -62,36 +65,46 @@
             margin-bottom: 20px;
             width: auto;
         }
+
         .card-header {
             background-color: #d9534f;
             color: white;
             border-bottom: none;
         }
+
         .btn-red {
             background-color: #d9534f;
             color: white;
         }
+
         .btn-red:hover {
             background-color: #c9302c;
             color: white;
         }
+
         .modal-header {
             background-color: #d9534f;
             color: white;
         }
+
         .modal-title {
             color: white;
         }
+
         .close {
             color: white;
             opacity: 1;
         }
+
         .modal-content {
             border-radius: 0.5rem;
         }
-        .table th, .table td {
+
+        .table th,
+        .table td {
             vertical-align: middle;
         }
+
         .btn-tambah-playlist {
             position: fixed;
             bottom: 20px;
@@ -101,6 +114,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container mt-4">
         <div class="row justify-content-center">
@@ -147,10 +161,12 @@
     </div>
 
     <!-- Tombol Tambah Playlist -->
-    <button class="btn btn-red btn-tambah-playlist" data-toggle="modal" data-target="#tambahPlaylistModal">Tambah Playlist</button>
+    <button class="btn btn-red btn-tambah-playlist" data-toggle="modal" data-target="#tambahPlaylistModal">Tambah
+        Playlist</button>
 
     <!-- Modal Tambah Playlist -->
-    <div class="modal fade" id="tambahPlaylistModal" tabindex="-1" role="dialog" aria-labelledby="tambahPlaylistModalLabel" aria-hidden="true">
+    <div class="modal fade" id="tambahPlaylistModal" tabindex="-1" role="dialog"
+        aria-labelledby="tambahPlaylistModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -183,4 +199,5 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>

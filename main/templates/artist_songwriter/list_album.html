@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Play User Playlist - Marmut</title>
+    <title>CREATE ALBUM</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <nav class="navbar navbar-dark bg-danger">
         <div class="container">
             <a class="navbar-brand" href="#">Navigation</a>
@@ -51,8 +52,6 @@
             </div>
         </div>
     </nav>
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             background-color: #f8f9fa;
@@ -104,93 +103,84 @@
             /* Warna teks utama */
         }
 
-        .modal-header {
-            background-color: #d9534f;
-            color: white;
-        }
-
-        .modal-title {
-            color: white;
+        table {
+            text-align: center;
         }
     </style>
 </head>
 
 <body>
-    <div class="container mt-4">
-        <div class="card mb-3">
-            <div class="card-header text-center">
-                USER PLAYLIST DETAIL
-            </div>
-            <div class="card-body">
-                <hp class="card-text" id="judul-playlist">Judul: Playlist1</p>
-                    <p class="card-text" id="pembuat">Pembuat: Pembuat1</p>
-                    <p class="card-text" id="jumlah-lagu">Jumlah Lagu: 12</p>
-                    <p class="card-text" id="total-durasi">Total Durasi: 8 jam 20 menit</p>
-                    <p class="card-text" id="tanggal-dibuat">Tanggal Dibuat: 18/03/24</p>
-                    <p class="card-text" id="deskripsi-playlist">Deskripsi: Lorem Ipsum ….</p>
-                    <div class="text-center">
-                        <button class="btn btn-primary mb-2" id="shuffle-play">Shuffle Play</button>
-                        <button class="btn btn-primary mb-2" id="kembali">Kembali</button>
-                    </div>
-            </div>
-        </div>
 
+    <div class="container mt-4">
         <div class="card">
             <div class="card-header text-center">
-                DAFTAR LAGU
+                CREATE ALBUM
             </div>
-            <table class="table table-hover text-center">
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="judul">Judul Album</label>
+                        <input type="text" class="form-control" id="judul" name="judul" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="label">Label</label>
+                        <select class="form-control" id="label" name="label" required>
+                            <option value="">Pilih Label</option>
+                            {% for label in labels %}
+                            <option value="{{ label.name }}">{{ label.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-header text-center">
+                LIST ALBUM
+            </div>
+            <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>Judul Lagu</th>
-                        <th>Oleh</th>
-                        <th>Durasi</th>
-                        <th>Actions</th>
+                        <th>Judul</th>
+                        <th>Label</th>
+                        <th>Jumlah Lagu</th>
+                        <th>Total Durasi</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Contoh Daftar Lagu -->
+                    {% for album in albums %}
                     <tr>
-                        <td>Song1</td>
-                        <td>Artist1</td>
-                        <td>2 menit</td>
+                        <td>{{ album.judul }}</td>
+                        <td>{{ album.label }}</td>
+                        <td>{{ album.jumlah_lagu }}</td>
+                        <td>{{ album.total_durasi }}</td>
                         <td>
-                            <a href="#" class="btn btn-info btn-sm">Lihat</a>
-                            <button class="btn btn-primary btn-sm" onclick="playSong('Song1')">Play</button>
+                            <a href="#" class="btn btn-info btn-sm">Lihat Daftar Lagu</a>
+                            <a href="#" class="btn btn-warning btn-sm">Tambah Lagu</a>
+                            <button class="btn btn-primary btn-sm"
+                                onclick="deleteAlbum('{{ album.judul }}')">Hapus</button>
                         </td>
                     </tr>
-                    <tr>
-                        <td>Song2</td>
-                        <td>Artist2</td>
-                        <td>3 menit</td>
-                        <td>
-                            <a href="#" class="btn btn-info btn-sm">Lihat</a>
-                            <button class="btn btn-primary btn-sm" onclick="playSong('Song2')">Play</button>
-                        </td>
-                    </tr>
-                    <!-- Daftar lagu akan dilanjutkan... -->
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
 
-
-    <!-- Optional JavaScript and Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <!-- Custom JS for handling the shuffle play and individual play song logic -->
     <script>
-        document.getElementById('shuffle-play').addEventListener('click', function () {
-            // Logic to create AKUN_SHUFFLE_PLAY entry for the playlist
-            alert('Shuffling playlist');
-            // Stay on the same page
-        });
-
-        function playSong(judul) {
-            // Logic to create AKUN_PLAY_SONG entry for the song
-            alert('Playing ' + judul);
-            // Stay on the same page
+        function deleteAlbum(albumName) {
+            // Logic to delete album entry for albumName
+            alert('Menghapus album: ' + albumName);
+            // Update the table content here to remove the deleted album
         }
     </script>
 </body>

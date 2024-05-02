@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +9,8 @@
     <nav class="navbar navbar-dark bg-danger">
         <div class="container">
             <a class="navbar-brand" href="#">Navigation</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -51,6 +53,7 @@
         </div>
     </nav>
 </head>
+
 <body>
     <h1>Detail Chart</h1>
     <h2>Chart Type: {chart.tipe}</h2>
@@ -69,6 +72,15 @@
         </thead>
         <tbody>
             {for data in chart.playlist}
+            <tr>
+                <td>{{data.judul}}</td>
+                <td>{{data.artist}}</td>
+                <td>{{data.tanggal_rilis}}</td>
+                <td>{{data.total_plays}}</td>
+                <td>
+                    <a href="/chart/{chart.id}/play/{data.id}">Song Detail</a>
+                </td>
+                </tr>
                 <tr>
                     <td>{{data.judul}}</td>
                     <td>{{data.artist}}</td>
@@ -78,7 +90,8 @@
                         <a href="/chart/{{chart.id}}/play/{{data.id}}">Song Detail</a>
                     </td>
                 </tr>
-            {endfor}
+
+                {endfor}
         </tbody>
     </table>
     <button>Back</button>
@@ -86,4 +99,5 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>

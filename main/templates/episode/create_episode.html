@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +9,8 @@
     <nav class="navbar navbar-dark bg-danger">
         <div class="container">
             <a class="navbar-brand" href="#">Navigation</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -51,27 +53,29 @@
         </div>
     </nav>
 </head>
+
 <body>
     <h1 style="text-align: center;">Create Episode</h1>
     <div class="card" style="width: 50%; margin: 0 auto; ">
         <div class="card-body">
             <h5 class="card-title">Podcast: {{podcast.name}}</h5>
-    <form action="/add" method="POST">
-        <div class="form-group">
-            <label for="title">Judul:</label>
-            <input type="text" class="form-control" id="title" name="title" required>
-        </div>
-        <div class="form-group">
-            <label for="description">Description:</label>
-            <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
-        </div>
-        <div class="form-group">
-            <label for="duration">Duration (s): </label>
-            <input type="number" class="form-control" id="duration" name="duration" required>
-        </div>
+            <form action="/add" method="POST">
+                <div class="form-group">
+                    <label for="title">Judul:</label>
+                    <input type="text" class="form-control" id="title" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="duration">Duration (s): </label>
+                    <input type="number" class="form-control" id="duration" name="duration" required>
+                </div>
 
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>
