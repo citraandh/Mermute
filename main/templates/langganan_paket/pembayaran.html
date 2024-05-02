@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembayaran</title>
+    <style>
+        table,
+        th,
+        td {
+            border: 1px solid black;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Pembayaran Paket</h1>
+    <p>Informasi Paket yang ingin dibeli:</p>
+    <table>
+        <tr>
+            <th>Jenis</th>
+            <th>Harga</th>
+        </tr>
+        <tr>
+            <td>1 Bulan</td>
+            <td>Rp54.900</td>
+        </tr>
+    </table>
+    <form>
+        <label for="pembayaran">Metode Pembayaran:</label>
+        <select id="pembayaran">
+            <option value="transfer">Transfer Bank</option>
+            <option value="ewallet">GoPay</option>
+            <option value="ewallet">Dana</option>
+            <option value="ewallet">OVO</option>
+        </select><br><br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+
+</html>
