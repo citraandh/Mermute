@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +10,8 @@
     <nav class="navbar navbar-dark bg-danger">
         <div class="container">
             <a class="navbar-brand" href="#">Navigation</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -53,65 +55,91 @@
     </nav>
     <style>
         body {
-            background-color: #f8f9fa; /* Warna latar belakang */
+            background-color: #f8f9fa;
+            /* Warna latar belakang */
         }
+
         .playlist-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh; /* Mengisi tinggi seluruh viewport */
+            height: 100vh;
+            /* Mengisi tinggi seluruh viewport */
         }
+
         .playlist-card {
             border: none;
             border-radius: 0.5rem;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); /* Efek bayangan */
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            /* Efek bayangan */
             height: auto;
             width: 400px;
-            padding: 20px; /* Tambahkan padding */
-            margin: 20px; /* Atur margin agar tidak terlalu dekat dengan tepi kontainer */
+            padding: 20px;
+            /* Tambahkan padding */
+            margin: 20px;
+            /* Atur margin agar tidak terlalu dekat dengan tepi kontainer */
         }
-        
+
         .card-header {
-            background-color: #d9534f; /* Warna merah */
-            color: white; /* Warna teks */
+            background-color: #d9534f;
+            /* Warna merah */
+            color: white;
+            /* Warna teks */
             border-bottom: none;
         }
+
         .btn-red {
-            background-color: #d9534f; /* Warna merah */
-            border-color: #d9534f; /* Warna border */
-            color: white; /* Warna teks */
+            background-color: #d9534f;
+            /* Warna merah */
+            border-color: #d9534f;
+            /* Warna border */
+            color: white;
+            /* Warna teks */
         }
+
         .btn-red:hover {
-            background-color: #c9302c; /* Warna merah yang sedikit lebih gelap */
+            background-color: #c9302c;
+            /* Warna merah yang sedikit lebih gelap */
             border-color: #c9302c;
         }
+
         .btn-outline-secondary {
-            color: #d9534f; /* Warna merah */
+            color: #d9534f;
+            /* Warna merah */
             border-color: #d9534f;
         }
+
         .btn-outline-secondary:hover {
-            background-color: #f8f9fa; /* Warna latar belakang */
+            background-color: #f8f9fa;
+            /* Warna latar belakang */
         }
+
         .card-title,
         .card-text {
-            color: #212529; /* Warna teks utama */
+            color: #212529;
+            /* Warna teks utama */
         }
+
         .modal-header {
             background-color: #d9534f;
             color: white;
         }
+
         .modal-title {
             color: white;
         }
+
         .close {
             color: white;
             opacity: 1;
         }
+
         #tambahPlaylistModal .modal-content {
             border-radius: 0.5rem;
         }
     </style>
 </head>
+
 <body>
     <div class="playlist-container">
         <div class="card playlist-card">
@@ -120,13 +148,15 @@
             </div>
             <div class="card-body text-center">
                 <p class="card-text">Anda Belum Memiliki Playlist</p>
-                <button class="btn btn-red mb-3" data-toggle="modal" data-target="#tambahPlaylistModal">Tambah Playlist</button>
+                <button class="btn btn-red mb-3" data-toggle="modal" data-target="#tambahPlaylistModal">Tambah
+                    Playlist</button>
             </div>
         </div>
     </div>
 
     <!-- Modal Tambah Playlist -->
-    <div class="modal fade" id="tambahPlaylistModal" tabindex="-1" role="dialog" aria-labelledby="tambahPlaylistModalLabel" aria-hidden="true">
+    <div class="modal fade" id="tambahPlaylistModal" tabindex="-1" role="dialog"
+        aria-labelledby="tambahPlaylistModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -158,4 +188,5 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>

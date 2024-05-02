@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Play User Playlist - Marmut</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <nav class="navbar navbar-dark bg-danger">
         <div class="container">
             <a class="navbar-brand" href="#">Navigation</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -51,49 +51,70 @@
             </div>
         </div>
     </nav>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #f8f9fa; /* Warna latar belakang */
+            background-color: #f8f9fa;
+            /* Warna latar belakang */
         }
+
         .card {
             border: none;
             border-radius: 0.5rem;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); /* Efek bayangan */
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            /* Efek bayangan */
         }
+
         .card-header {
-            background-color: #d9534f; /* Warna merah */
-            color: white; /* Warna teks */
+            background-color: #d9534f;
+            /* Warna merah */
+            color: white;
+            /* Warna teks */
             border-bottom: none;
         }
+
         .btn-primary {
-            background-color: #d9534f; /* Warna merah */
-            border-color: #d9534f; /* Warna border */
+            background-color: #d9534f;
+            /* Warna merah */
+            border-color: #d9534f;
+            /* Warna border */
         }
+
         .btn-primary:hover {
-            background-color: #c9302c; /* Warna merah yang sedikit lebih gelap */
+            background-color: #c9302c;
+            /* Warna merah yang sedikit lebih gelap */
             border-color: #c9302c;
         }
+
         .btn-outline-secondary {
-            color: #d9534f; /* Warna merah */
+            color: #d9534f;
+            /* Warna merah */
             border-color: #d9534f;
         }
+
         .btn-outline-secondary:hover {
-            background-color: #f8f9fa; /* Warna latar belakang */
+            background-color: #f8f9fa;
+            /* Warna latar belakang */
         }
+
         .card-title,
         .card-text {
-            color: #212529; /* Warna teks utama */
+            color: #212529;
+            /* Warna teks utama */
         }
 
         .modal-header {
             background-color: #d9534f;
             color: white;
         }
+
         .modal-title {
             color: white;
         }
     </style>
 </head>
+
 <body>
     <div class="container mt-4">
         <div class="card mb-3">
@@ -102,15 +123,15 @@
             </div>
             <div class="card-body">
                 <hp class="card-text" id="judul-playlist">Judul: Playlist1</p>
-                <p class="card-text" id="pembuat">Pembuat: Pembuat1</p>
-                <p class="card-text" id="jumlah-lagu">Jumlah Lagu: 12</p>
-                <p class="card-text" id="total-durasi">Total Durasi: 8 jam 20 menit</p>
-                <p class="card-text" id="tanggal-dibuat">Tanggal Dibuat: 18/03/24</p>
-                <p class="card-text" id="deskripsi-playlist">Deskripsi: Lorem Ipsum ….</p>
-                <div class="text-center">
-                    <button class="btn btn-primary mb-2" id="shuffle-play">Shuffle Play</button>
-                    <button class="btn btn-primary mb-2" id="kembali">Kembali</button>
-                </div>
+                    <p class="card-text" id="pembuat">Pembuat: Pembuat1</p>
+                    <p class="card-text" id="jumlah-lagu">Jumlah Lagu: 12</p>
+                    <p class="card-text" id="total-durasi">Total Durasi: 8 jam 20 menit</p>
+                    <p class="card-text" id="tanggal-dibuat">Tanggal Dibuat: 18/03/24</p>
+                    <p class="card-text" id="deskripsi-playlist">Deskripsi: Lorem Ipsum ….</p>
+                    <div class="text-center">
+                        <button class="btn btn-primary mb-2" id="shuffle-play">Shuffle Play</button>
+                        <button class="btn btn-primary mb-2" id="kembali">Kembali</button>
+                    </div>
             </div>
         </div>
 
@@ -160,7 +181,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- Custom JS for handling the shuffle play and individual play song logic -->
     <script>
-        document.getElementById('shuffle-play').addEventListener('click', function() {
+        document.getElementById('shuffle-play').addEventListener('click', function () {
             // Logic to create AKUN_SHUFFLE_PLAY entry for the playlist
             alert('Shuffling playlist');
             // Stay on the same page
@@ -173,4 +194,5 @@
         }
     </script>
 </body>
+
 </html>

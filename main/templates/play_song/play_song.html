@@ -1,54 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Play Song - Marmut</title>
+    <nav class="navbar navbar-dark bg-danger">
+        <div class="container">
+            <a class="navbar-brand" href="#">Navigation</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Chart</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Search Bar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Kelola Playlist</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Langganan Paket</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Kelola Downloaded Songs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Kelola Podcast</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Kelola Album & Songs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Kelola Album</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Cek Royalti</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #f8f9fa; /* Warna latar belakang */
+            background-color: #f8f9fa;
+            /* Warna latar belakang */
         }
+
         .card {
             border: none;
             border-radius: 0.5rem;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); /* Efek bayangan */
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            /* Efek bayangan */
             height: auto;
         }
+
         .card-header {
-            background-color: #d9534f; /* Warna merah */
-            color: white; /* Warna teks */
+            background-color: #d9534f;
+            /* Warna merah */
+            color: white;
+            /* Warna teks */
             border-bottom: none;
         }
+
         .modal-header {
             background-color: #d9534f;
             color: white;
         }
+
         .modal-title {
             color: white;
         }
+
         .btn-primary {
-            background-color: #d9534f; /* Warna merah */
-            border-color: #d9534f; /* Warna border */
+            background-color: #d9534f;
+            /* Warna merah */
+            border-color: #d9534f;
+            /* Warna border */
         }
+
         .btn-primary:hover {
-            background-color: #c9302c; /* Warna merah yang sedikit lebih gelap */
+            background-color: #c9302c;
+            /* Warna merah yang sedikit lebih gelap */
             border-color: #c9302c;
         }
+
         .btn-outline-secondary {
-            color: #d9534f; /* Warna merah */
+            color: #d9534f;
+            /* Warna merah */
             border-color: #d9534f;
         }
+
         .btn-outline-secondary:hover {
-            background-color: #f8f9fa; /* Warna latar belakang */
+            background-color: #f8f9fa;
+            /* Warna latar belakang */
         }
+
         .card-title,
         .card-text {
-            color: #212529; /* Warna teks utama */
+            color: #212529;
+            /* Warna teks utama */
         }
     </style>
 </head>
+
 <body>
     <div class="container mt-4">
         <div class="card" style="margin: auto">
@@ -77,7 +144,8 @@
                 <input type="range" class="form-control-range" id="song-progress" min="0" max="100">
                 <div class="mt-3 text-center">
                     <button class="btn btn-primary" id="play">Play</button>
-                    <button class="btn btn-secondary" id="add-to-playlist" data-toggle="modal" data-target="#addToPlaylistModal">Add to Playlist</button>
+                    <button class="btn btn-secondary" id="add-to-playlist" data-toggle="modal"
+                        data-target="#addToPlaylistModal">Add to Playlist</button>
                     <!-- Download button should only display if the user is premium -->
                     <button class="btn btn-info" id="download">Download</button>
                     <a href="#" class="btn btn-outline-secondary">Kembali</a>
@@ -87,7 +155,8 @@
     </div>
 
     <!-- Modal Add to Playlist -->
-    <div class="modal fade" id="addToPlaylistModal" tabindex="-1" role="dialog" aria-labelledby="addToPlaylistModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addToPlaylistModal" tabindex="-1" role="dialog"
+        aria-labelledby="addToPlaylistModalLabel" aria-hidden="true">
         <div class="modal-dialog text-center" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -107,9 +176,9 @@
                             </select>
                         </div>
                         <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Tambah</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
-                    </div>
+                            <button type="submit" class="btn btn-primary">Tambah</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -117,7 +186,8 @@
     </div>
 
     <!-- Success Message Modal -->
-    <div class="modal fade" id="successMessageModal" tabindex="-1" role="dialog" aria-labelledby="successMessageModalLabel" aria-hidden="true">
+    <div class="modal fade" id="successMessageModal" tabindex="-1" role="dialog"
+        aria-labelledby="successMessageModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -142,7 +212,7 @@
     <!-- Custom JS for handling the song play logic -->
     <script>
         // Example functionality for play button
-        document.getElementById('play').addEventListener('click', function() {
+        document.getElementById('play').addEventListener('click', function () {
             alert('Playing song');
             var progress = document.getElementById('song-progress').value;
             if (progress > 70) {
@@ -153,4 +223,5 @@
         // logic for adding to playlist and downloading song
     </script>
 </body>
+
 </html>

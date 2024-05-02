@@ -1,37 +1,69 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Login Page</title>
     <link rel="stylesheet" href="navbar.css">
-
-    <nav>
-        <ul>
-            <li><a href="#">Dashboard</a></li>
-            <li><a href="#">Chart</a></li>
-            <li><a href="#">Search Bar</a></li>
-            <li><a href="#">Kelola Playlist</a></li>
-            <li><a href="#">Langganan Paket</a></li>
-            <li><a href="#">Kelola Downloaded Songs</a></li>
-            <li><a href="#">Kelola Podcast</a></li>
-            <li><a href="#">Kelola Album & Songs</a></li>
-            <li><a href="#">Kelola Album</a></li>
-            <li><a href="#">Cek Royalti</a></li>
-            <li><a href="#">Logout</a></li>
-            
-        </ul>
+    <nav class="navbar navbar-dark bg-danger">
+        <div class="container">
+            <a class="navbar-brand" href="#">Navigation</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Chart</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Search Bar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Kelola Playlist</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Langganan Paket</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Kelola Downloaded Songs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Kelola Podcast</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Kelola Album & Songs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Kelola Album</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Cek Royalti</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </nav>
 </head>
+
 <body>
     <h1>Login</h1>
-    
+
     <form method="POST">
         <label for="email">Email:</label>
         <input type="text" id="email" name="email" required>
-        
+
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
-        
+
         <button type="submit">Login</button>
     </form>
 </body>
+
 </html>
