@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CREATE ALBUM</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            /* Warna latar belakang */
+        }
+
+        .card {
+            border: none;
+            border-radius: 0.5rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            /* Efek bayangan */
+        }
+
+        .card-header {
+            background-color: #d9534f;
+            /* Warna merah */
+            color: white;
+            /* Warna teks */
+            border-bottom: none;
+        }
+
+        .btn-primary {
+            background-color: #d9534f;
+            /* Warna merah */
+            border-color: #d9534f;
+            /* Warna border */
+        }
+
+        .btn-primary:hover {
+            background-color: #c9302c;
+            /* Warna merah yang sedikit lebih gelap */
+            border-color: #c9302c;
+        }
+
+        .btn-outline-secondary {
+            color: #d9534f;
+            /* Warna merah */
+            border-color: #d9534f;
+        }
+
+        .btn-outline-secondary:hover {
+            background-color: #f8f9fa;
+            /* Warna latar belakang */
+        }
+
+        .card-title,
+        .card-text {
+            color: #212529;
+            /* Warna teks utama */
+        }
+
+        table {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-header text-center">
+                CREATE LAGU
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="album">Album</label>
+                        <input type="text" class="form-control" id="album" name="album" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="judul">Judul</label>
+                        <input type="text" class="form-control" id="judul" name="judul" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="label">Artist</label>
+                        <select class="form-control" id="label" name="label" required>
+                            <option value="">Pilih Artist</option>
+                            {% for label in labels %}
+                            <option value="{{ label.name }}">{{ label.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="songwriter">Songwriter</label>
+                        <div class="form-check">
+                            <div class="form-check-inline">
+                                <input class="form-check-input" type="checkbox" value="{{ songwriter.username }}"
+                                    name="songwriters" id="songwriter_{{ songwriter.username }}">
+                                <label class="form-check-label" for="songwriter_{{ songwriter.username }}">Abdul</label>
+                            </div>
+                            <div class="form-check-inline">
+                                <input class="form-check-input" type="checkbox" value="{{ songwriter.username }}"
+                                    name="songwriters" id="songwriter_{{ songwriter.username }}">
+                                <label class="form-check-label" for="songwriter_{{ songwriter.username }}">Luigi</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="genre">Genre</label>
+                        <div class="form-check">
+                            <div class="form-check-inline">
+                                <input class="form-check-input" type="checkbox" value="{{ genre.nama }}" name="genres"
+                                    id="genre_{{ genre.nama }}">
+                                <label class="form-check-label" for="genre_{{ genre.nama }}">DJ Jedag Jedug</label>
+                            </div>
+                            <div class="form-check-inline">
+                                <input class="form-check-input" type="checkbox" value="{{ genre.nama }}" name="genres"
+                                    id="genre_{{ genre.nama }}">
+                                <label class="form-check-label" for="genre_{{ genre.nama }}">Oldies</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="durasi">Durasi</label>
+                        <input type="text" class="form-control" id="durasi" name="durasi" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-header text-center">
+                DAFTAR LAGU PADA ALBUM{{album_id}}
+            </div>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Judul</th>
+                        <th>Durasi</th>
+                        <th>Total Play</th>
+                        <th>Total Download</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for song in songs %}
+                    <tr>
+                        <td>{{ song.judul }}</td>
+                        <td>{{ song.durasi }}</td>
+                        <td>{{ song.total_play }}</td>
+                        <td>{{ song.total_download }}</td>
+                        <td>
+                            <a href="#" class="btn btn-info btn-sm">Lihat Detail</a>
+                            <button class="btn btn-primary btn-sm"
+                                onclick="deleteAlbum('{{ album.judul }}')">Hapus</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function deleteAlbum(albumName) {
+            // Logic to delete album entry for albumName
+            alert('Menghapus album: ' + albumName);
+            // Update the table content here to remove the deleted album
+        }
+    </script>
+</body>
+
+</html>

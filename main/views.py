@@ -13,7 +13,7 @@ from django.contrib.auth.decorators import login_required
 from datetime import datetime
 import uuid
 
-@login_required
+# @login_required
 def kelola_playlist(request):
     # Ambil semua playlist yang dibuat oleh pengguna ini
     playlists = UserPlaylist.objects.filter(email_pembuat=request.user.email)
@@ -25,7 +25,7 @@ def kelola_playlist(request):
     else:
         return render(request, 'kelola_playlist.html', {'message': "Anda Belum Memiliki Playlist"})
 
-@login_required
+# @login_required
 def play_song(request, song_id):
     song = Song.objects.get(id_konten=song_id)
     genres = song.genre_set.all()  # Asumsikan 'Song' memiliki relation ke model 'Genre'
@@ -36,7 +36,7 @@ def play_song(request, song_id):
     }
     return render(request, 'play_song.html', context)
 
-@login_required
+# @login_required
 def play_user_playlist(request, user_playlist_id):
     user_playlist = UserPlaylist.objects.get(id_user_playlist=user_playlist_id)
     songs = user_playlist.song_set.all()  # Asumsikan UserPlaylist memiliki relation ke model 'Song'
@@ -52,7 +52,7 @@ def play_user_playlist(request, user_playlist_id):
     }
     return render(request, 'play_user_playlist.html', context)
 
-@login_required
+# @login_required
 def shuffle_play(request, user_playlist_id):
     # Logic untuk membuat entry AKUN_PLAY_USER_PLAYLIST dan AKUN_PLAY_SONG
     user_playlist = UserPlaylist.objects.get(id_user_playlist=user_playlist_id)
@@ -77,7 +77,7 @@ def shuffle_play(request, user_playlist_id):
     # Redirect kembali ke halaman detail playlist
     return redirect('play_user_playlist', user_playlist_id=user_playlist_id)
 
-@login_required
+# @login_required
 def add_song_to_playlist(request, song_id):
     if request.method == 'POST':
         playlist_id = request.POST.get('playlist')
@@ -104,3 +104,157 @@ def add_song_to_playlist(request, song_id):
     return render(request, 'add_song_to_playlist.html', context)
 
 # Silakan tambahkan logic lainnya sesuai dengan kebutuhan aplikasi
+def royalty_report(request):
+  # Sample data for 5 rows
+  royalty_data = [
+    {
+      "judul_lagu": "Lagu 1",
+      "judul_album": "Album 1",
+      "total_play": 3,
+      "total_download": 0,
+      "total_royalti": 450000,
+    },
+    {
+      "judul_lagu": "Lagu 2",
+      "judul_album": "Album 2",
+      "total_play": 2,
+      "total_download": 2,
+      "total_royalti": 520000,
+    },
+    # Add 3 more rows with your data
+  ]
+
+  # Create the context dictionary
+  context = {
+    "royalty_data": royalty_data,
+  }
+
+  # Render the HTML template with the context
+  return render(request, "royalti/list_royalti.html", context)
+
+def label_report(request):
+  # Replace this with your logic to fetch album data
+  albums = [
+    {
+      "judul": "Album1",
+      "jumlah_lagu": 0,
+      "total_durasi": "0 menit",
+    },
+    {
+      "judul": "Album2",
+      "jumlah_lagu": 2,
+      "total_durasi": "4 menit",
+    },
+  ]
+  context = {
+    "albums": albums,
+  }
+  return render(request, "label/list_album.html", context)
+
+def label_album_detail(request, album_id):
+    songs = [
+    {
+      "judul": "Lagu1",
+      "durasi": "2 menit",
+      "total_play": 3,
+      "total_download": 0,
+    },
+    {
+      "judul": "Lagu2",
+      "durasi": "3 menit",
+      "total_play": 2,
+      "total_download": 2,
+    },
+  ]
+
+    # Prepare context dictionary
+    context = {
+        "album_id": album_id,
+        "songs": songs,
+        
+    }
+
+    return render(request, "label/album_detail.html", context)
+
+def artist_songwriter_report(request):
+    album = [
+    {
+      "judul": "Album1",
+      "label": "LabelA",
+      "jumlah_lagu": 0,
+      "total_durasi": 0,
+    },
+    {
+      "judul": "Album2",
+      "label": "LabelB",
+      "jumlah_lagu": 2,
+      "total_durasi": "4 menit",
+    },
+  ]
+    labels = [
+    {
+      "name": "LabelA",
+    },
+    {
+      "name": "LabelB",
+    },
+  ]
+
+    # Prepare context dictionary
+    context = {
+        "albums": album,
+        "labels": labels,
+    }
+
+    return render(request, 'artist_songwriter/list_album.html', context)
+
+def artist_songwriter_album_detail(request, album_id):
+    songs = [
+    {
+      "judul": "Lagu1",
+      "durasi": "2 menit",
+      "total_play": 3,
+      "total_download": 0,
+    },
+    {
+      "judul": "Lagu2",
+      "durasi": "3 menit",
+      "total_play": 2,
+      "total_download": 2,
+    },
+  ]
+    songwriters = [
+    {
+      "nama":"Abdul"
+    },
+    {
+      "nama":"Usep"
+    },
+    {
+      "nama":"Luigi"
+    },
+  ]
+    genres = [
+    {
+      "nama":"chill"
+    },
+    {
+      "nama":"dj jedag jedug"
+    },
+    {
+      "nama":"oldies"
+    },
+  ]
+
+    # Prepare context dictionary
+    context = {
+        "album_id": album_id,
+        "songs": songs,
+        "songwriters": songwriters,
+        "genre": genres,
+        
+    }
+
+    return render(request, 'artist_songwriter/album_detail.html', context)
+
+

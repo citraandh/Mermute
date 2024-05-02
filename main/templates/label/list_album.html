@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Album</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            /* Warna latar belakang */
+        }
+
+        .card {
+            border: none;
+            border-radius: 0.5rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            /* Efek bayangan */
+        }
+
+        .card-header {
+            background-color: #d9534f;
+            /* Warna merah */
+            color: white;
+            /* Warna teks */
+            border-bottom: none;
+        }
+
+        .btn-primary {
+            background-color: #d9534f;
+            /* Warna merah */
+            border-color: #d9534f;
+            /* Warna border */
+        }
+
+        .btn-primary:hover {
+            background-color: #c9302c;
+            /* Warna merah yang sedikit lebih gelap */
+            border-color: #c9302c;
+        }
+
+        .btn-outline-secondary {
+            color: #d9534f;
+            /* Warna merah */
+            border-color: #d9534f;
+        }
+
+        .btn-outline-secondary:hover {
+            background-color: #f8f9fa;
+            /* Warna latar belakang */
+        }
+
+        .card-title,
+        .card-text {
+            color: #212529;
+            /* Warna teks utama */
+        }
+
+        table {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-header text-center">
+                LIST ALBUM
+            </div>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Judul</th>
+                        <th>Jumlah Lagu</th>
+                        <th>Total Durasi</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for album in albums %}
+                    <tr>
+                        <td>{{ album.judul }}</td>
+                        <td>{{ album.jumlah_lagu }}</td>
+                        <td>{{ album.total_durasi }}</td>
+                        <td>
+                            <a href="#" class="btn btn-info btn-sm">Lihat Daftar Lagu</a>
+                            <button class="btn btn-primary btn-sm"
+                                onclick="deleteAlbum('{{ album.judul }}')">Hapus</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function deleteAlbum(albumName) {
+            // Logic to delete album entry for albumName
+            alert('Menghapus album: ' + albumName);
+            // Update the table content here to remove the deleted album
+        }
+    </script>
+</body>
+
+</html>
