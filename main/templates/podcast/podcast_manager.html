@@ -4,47 +4,122 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Podcast List</title>
-    <nav>
-        <ul>
-            <li><a href="#">Dashboard</a></li>
-            <li><a href="#">Chart</a></li>
-            <li><a href="#">Search Bar</a></li>
-            <li><a href="#">Kelola Playlist</a></li>
-            <li><a href="#">Langganan Paket</a></li>
-            <li><a href="#">Kelola Downloaded Songs</a></li>
-            <li><a href="#">Kelola Podcast</a></li>
-            <li><a href="#">Kelola Album & Songs</a></li>
-            <li><a href="#">Kelola Album</a></li>
-            <li><a href="#">Cek Royalti</a></li>
-            <li><a href="#">Logout</a></li>
-            
-        </ul>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa; /* Warna latar belakang */
+        }
+        .card {
+            border: none;
+            border-radius: 0.5rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); /* Efek bayangan */
+        }
+        .card-header {
+            background-color: #d9534f; /* Warna merah */
+            color: white; /* Warna teks */
+            border-bottom: none;
+        }
+        .btn-primary {
+            background-color: #d9534f; /* Warna merah */
+            border-color: #d9534f; /* Warna border */
+        }
+        .btn-primary:hover {
+            background-color: #c9302c; /* Warna merah yang sedikit lebih gelap */
+            border-color: #c9302c;
+        }
+        .btn-outline-secondary {
+            color: #d9534f; /* Warna merah */
+            border-color: #d9534f;
+        }
+        .btn-outline-secondary:hover {
+            background-color: #f8f9fa; /* Warna latar belakang */
+        }
+        .card-title,
+        .card-text {
+            color: #212529; /* Warna teks utama */
+        }
+    </style>
+    <nav class="navbar navbar-dark bg-danger">
+        <div class="container">
+            <a class="navbar-brand" href="#">Navigation</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Chart</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Search Bar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Kelola Playlist</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Langganan Paket</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Kelola Downloaded Songs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Kelola Podcast</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Kelola Album & Songs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Kelola Album</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Cek Royalti</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </nav>
 </head>
 <body>
-    <h1>Podcast List</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Judul</th>
-                <th></th>
-                <th>Durasi</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for podcast in podcasts %}
-                <tr>
-                    <td>{{podcast.judul}}</td>
-                    <td>{{podcast.jumlah}}</td>
-                    <td>{{podcast.durasi}}</td>
-                    <td>
-                        <a href="/podcast/{podcast.id}">Detail</a>
-                        <a href="/podcast/{podcast.id}/add">Tambah Episode</a>
-                        <a href="/podcast/{podcast.id}/delete">Delete</a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
+    <div class="container mt-4">
+        <div class="card mb-3">
+            <div class="card-header text-center">
+                Podcast List
+            </div>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Judul</th>
+                            <th>Jumlah</th>
+                            <th>Durasi</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for podcast in podcasts %}
+                            <tr>
+                                <td>{{podcast.judul}}</td>
+                                <td>{{podcast.jumlah}}</td>
+                                <td>{{podcast.durasi}}</td>
+                                <td>
+                                    <a href="/podcast/{{podcast.id}}">Detail</a>
+                                    <a href="/podcast/{{podcast.id}}/add">Tambah Episode</a>
+                                    <a href="/podcast/{{podcast.id}}/delete">Delete</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
