@@ -101,6 +101,7 @@ def add_song_to_playlist(request, song_id):
         'playlists': playlists,
         'song': Song.objects.get(id_konten=song_id)
     }
+<<<<<<< HEAD
     return render(request, 'add_song_to_playlist.html', context)
 
 # Silakan tambahkan logic lainnya sesuai dengan kebutuhan aplikasi
@@ -258,3 +259,6 @@ def artist_songwriter_album_detail(request, album_id):
     return render(request, 'artist_songwriter/album_detail.html', context)
 
 
+=======
+    return render(request, 'add_song_to_playlist.html', context)
+>>>>>>> 380d18a08ef5ddd62404acba0cd84bb09a4efd1f
