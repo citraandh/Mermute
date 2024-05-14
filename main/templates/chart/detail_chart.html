@@ -52,49 +52,103 @@
             </div>
         </div>
     </nav>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            /* Warna latar belakang */
+        }
+
+        .card {
+            border: none;
+            border-radius: 0.5rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            /* Efek bayangan */
+        }
+
+        .card-header {
+            background-color: #d9534f;
+            /* Warna merah */
+            color: white;
+            /* Warna teks */
+            border-bottom: none;
+        }
+
+        .btn-primary {
+            background-color: #d9534f;
+            /* Warna merah */
+            border-color: #d9534f;
+            /* Warna border */
+        }
+
+        .btn-primary:hover {
+            background-color: #c9302c;
+            /* Warna merah yang sedikit lebih gelap */
+            border-color: #c9302c;
+        }
+
+        .btn-outline-secondary {
+            color: #d9534f;
+            /* Warna merah */
+            border-color: #d9534f;
+        }
+
+        .btn-outline-secondary:hover {
+            background-color: #f8f9fa;
+            /* Warna latar belakang */
+        }
+
+        .card-title,
+        .card-text {
+            color: #212529;
+            /* Warna teks utama */
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Detail Chart</h1>
-    <h2>Chart Type: {chart.tipe}</h2>
-    <a href="/chart">Back to Chart List</a>
-    <table>
-        <thead>
-            <tr>
-                <th>Judul Lagu</th>
-                <th>Artist</th>
-                <th>Tanggal Rilis</th>
-                <th>Total Plays</th>
-                <th>Actions</th>
-            </tr>
-            <tr>
-                <th>Daftar Lagu</th>
-        </thead>
-        <tbody>
-            {for data in chart.playlist}
-            <tr>
-                <td>{{data.judul}}</td>
-                <td>{{data.artist}}</td>
-                <td>{{data.tanggal_rilis}}</td>
-                <td>{{data.total_plays}}</td>
-                <td>
-                    <a href="/chart/{chart.id}/play/{data.id}">Song Detail</a>
-                </td>
-                </tr>
-                <tr>
-                    <td>{{data.judul}}</td>
-                    <td>{{data.artist}}</td>
-                    <td>{{data.tanggal_rilis}}</td>
-                    <td>{{data.total_plays}}</td>
-                    <td>
-                        <a href="/chart/{{chart.id}}/play/{{data.id}}">Song Detail</a>
-                    </td>
-                </tr>
-
-                {endfor}
-        </tbody>
-    </table>
-    <button>Back</button>
+    <div class="container">
+        <div class="card" style="width: 50%; margin: 0 auto; ">
+            <div class="card-header">
+                Detail Chart
+            </div>
+            <div class="card-body">
+                <h1>Detail Chart</h1>
+                <h3>Chart Type: Daily Top 20</h2>
+                <a href="/chart">Back to Chart List</a>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Judul Lagu</th>
+                            <th>Artist</th>
+                            <th>Tanggal Rilis</th>
+                            <th>Total Plays</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Judul1</td>
+                            <td>Artist1</td>
+                            <td>2024-05-02</td>
+                            <td>100000</td>
+                            <td>
+                                <a href="/chart/{{ chart.id }}/play/{{ data.id }}">Song Detail</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Judul2</td>
+                            <td>Artist2</td>
+                            <td>2024-04-02</td>
+                            <td>100000</td>
+                            <td>
+                                <a href="/chart/{{ chart.id }}/play/{{ data.id }}">Song Detail</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button>Back</button>
+            </div>
+        
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

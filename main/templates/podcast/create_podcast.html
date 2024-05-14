@@ -106,22 +106,9 @@
 </head>
 
 <body>
-    <h1 style="text-align: center;">Create Podcast</h1>
-        <form action="/podcast/create" method="POST">
-            <label for="title">Judul:</label>
-            <input type="text" id="title" name="title" required>
-            <br>
-            <label for="genre">Genre:</label>
-            <select id="genre" name="genre" multiple required>
-                {for genre in genres}
-                <option value="{genre.id}">{{genre}}</option>
-            </select>
-            <br>
-            <label for="time">Durasi:</label>
-            <input type="text" id="time" name="time" required>
-            <br>
+    
             <div style="text-align: center;">
-                <button type="submit">Submit</button>
+                
                 <div class="container mt-4">
                     <div class="card mb-3">
                         <div class="card-header text-center">

@@ -52,33 +52,100 @@
             </div>
         </div>
     </nav>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            /* Warna latar belakang */
+        }
+
+        .card {
+            border: none;
+            border-radius: 0.5rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            /* Efek bayangan */
+        }
+
+        .card-header {
+            background-color: #d9534f;
+            /* Warna merah */
+            color: white;
+            /* Warna teks */
+            border-bottom: none;
+        }
+
+        .btn-primary {
+            background-color: #d9534f;
+            /* Warna merah */
+            border-color: #d9534f;
+            /* Warna border */
+        }
+
+        .btn-primary:hover {
+            background-color: #c9302c;
+            /* Warna merah yang sedikit lebih gelap */
+            border-color: #c9302c;
+        }
+
+        .btn-outline-secondary {
+            color: #d9534f;
+            /* Warna merah */
+            border-color: #d9534f;
+        }
+
+        .btn-outline-secondary:hover {
+            background-color: #f8f9fa;
+            /* Warna latar belakang */
+        }
+
+        .card-title,
+        .card-text {
+            color: #212529;
+            /* Warna teks utama */
+        }
+    </style>
 </head>
 
 <body>
-    <h1> Daftar Episode </h1>
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>Judul</th>
-                <th>Deskripsi</th>
-                <th>Durasi</th>
-                <th>Tanggal</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for episode in episodes %}
-            <tr>
-                <td>{{ episode.title }}</td>
-                <td>{{ episode.description }}</td>
-                <td>{{ episode.time }}</td>
-                <td>{{ episode.release }}</td>
-                <td>
-                    <a href="/episode/{{ episode.id }}/delete">Delete</a>
-                </td>
-            </tr>
-            {% endfor %}
-    </table>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="card-header">Episode List</h1>
+            </div>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Judul</th>
+                            <th>Deskripsi</th>
+                            <th>Durasi</th>
+                            <th>Tanggal</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Subjudul1</th>
+                            <th>Deskripsi1</th>
+                            <th>50menit</th>
+                            <th>2021-08-01</th>
+                            <td>
+                                <a href="/episode/{{ episode.id }}/delete">Delete</a>
+                            </td>
+                        </tr>
+                        </tr>
+                        <tr>
+                            <th>Subjudul2</th>
+                            <th>Deskripsi2</th>
+                            <th>60menit</th>
+                            <th>2021-08-02</th>
+                            <td>
+                                <a href="/episode/{{ episode.id }}/delete">Delete</a>
+                            </td>
+                        </tr>
+                </table>
+            </div>
+    </div>
+    
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
