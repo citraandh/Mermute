@@ -1,19 +1,21 @@
 from collections import namedtuple
-import psycopg2
+# import psycopg2
 from psycopg2 import Error
 from psycopg2.extras import RealDictCursor
+from django.db import connection
 
 def connect_to_db():
     try:
-        connection = psycopg2.connect(user="",
-                                      password="",
-                                      host="",
-                                      port="",
-                                      database="")
         connection.autocommit = True
         return connection
     except (Exception, Error) as error:
         print("Error while connecting to PostgreSQL", error)
         return None
 
-connection = connect_to_db()
+def execute_query(query):
+    cursor = connection.cursor()
+    cursor.execute("set search_path to marmut")
+    cursor.execute(query)
+    result = cursor.fetchall()
+    cursor.close()
+    return result
