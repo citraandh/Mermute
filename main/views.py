@@ -14,6 +14,7 @@ from utils.query import connect_to_db, execute_query
 from .models import *
 from django.http import HttpResponseRedirect
 
+
 def email_exist(email):
     query = f"SELECT * FROM akun WHERE email = '{email}'"
     result = execute_query(query)
@@ -222,7 +223,6 @@ def beli_paket(request, jenis):
 #       'podcasts': podcasts
 #     }
 #     return render(request, 'podcast_manager.html', context)
-  
 
 
 # # @login_required
@@ -243,20 +243,22 @@ def kelola_playlist(request):
     else:
         return render(request, 'kelola_playlist/kelola_playlist_awal.html')
 
-  
+
 def playlist_awal(request):
-  return render (request, 'kelola_playlist/kelola_playlist_awal.html' )
+    return render(request, 'kelola_playlist/kelola_playlist_awal.html')
+
 
 def daftar_playlist(request):
-  query = 'SELECT USER_PLAYLIST.judul, USER_PLAYLIST.jumlah_lagu, USER_PLAYLIST.total_durasi FROM USER_PLAYLIST;'
-  
-  results = execute_query(query)
-  
-  context = {
-    'UserPlaylist': results
-  }
-  
-  return render(request, 'kelola_playlist/daftar_playlist.html', context)
+    query = 'SELECT USER_PLAYLIST.judul, USER_PLAYLIST.jumlah_lagu, USER_PLAYLIST.total_durasi FROM USER_PLAYLIST;'
+
+    results = execute_query(query)
+
+    context = {
+        'UserPlaylist': results
+    }
+
+    return render(request, 'kelola_playlist/daftar_playlist.html', context)
+
 
 def user_playlist_detail(request):
     # Query untuk mengambil detail dari USER_PLAYLIST berdasarkan user_playlist_id
@@ -279,7 +281,8 @@ def user_playlist_detail(request):
 
     # Siapkan context untuk render template
     context = {
-        'UserPlaylist': playlist_detail[0],  # Ambil detail pertama dari hasil query
+        # Ambil detail pertama dari hasil query
+        'UserPlaylist': playlist_detail[0],
         'Songs': songs
     }
     return render(request, 'kelola_playlist/kelola_playlist_detail.html', context)
@@ -296,7 +299,8 @@ def user_playlist_detail(request):
 # # @login_required
 def play_user_playlist(request, user_playlist_id):
     user_playlist = UserPlaylist.objects.get(id_user_playlist=user_playlist_id)
-    songs = user_playlist.song_set.all()  # Asumsikan UserPlaylist memiliki relation ke model 'Song'
+    # Asumsikan UserPlaylist memiliki relation ke model 'Song'
+    songs = user_playlist.song_set.all()
 
     # Menghitung total durasi playlist
     total_durasi = sum(song.durasi for song in songs)
@@ -310,16 +314,21 @@ def play_user_playlist(request, user_playlist_id):
     return render(request, 'play_user_playlist.html', context)
 
 # # @login_required
+
+
 def play_song(request, song_id):
     song = Song.objects.get(id_konten=song_id)
     genres = song.genre_set.all()  # Asumsikan 'Song' memiliki relation ke model 'Genre'
     context = {
         'song': song,
         'genres': genres,
-        'is_premium': request.user.is_premium  # Asumsikan Akun memiliki atribut is_premium
+        # Asumsikan Akun memiliki atribut is_premium
+        'is_premium': request.user.is_premium
     }
-    return render(request, 'play_song.html', context) 
+    return render(request, 'play_song.html', context)
 # # @login_required
+
+
 def shuffle_play(request, user_playlist_id):
     user_playlist = UserPlaylist.objects.get(id_user_playlist=user_playlist_id)
     timestamp = datetime.now()
@@ -343,15 +352,17 @@ def shuffle_play(request, user_playlist_id):
     return redirect('play_user_playlist', user_playlist_id=user_playlist_id)
 # # @login_required
 # RAGU NIH
+
+
 def add_song_to_playlist(request, playlist_id):
     if request.method == 'POST':
         song_id = request.POST.get('song_id')
         query = f"INSERT INTO PLAYLIST_SONG (id_user_playlist, id_song) VALUES ('{playlist_id}', '{song_id}')"
         try:
-          execute_query(query)
-          return JsonResponse({'status': 'success', 'message': 'Song added to playlist successfully'})
+            execute_query(query)
+            return JsonResponse({'status': 'success', 'message': 'Song added to playlist successfully'})
         except Exception as e:
-          return JsonResponse({'status': 'error', 'message': str(e)})
+            return JsonResponse({'status': 'error', 'message': str(e)})
 
     # Jika GET, tampilkan form untuk menambahkan lagu ke playlist
     playlists = Playlist.objects.filter(email_pembuat=request.user.email)
@@ -429,7 +440,7 @@ def add_song_to_playlist(request, playlist_id):
 #     context = {
 #         "album_id": album_id,
 #         "songs": songs,
-        
+
 #     }
 
 #     return render(request, "label/album_detail.html", context)
@@ -510,18 +521,18 @@ def add_song_to_playlist(request, playlist_id):
 #         "songs": songs,
 #         "songwriters": songwriters,
 #         "genre": genres,
-        
+
 #     }
 
 #     return render(request, 'artist_songwriter/album_detail.html', context)
 
 
-
 @csrf_exempt
 def pembayaran_final(request):
     if request.method == 'POST':
-        email = request.session.get('email')
-        jenis_paket = request.POST.get('jenis_paket')
+        # email = request.session.get('email')
+        email = 'user_verified_136@example.com'
+        jenis_paket = request.POST.get('jenis')
         timestamp_mulai = datetime.now()
         timestamp_selesai = timestamp_mulai  # Initialize with a default value
 
@@ -534,7 +545,7 @@ def pembayaran_final(request):
         elif jenis_paket == '1 tahun':
             timestamp_selesai = timestamp_mulai + timedelta(days=365)
 
-        metode_bayar = request.POST.get('metode_bayar')
+        metode_bayar = request.POST.get('metode_pembayaran')
         nominal = request.POST.get('harga')
         id = (uuid.uuid4())
         query = f"INSERT INTO TRANSACTION (id, email, jenis_paket, timestamp_dimulai, timestamp_berakhir, metode_bayar, nominal) VALUES ('{id}', '{email}', '{jenis_paket}', '{timestamp_mulai}', '{timestamp_selesai}', '{metode_bayar}', {nominal})"

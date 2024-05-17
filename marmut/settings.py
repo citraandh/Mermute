@@ -79,12 +79,6 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'basdat',
-        'USER': 'postgres',
-        'PASSWORD': 'Justblank04',
-        'HOST': 'localhost',
-        'PORT': '5433'
     }
 }
 
