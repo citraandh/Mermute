@@ -78,11 +78,7 @@ WSGI_APPLICATION = 'marmut.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-<<<<<<< Updated upstream
-        'NAME': BASE_DIR / 'db.sqlite3',
-=======
         'NAME': BASE_DIR / 'db.sqlite3'
->>>>>>> Stashed changes
     }
 }
 

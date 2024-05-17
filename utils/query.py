@@ -8,22 +8,13 @@ from django.db import connection
 
 def connect_to_db():
     try:
-<<<<<<< Updated upstream
-        connection = psycopg2.connect(user="basdat",
-                                      password="basdat",
-                                      host="localhost",
-                                      port="5432",
-                                      database="marmut")
-=======
         connection = psycopg2.connect(
-            user = "basdat",
-            password = "admin",
-            host = "localhost",
-            port = "5432",
-            database = "basdat",
+            user="basdat",
+            password="basdat",
+            host="localhost",
+            port="5432",
+            database="basdat"
         )
->>>>>>> Stashed changes
-        connection.autocommit = True
         return connection
     except (Exception, Error) as error:
         print("Error while connecting to PostgreSQL", error)
@@ -37,8 +28,7 @@ def execute_query(query):
     cursor.execute("set search_path to marmut")
     cursor.execute(query)
     result = cursor.fetchall()
-    desc = cursor.description 
+    desc = cursor.description
     cursor.close()
     if first_word.lower() == 'select':
         return [dict(zip([col[0] for col in desc], row)) for row in result]
-    

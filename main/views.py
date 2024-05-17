@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from datetime import datetime
+from datetime import datetime, timedelta
 import uuid
 from utils.query import connect_to_db, execute_query
 
@@ -197,31 +197,45 @@ def chart_detail(request, chart_id):
 
 
 def langganan_paket(request):
+    query = "SELECT * FROM paket"
+    paket = execute_query(query)
     context = {
-        # make dummy data here
-        "paket": [
-            {
-                "jenis": "Paket 1",
-                "harga": 100000,
-            },
-            {
-                "jenis": "Paket 2",
-                "harga": 200000,
-            },
-            {
-                "jenis": "Paket 3",
-                "harga": 300000,
-            },
-        ]
-
+        'paket': paket
     }
 
     return render(request, 'langganan_paket/langganan_paket.html', context)
 
 
+@csrf_exempt
 def pembayaran(request, jenis_paket, harga):
     return render(request, 'langganan_paket/pembayaran.html', {'jenis': jenis_paket, 'harga': harga})
 
 
 def beli_paket(request, jenis):
     return render(request, 'langganan_paket/pembayaran.html', {'jenis': jenis})
+
+
+@csrf_exempt
+def pembayaran_final(request):
+    if request.method == 'POST':
+        email = request.session.get('email')
+        jenis_paket = request.POST.get('jenis_paket')
+        timestamp_mulai = datetime.now()
+        timestamp_selesai = timestamp_mulai  # Initialize with a default value
+
+        if jenis_paket == '1 bulan':
+            timestamp_selesai = timestamp_mulai + timedelta(days=30)
+        elif jenis_paket == '3 bulan':
+            timestamp_selesai = timestamp_mulai + timedelta(days=90)
+        elif jenis_paket == '6 bulan':
+            timestamp_selesai = timestamp_mulai + timedelta(days=180)
+        elif jenis_paket == '1 tahun':
+            timestamp_selesai = timestamp_mulai + timedelta(days=365)
+
+        metode_bayar = request.POST.get('metode_bayar')
+        nominal = request.POST.get('harga')
+        id = (uuid.uuid4())
+        query = f"INSERT INTO TRANSACTION (id, email, jenis_paket, timestamp_dimulai, timestamp_berakhir, metode_bayar, nominal) VALUES ('{id}', '{email}', '{jenis_paket}', '{timestamp_mulai}', '{timestamp_selesai}', '{metode_bayar}', {nominal})"
+        execute_query(query)
+        set_premium(email, True)
+        return redirect('main:dashboard')
