@@ -71,26 +71,16 @@
                 </tr>
             </thead>
             <tbody>
+                <!-- use for loop -->
+                {% for paket in paket %}
                 <tr>
-                    <td>1 Bulan</td>
-                    <td>Rp54.900</td>
-                    <td><a href="pembayaran.html" class="btn btn-primary btn-sm">Berlangganan</a></td>
+                    <td>{{paket.jenis}}</td>
+                    <td>{{paket.harga}}</td>
+                    <td>
+                        <a href="pembayaran.html" class="btn btn-primary">Beli</a>
+                    </td>
                 </tr>
-                <tr>
-                    <td>3 Bulan</td>
-                    <td>...</td>
-                    <td><a href="pembayaran.html" class="btn btn-primary btn-sm">Berlangganan</a></td>
-                </tr>
-                <tr>
-                    <td>6 Bulan</td>
-                    <td>...</td>
-                    <td><a href="pembayaran.html" class="btn btn-primary btn-sm">Berlangganan</a></td>
-                </tr>
-                <tr>
-                    <td>1 Tahun</td>
-                    <td>...</td>
-                    <td><a href="pembayaran.html" class="btn btn-primary btn-sm">Berlangganan</a></td>
-                </tr>
+                {% endfor %}
             </tbody>
         </table>
         <a href="riwayat_transaksi.html" class="btn btn-secondary">Riwayat Transaksi</a>
