@@ -11,19 +11,115 @@ from django.contrib.auth.decorators import login_required
 from datetime import datetime
 import uuid
 
-from utils.query import connect_to_db, execute_query
+
+def dashboard(request):
+    return render(request, 'dashboard.html')
 
 
-def try_connect():
-    try:
-        return connection
-    except (Exception, Error) as error:
-        print("Error while connecting to PostgreSQL", error)
-        return False
+def konten(request):
+    return render(request, 'konten.html')
+
+
+def landing_page(request):
+    return render(request, 'landing_page.html')
+
+
+@csrf_exempt
+def login_user(request):
+    print(request)
+    if request.method == 'POST':
+        print("masuk sini")
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        # Cek apakah email dan password sesuai
+
+        query = f"SELECT * FROM akun WHERE email = '{email}' AND password = '{password}'"
+        result = execute_query(query)
+        email = result[0]['email']
+        nama = result[0]['nama']
+        is_verified = result[0]['is_verified']
+        request.session['email'] = email
+        request.session['nama'] = nama
+        request.session['is_verified'] = is_verified
+
+        print(request.session.get('email', None))
+        ctr = 0
+        role = None
+        while len(result) != 0:
+            if ctr == 3:
+                break
+            ctr += 1
+            artist = f"SELECT * FROM artist WHERE artist.email_akun = '{email}'"
+            artist = execute_query(artist)
+            if len(artist) > 0:
+                role = 'artist'
+                break
+            label = f"SELECT * FROM label WHERE label.email = '{email}'"
+            label = execute_query(label)
+            if len(label) > 0:
+                role = 'label'
+                break
+            songwriter = f"SELECT * FROM songwriter WHERE songwriter.email_akun = '{email}'"
+            songwriter = execute_query(songwriter)
+            if len(songwriter) > 0:
+                role = 'songwriter'
+                break
+        print(role)
+        request.session['role'] = role
+
+        response = HttpResponseRedirect(reverse("main:dashboard"))
+        return response
+    return render(request, 'login.html', {})
+
+
+@csrf_exempt
+def register(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        nama = request.POST.get('name')
+        gender = request.POST.get('gender')
+        tempat_lahir = request.POST.get('place_of_birth')
+        tanggal_lahir = request.POST.get('date_of_birth')
+        kota_asal = request.POST.get('city_origin')
+        is_verified = False
+        role = request.POST.get('role')
+        kontak = request.POST.get('contact')
+
+        id = (uuid.uuid4())
+        phc_id = (uuid.uuid4())
+        query = f"INSERT INTO pemilik_hak_cipta (id, email) VALUES ('{phc_id}', '{email}')"
+        execute_query(query)
+        if request.session.get('role') == 'artist':
+            query = f"INSERT INTO artist (id, email_akun, id_pemilik_hak_cipta) VALUES ('{id}', '{email}', '{phc_id}')"
+            execute_query(query)
+        if request.session.get('role') == 'label':
+            query = f"INSERT INTO label (id, nama, email, password,  kontak, id_pemilik_hak_cipta) VALUES ('{id}', '{nama}', '{email}', '{password}', '{kontak}', '{phc_id}')"
+            execute_query(query)
+        if request.session.get('role') == 'songwriter':
+            query = f"INSERT INTO songwriter (id, email_akun, id_pemilik_hak_cipta) VALUES ('{id}', '{email}', '{phc_id}')"
+            execute_query(query)
+
+        # Cek apakah email sudah terdaftar
+        if email_exist(email):
+            return redirect('main:login')
+
+        # Register user
+        print(email, password, nama, gender, tempat_lahir,
+              tanggal_lahir, kota_asal, is_verified)
+        query = f"INSERT INTO akun (email, password, nama, gender, tempat_lahir, tanggal_lahir, kota_asal, is_verified) VALUES ('{email}', '{password}', '{nama}', '{gender}', '{tempat_lahir}', '{tanggal_lahir}', '{kota_asal}', {is_verified})"
+        print(query)
+        execute_query(query)
+        set_premium(email, False)
+        return redirect('main:login')
+    return render(request, 'register.html')
+
+
+def dashboard(request):
+    return render(request, 'dashboard.html')
 
 
 def email_exist(email):
-    # Cek apakah email terdaftar di database
     query = f"SELECT * FROM akun WHERE email = '{email}'"
     result = execute_query(query)
     return len(result) > 0
@@ -44,76 +140,6 @@ def check_premium(user):
     query = f"SELECT * FROM premium WHERE email = '{user.email}'"
     result = execute_query(query)
     return len(result) > 0
-
-
-def dashboard(request):
-    return render(request, 'dashboard.html')
-
-
-def konten(request):
-    return render(request, 'konten.html')
-
-
-def landing_page(request):
-    return render(request, 'landing_page.html')
-
-
-@csrf_exempt
-def login(request):
-    return render(request, 'login.html')
-
-
-  if try_connect() != False:
-    # print('a')
-    print(request)
-    if request.method == 'POST':
-      print("masuk sini")
-      email = request.POST.get('email')
-      password = request.POST.get('password')
-      # Cek apakah email dan password sesuai
-      print(email_exist(email))
-      if not email_exist(email):
-        print('email not exist')
-        return redirect('main:register')
-      else:
-        
-        print(email)
-        print(request.session)
-        return redirect('main:dashboard')
-    return render(request, 'login.html',{})
-    
-@csrf_exempt
-def register(request):
-    return render(request, 'register.html')
-
-  if try_connect() != False:
-    print('a lagi')
-    if request.method == 'POST':
-      email = request.POST.get('email')
-      password = request.POST.get('password')
-      nama = request.POST.get('name')
-      gender = request.POST.get('gender')
-      tempat_lahir = request.POST.get('place_of_birth')
-      tanggal_lahir = request.POST.get('date_of_birth')
-      kota_asal = request.POST.get('city_origin')
-
-      is_verified = False
-      # Cek apakah email sudah terdaftar
-      if email_exist(email):
-        return redirect('main:login')
-      # Register user
-      print(email, password,nama, gender, tempat_lahir, tanggal_lahir, kota_asal, is_verified)
-      query = f"INSERT INTO akun (email, password, nama, gender, tempat_lahir, tanggal_lahir, kota_asal, is_verified) VALUES ('{email}', '{password}', '{nama}', '{gender}', '{tempat_lahir}', '{tanggal_lahir}', '{kota_asal}', {is_verified})"
-      print(query)
-      execute_query(query)
-      set_premium(email, False)
-      return redirect('main:login')
-    return render(request, 'register.html')
-  
-
-def dashboard(request):
-    return render(request, 'dashboard.html')
-
 
 # def list_podcast(request):
 #   if try_connect() != False:
@@ -385,20 +411,31 @@ def artist_songwriter_album_detail(request, album_id):
 
 
 def langganan_paket(request):
-    paket = [
-        {
-            "jenis": "1 Bulan",
-            "harga": 100000,
-        },
-        {
-            "jenis": "3 Bulan",
-            "harga": 200000,
-        },
-    ]
-
-    # Prepare context dictionary
     context = {
-        "paket": paket,
+        # make dummy data here
+        "paket": [
+            {
+                "jenis": "Paket 1",
+                "harga": 100000,
+            },
+            {
+                "jenis": "Paket 2",
+                "harga": 200000,
+            },
+            {
+                "jenis": "Paket 3",
+                "harga": 300000,
+            },
+        ]
+
     }
 
     return render(request, 'langganan_paket/langganan_paket.html', context)
+
+
+def pembayaran(request, jenis_paket, harga):
+    return render(request, 'langganan_paket/pembayaran.html', {'jenis': jenis_paket, 'harga': harga})
+
+
+def beli_paket(request, jenis):
+    return render(request, 'langganan_paket/pembayaran.html', {'jenis': jenis})

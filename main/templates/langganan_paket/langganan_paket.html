@@ -77,7 +77,9 @@
                     <td>{{paket.jenis}}</td>
                     <td>{{paket.harga}}</td>
                     <td>
-                        <a href="pembayaran.html" class="btn btn-primary">Beli</a>
+                        <!-- use url tag -->
+                        <a href="{% url 'main:pembayaran' paket.jenis paket.harga %}" class="btn btn-primary">Beli
+                        </a>
                     </td>
                 </tr>
                 {% endfor %}
