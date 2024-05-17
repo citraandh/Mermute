@@ -101,7 +101,7 @@
                 USER PLAYLIST DETAIL
             </div>
             <div class="card-body">
-                <hp class="card-text" id="judul-playlist">Judul: Playlist1</p>
+                <hp class="card-text" id="judul-playlist" {{UserPlaylist.judul}}>Judul: </p>
                 <p class="card-text" id="pembuat">Pembuat: Pembuat1</p>
                 <p class="card-text" id="jumlah-lagu">Jumlah Lagu: 12</p>
                 <p class="card-text" id="total-durasi">Total Durasi: 8 jam 20 menit</p>
@@ -128,9 +128,10 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {% for playlist in UserPlaylist %}
                     <!-- Contoh Daftar Lagu -->
                     <tr>
-                        <td>Song1</td>
+                        <td>{{playlist.judul}}</td>
                         <td>Artist1</td>
                         <td>2 menit</td>
                         <td>
@@ -139,17 +140,8 @@
                             <button class="btn btn-danger btn-sm">Hapus</button>
                         </td>
                     </tr>
-                    <tr>
-                        <td>Song2</td>
-                        <td>Artist2</td>
-                        <td>3 menit</td>
-                        <td>
-                            <a href="#" class="btn btn-info btn-sm">Lihat</a>
-                            <button class="btn btn-primary btn-sm" onclick="playSong('Song2')">Play</button>
-                            <button class="btn btn-danger btn-sm">Hapus</button>
-                        </td>
-                    </tr>
                     <!-- Daftar lagu akan dilanjutkan... -->
+                    {% endfor %}
                 </tbody>
             </table>
             <div class="text-center">
@@ -159,7 +151,7 @@
         </div>
     </div>
 
-    <!-- Modal Add to Playlist -->
+    <!-- Modal Add Song to Playlist -->
     <div class="modal fade" id="addToPlaylistModal" tabindex="-1" role="dialog" aria-labelledby="addToPlaylistModalLabel" aria-hidden="true">
         <div class="modal-dialog text-center" role="document">
             <div class="modal-content">
@@ -181,8 +173,7 @@
                         </div>
                         <div class="form-group">
                         <button type="submit" class="btn btn-primary">Tambah</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
-                    </div>
+                        <a href="daftar_playlist.html" class="btn btn-secondary">Kembali</a>                    </div>
                     </form>
                 </div>
             </div>

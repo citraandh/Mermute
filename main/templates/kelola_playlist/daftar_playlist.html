@@ -133,26 +133,23 @@
                             </tr>
                         </thead>
                         <tbody>
+                            {% for Playlist in UserPlaylist %}
                             <tr>
-                                <td>Playlist1</td>
-                                <td>0</td>
-                                <td>0 menit</td>
+                                <td>{{Playlist.judul}}</td>
+                                <td>{{Playlist.jumlah_lagu}}</td>
+                                <td>{{Playlist.total_durasi}}</td>
                                 <td>
-                                    <button class="btn btn-info btn-sm">Detail</button>
+                                    <form action="{% url 'main:user_playlist_detail' %}" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="playlist_id" value="{{ Playlist.id }}">
+                                        <button type="submit" class="btn btn-info btn-sm">Detail</button>
+                                    </form>
                                     <button class="btn btn-secondary btn-sm">Ubah</button>
                                     <button class="btn btn-danger btn-sm">Hapus</button>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>Playlist2</td>
-                                <td>2</td>
-                                <td>4 menit</td>
-                                <td>
-                                    <button class="btn btn-info btn-sm">Detail</button>
-                                    <button class="btn btn-secondary btn-sm">Ubah</button>
-                                    <button class="btn btn-danger btn-sm">Hapus</button>
-                                </td>
-                            </tr>
+                            <!-- Daftar lagu akan dilanjutkan... -->
+                                {% endfor %}
                         </tbody>
                     </table>
                 </div>
@@ -176,7 +173,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="form-tambah-playlist">
+                    <form id="form-tambah-playlist" action="/playlist/create" method="POST">
                         <div class="form-group">
                             <label for="judul">Judul:</label>
                             <input type="text" class="form-control" id="judul" required>
