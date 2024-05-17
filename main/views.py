@@ -1,18 +1,13 @@
 import json
-from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
-from utils.query import *
+from datetime import datetime, timedelta
+import uuid
+
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 
-# Create your views here.
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from datetime import datetime, timedelta
-import uuid
 from utils.query import connect_to_db, execute_query
-from .models import *
-from django.http import HttpResponseRedirect
 
 
 def email_exist(email):
@@ -215,14 +210,6 @@ def pembayaran(request, jenis_paket, harga):
 
 def beli_paket(request, jenis):
     return render(request, 'langganan_paket/pembayaran.html', {'jenis': jenis})
-# def list_podcast(request):
-#   if try_connect() != False:
-#     query = "SELECT * FROM podcast"
-#     podcasts = execute_query(query)
-#     context = {
-#       'podcasts': podcasts
-#     }
-#     return render(request, 'podcast_manager.html', context)
 
 
 # # @login_required
@@ -287,245 +274,6 @@ def user_playlist_detail(request):
     }
     return render(request, 'kelola_playlist/kelola_playlist_detail.html', context)
 
-# def user_playlist_detail (request):
-#   query = 'SELECT * FROM USER_PLAYLIST'
-#   results = execute_query(query)
-#   context = {
-#     'UserPlaylist': results
-#   }
-#   return render(request, 'kelola_playlist/kelola_playlist_detail.html', context)
-
-
-# # @login_required
-def play_user_playlist(request, user_playlist_id):
-    user_playlist = UserPlaylist.objects.get(id_user_playlist=user_playlist_id)
-    # Asumsikan UserPlaylist memiliki relation ke model 'Song'
-    songs = user_playlist.song_set.all()
-
-    # Menghitung total durasi playlist
-    total_durasi = sum(song.durasi for song in songs)
-    total_durasi_str = f"{total_durasi // 60} jam {total_durasi % 60} menit"
-
-    context = {
-        'user_playlist': user_playlist,
-        'songs': songs,
-        'total_durasi': total_durasi_str
-    }
-    return render(request, 'play_user_playlist.html', context)
-
-# # @login_required
-
-
-def play_song(request, song_id):
-    song = Song.objects.get(id_konten=song_id)
-    genres = song.genre_set.all()  # Asumsikan 'Song' memiliki relation ke model 'Genre'
-    context = {
-        'song': song,
-        'genres': genres,
-        # Asumsikan Akun memiliki atribut is_premium
-        'is_premium': request.user.is_premium
-    }
-    return render(request, 'play_song.html', context)
-# # @login_required
-
-
-def shuffle_play(request, user_playlist_id):
-    user_playlist = UserPlaylist.objects.get(id_user_playlist=user_playlist_id)
-    timestamp = datetime.now()
-    # Membuat entry untuk AKUN_PLAY_USER_PLAYLIST
-    AkunPlayUserPlaylist.objects.create(
-        email_pemain=request.user,
-        id_user_playlist=user_playlist,
-        email_pembuat=user_playlist.email_pembuat,
-        waktu=timestamp
-    )
-
-    # Membuat entry untuk setiap AKUN_PLAY_SONG di playlist
-    for song in user_playlist.song_set.all():
-        AkunPlaySong.objects.create(
-            email_pemain=request.user,
-            id_song=song,
-            waktu=timestamp
-        )
-
-    # Redirect kembali ke halaman detail playlist
-    return redirect('play_user_playlist', user_playlist_id=user_playlist_id)
-# # @login_required
-# RAGU NIH
-
-
-def add_song_to_playlist(request, playlist_id):
-    if request.method == 'POST':
-        song_id = request.POST.get('song_id')
-        query = f"INSERT INTO PLAYLIST_SONG (id_user_playlist, id_song) VALUES ('{playlist_id}', '{song_id}')"
-        try:
-            execute_query(query)
-            return JsonResponse({'status': 'success', 'message': 'Song added to playlist successfully'})
-        except Exception as e:
-            return JsonResponse({'status': 'error', 'message': str(e)})
-
-    # Jika GET, tampilkan form untuk menambahkan lagu ke playlist
-    playlists = Playlist.objects.filter(email_pembuat=request.user.email)
-    context = {
-        'playlists': playlists,
-        'song': Song.objects.get(id_konten=song_id)
-    }
-    return render(request, 'add_song_to_playlist.html', context)
-
-# # Silakan tambahkan logic lainnya sesuai dengan kebutuhan aplikasi
-# def royalty_report(request):
-#   # Sample data for 5 rows
-#   royalty_data = [
-#     {
-#       "judul_lagu": "Lagu 1",
-#       "judul_album": "Album 1",
-#       "total_play": 3,
-#       "total_download": 0,
-#       "total_royalti": 450000,
-#     },
-#     {
-#       "judul_lagu": "Lagu 2",
-#       "judul_album": "Album 2",
-#       "total_play": 2,
-#       "total_download": 2,
-#       "total_royalti": 520000,
-#     },
-#     # Add 3 more rows with your data
-#   ]
-
-#   # Create the context dictionary
-#   context = {
-#     "royalty_data": royalty_data,
-#   }
-
-#   # Render the HTML template with the context
-#   return render(request, "royalti/list_royalti.html", context)
-
-# def label_report(request):
-#   # Replace this with your logic to fetch album data
-#   albums = [
-#     {
-#       "judul": "Album1",
-#       "jumlah_lagu": 0,
-#       "total_durasi": "0 menit",
-#     },
-#     {
-#       "judul": "Album2",
-#       "jumlah_lagu": 2,
-#       "total_durasi": "4 menit",
-#     },
-#   ]
-#   context = {
-#     "albums": albums,
-#   }
-#   return render(request, "label/list_album.html", context)
-
-# def label_album_detail(request, album_id):
-#     songs = [
-#     {
-#       "judul": "Lagu1",
-#       "durasi": "2 menit",
-#       "total_play": 3,
-#       "total_download": 0,
-#     },
-#     {
-#       "judul": "Lagu2",
-#       "durasi": "3 menit",
-#       "total_play": 2,
-#       "total_download": 2,
-#     },
-#   ]
-
-#     # Prepare context dictionary
-#     context = {
-#         "album_id": album_id,
-#         "songs": songs,
-
-#     }
-
-#     return render(request, "label/album_detail.html", context)
-
-# def artist_songwriter_report(request):
-#     album = [
-#     {
-#       "judul": "Album1",
-#       "label": "LabelA",
-#       "jumlah_lagu": 0,
-#       "total_durasi": 0,
-#     },
-#     {
-#       "judul": "Album2",
-#       "label": "LabelB",
-#       "jumlah_lagu": 2,
-#       "total_durasi": "4 menit",
-#     },
-#   ]
-#     labels = [
-#     {
-#       "name": "LabelA",
-#     },
-#     {
-#       "name": "LabelB",
-#     },
-#   ]
-
-#     # Prepare context dictionary
-#     context = {
-#         "albums": album,
-#         "labels": labels,
-#     }
-
-#     return render(request, 'artist_songwriter/list_album.html', context)
-
-# def artist_songwriter_album_detail(request, album_id):
-#     songs = [
-#     {
-#       "judul": "Lagu1",
-#       "durasi": "2 menit",
-#       "total_play": 3,
-#       "total_download": 0,
-#     },
-#     {
-#       "judul": "Lagu2",
-#       "durasi": "3 menit",
-#       "total_play": 2,
-#       "total_download": 2,
-#     },
-#   ]
-#     songwriters = [
-#     {
-#       "nama":"Abdul"
-#     },
-#     {
-#       "nama":"Usep"
-#     },
-#     {
-#       "nama":"Luigi"
-#     },
-#   ]
-#     genres = [
-#     {
-#       "nama":"chill"
-#     },
-#     {
-#       "nama":"dj jedag jedug"
-#     },
-#     {
-#       "nama":"oldies"
-#     },
-#   ]
-
-#     # Prepare context dictionary
-#     context = {
-#         "album_id": album_id,
-#         "songs": songs,
-#         "songwriters": songwriters,
-#         "genre": genres,
-
-#     }
-
-#     return render(request, 'artist_songwriter/album_detail.html', context)
-
 
 @csrf_exempt
 def pembayaran_final(request):
@@ -534,7 +282,7 @@ def pembayaran_final(request):
         email = 'user_verified_136@example.com'
         jenis_paket = request.POST.get('jenis')
         timestamp_mulai = datetime.now()
-        timestamp_selesai = timestamp_mulai  # Initialize with a default value
+        timestamp_selesai = timestamp_mulai
 
         if jenis_paket == '1 bulan':
             timestamp_selesai = timestamp_mulai + timedelta(days=30)

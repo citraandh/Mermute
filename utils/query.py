@@ -17,7 +17,7 @@ def connect_to_db():
         )
         connection.autocommit = True
         return connection
-    except (Exception, Error) as error:
+    except Exception as error:
         print("Error while connecting to PostgreSQL", error)
         return None
 
