@@ -128,12 +128,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for playlist in UserPlaylist %}
+                    {% for song in Songs %}
                     <!-- Contoh Daftar Lagu -->
                     <tr>
-                        <td>{{playlist.judul}}</td>
-                        <td>Artist1</td>
-                        <td>2 menit</td>
+                        <td>{{song.judul}}</td>
+                        <td>{{Artist1}}</td>
+                        <td>{{song.durasi}}</td>
                         <td>
                             <a href="#" class="btn btn-info btn-sm">Lihat</a>
                             <button class="btn btn-primary btn-sm" onclick="playSong('Song1')">Play</button>

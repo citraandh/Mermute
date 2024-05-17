@@ -8,21 +8,13 @@ from django.db import connection
 
 def connect_to_db():
     try:
-<<<<<<< Updated upstream
-        connection = psycopg2.connect(user="basdat",
-                                      password="basdat",
-                                      host="localhost",
-                                      port="5432",
-                                      database="marmut")
-=======
         connection = psycopg2.connect(
             user = "basdat",
-            password = "admin",
+            password = "basdat",
             host = "localhost",
             port = "5432",
             database = "basdat",
         )
->>>>>>> Stashed changes
         connection.autocommit = True
         return connection
     except (Exception, Error) as error:
@@ -32,12 +24,11 @@ def connect_to_db():
 
 def execute_query(query):
     first_word = query.split(' ')[0]
-    connection = connect_to_db()
+    # connection = connect_to_db()
     cursor = connection.cursor()
     cursor.execute("set search_path to marmut")
     cursor.execute(query)
     result = cursor.fetchall()
-    desc = cursor.description 
     desc = cursor.description 
     cursor.close()
     if first_word.lower() == 'select':
