@@ -53,36 +53,89 @@
         </div>
     </nav>
 </head>
+<style>
+    body {
+        background-color: #f8f9fa;
+        /* Warna latar belakang */
+    }
+    .card {
+        border: none;
+        border-radius: 0.5rem;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        /* Efek bayangan */
+        margin-bottom: 20px;
+    }
 
+    .card-header {
+        background-color: #d9534f;
+        /* Warna merah */
+        color: white;
+        /* Warna teks */
+        border-bottom: none;
+    }
+
+    .btn-primary {
+        background-color: #d9534f;
+        /* Warna merah */
+        border-color: #d9534f;
+        /* Warna border */
+    }
+
+    .btn-primary:hover {
+        background-color: #c9302c;
+        /* Warna merah yang sedikit lebih gelap */
+        border-color: #c9302c;
+    }
+
+    .btn-outline-secondary {
+        color: #d9534f;
+        /* Warna merah */
+        border-color: #d9534f;
+    }
+
+    .btn-outline-secondary:hover {
+        background-color: #f8f9fa;
+        /* Warna latar belakang */
+    }
+
+    .card-title,
+    .card-text {
+        color: #212529;
+        /* Warna teks utama */
+    }
+</style>
 <body>
     <h1>Register</h1>
     <form method="POST">
+        {% csrf_token %}
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required><br>
 
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required><br>
 
-        <label for="name"></label>
+        <label for="name">Name:</label>
         <input type="text" id="name" name="name" required><br>
 
-        <label for="gender"></label>
+        <label for="gender">Gender:</label>
         <input type="text" id="gender" name="gender" required><br>
 
-        <label for="place_of_birth"></label>
+        <label for="place_of_birth">Place of Birth:</label>
         <input type="text" id="place_of_birth" name="place_of_birth" required><br>
 
-        <label for="date_of_birth"></label>
+        <label for="date_of_birth">Date of Birth: </label>
         <input type="date" id="date_of_birth" name="date_of_birth" required><br>
 
-        <label for="city_origin"></label>
+        <label for="city_origin">City of Origin:</label>
         <input type="text" id="city_origin" name="city_origin" required><br>
 
         <label for="interests">Role:</label><br>
         <label for="Podcaster">Podcaster:</label>
-        <input type="checkbox" id="podcaster" name="podcaster" value="podcaster">
-        <input type="checkbox" id="artist" name="artist" value="artist">
-        <input type="checkbox" id="songwriter" name="songwriter" value="songwriter">
+        <input type="checkbox" id="podcaster" name="podcaster" value="podcaster"><br>
+        <label for="Podcaster">Artist:</label>
+        <input type="checkbox" id="artist" name="artist" value="artist"><br>
+        <label for="Podcaster">Songwriter:</label>
+        <input type="checkbox" id="songwriter" name="songwriter" value="songwriter"><br>
 
         <input type="submit" value="Register">
     </form>
