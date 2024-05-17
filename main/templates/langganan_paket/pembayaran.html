@@ -83,7 +83,9 @@
                     <option value="ewallet">OVO</option>
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <a href="{% url 'main:bayar_paket' paket.jenis paket.harga %}">
+                <button type="button" class="btn btn-primary">Submit</button>
+            </a>
         </form>
     </div>
 
