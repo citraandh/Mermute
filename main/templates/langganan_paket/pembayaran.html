@@ -73,19 +73,19 @@
                 </tr>
             </tbody>
         </table>
-        <form>
+        <form method="POST" action="{% url 'main:pembayaran_final' %}">
+            <input type="hidden" name="jenis" value="{{ jenis }}">
+            <input type="hidden" name="harga" value="{{ harga }}">
             <div class="form-group">
                 <label for="pembayaran">Metode Pembayaran:</label>
-                <select id="pembayaran" class="form-control">
+                <select id="pembayaran" name="pembayaran" class="form-control">
                     <option value="transfer">Transfer Bank</option>
                     <option value="ewallet">GoPay</option>
                     <option value="ewallet">Dana</option>
                     <option value="ewallet">OVO</option>
                 </select>
             </div>
-            <a href="{% url 'main:bayar_paket' paket.jenis paket.harga %}">
-                <button type="button" class="btn btn-primary">Submit</button>
-            </a>
+            <button type="submit" class="btn btn-primary">Bayar</button>
         </form>
     </div>
 

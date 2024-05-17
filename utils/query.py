@@ -14,6 +14,12 @@ def connect_to_db():
             host = "localhost",
             port = "5432",
             database = "basdat",
+        connection = psycopg2.connect(
+            user="basdat",
+            password="basdat",
+            host="localhost",
+            port="5432",
+            database="basdat"
         )
         connection.autocommit = True
         return connection
@@ -29,8 +35,7 @@ def execute_query(query):
     cursor.execute("set search_path to marmut")
     cursor.execute(query)
     result = cursor.fetchall()
-    desc = cursor.description 
+    desc = cursor.description
     cursor.close()
     if first_word.lower() == 'select':
         return [dict(zip([col[0] for col in desc], row)) for row in result]
-    

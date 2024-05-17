@@ -29,7 +29,9 @@ urlpatterns = [
     path('langganan_paket/', langganan_paket, name='langganan_paket'),
     path('pembayaran/<str:jenis_paket>/<int:harga>/',
          pembayaran, name='pembayaran'),
+    path('pembayaran_final/', pembayaran_final, name='pembayaran_final'),
     path('podcast/detail/<uuid:podcast_id>',
          podcast_detail, name='podcast_page'),
     path('chart/', chart_list, name='chart'),
+
 ]
