@@ -154,10 +154,8 @@ def dashboard(request):
 
 # # @login_required
 # def shuffle_play(request, user_playlist_id):
-#     # Logic untuk membuat entry AKUN_PLAY_USER_PLAYLIST dan AKUN_PLAY_SONG
 #     user_playlist = UserPlaylist.objects.get(id_user_playlist=user_playlist_id)
 #     timestamp = datetime.now()
-
 #     # Membuat entry untuk AKUN_PLAY_USER_PLAYLIST
 #     AkunPlayUserPlaylist.objects.create(
 #         email_pemain=request.user,
@@ -178,11 +176,16 @@ def dashboard(request):
 #     return redirect('play_user_playlist', user_playlist_id=user_playlist_id)
 
 # # @login_required
-# def add_song_to_playlist(request, song_id):
+# RAGU NIH
+# def add_song_to_playlist(request, playlist_id):
 #     if request.method == 'POST':
-#         playlist_id = request.POST.get('playlist')
-#         playlist = UserPlaylist.objects.get(id_user_playlist=playlist_id)
-#         song = Song.objects.get(id_konten=song_id)
+#         song_id = request.POST.get('song_id')
+#         query = f"INSERT INTO PLAYLIST_SONG (id_user_playlist, id_song) VALUES ('{playlist_id}', '{song_id}')"
+#         try:
+#           execute_query(query)
+#           return JsonResponse({'status': 'success', 'message': 'Song added to playlist successfully'})
+#         except Exception as e:
+#           return JsonResponse({'status': 'error', 'message': str(e)})
 
 #         # Tambahkan lagu ke playlist
 #         playlist.songs.add(song)
