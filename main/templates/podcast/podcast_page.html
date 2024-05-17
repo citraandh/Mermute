@@ -96,13 +96,14 @@
             </div>
             <div class="card-body">
                     
-                        <h5 class="card-title">Judul: Judul1</h5>
+                        <h5 class="card-title">Judul: {{podcast.judul}}</h5>
                         <p class="card-text">Genre(s):</p>
-                        <p class="card-text">- Genre1</p>
+                        {% for genre in podcast.genre %}
+                        <p class="card-text">- {{podcast.genre}}</p>
                         <p class="card-text">- Genre2</p>
-                        <p class="card-text">Podcaster: Artist1</p>
-                        <p class="card-text">Total Durasi: 8 jam</p>
-                        <p class="card-text">Tanggal Rilis: 18/03/04</p>
+                        <p class="card-text">Podcaster: {{podcast.podcaster}}</p>
+                        <p class="card-text">Total Durasi: {{podcast.durasi}}</p>
+                        <p class="card-text">Tanggal Rilis: {{podcast.tanggal}}</p>
                         <p class="card-text">Tahun: 2024</p>
                         <button class="btn btn-primary">Back</button>
                     </div>
@@ -123,23 +124,52 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            {% for album in albums %}
                                             <tr>
-                                                <td>Judul1</td>
-                                                <td>Deskripsi1</td>
-                                                <td>1 jam</td>
-                                                <td>18/03/04</td>
+                                                <td>{{ episode.judul }}</td>
+                                                <td>{{ episode.deskripsi }}</td>
+                                                <td>{{ episode.durasi }}</td>
+                                                <td>{{ episode.tanggal }}</td>
                                             </tr>
-                                            <tr>
-                                                <td>Judul2</td>
-                                                <td>Deskripsi2</td>
-                                                <td>2 jam</td>
-                                                <td>18/03/04</td>
+                                            {% endfor %}
                                         </tbody>
                                     </table>
                                 </div>
                                 <br>
                 </div>
 
+                <script>
+                    $(document).ready(function() {
+                        // Function to handle the AJAX request
+                        function loadEpisodes() {
+                            $.ajax({
+                                url: "", // Replace with the actual URL to fetch episodes data
+                                method: "GET",
+                                success: function(response) {
+                                    // Handle the response data and update the table
+                                    var episodes = response.episodes;
+                                    var tableBody = "";
+                                    episodes.forEach(function(episode) {
+                                        tableBody += "<tr>";
+                                        tableBody += "<td>" + episode.title + "</td>";
+                                        tableBody += "<td>" + episode.description + "</td>";
+                                        tableBody += "<td>" + episode.duration + "</td>";
+                                        tableBody += "<td>" + episode.date + "</td>";
+                                        tableBody += "</tr>";
+                                    });
+                                    $("#episodeTable tbody").html(tableBody);
+                                },
+                                error: function(xhr, status, error) {
+                                    // Handle the error case
+                                    console.log("Error:", error);
+                                }
+                            });
+                        }
+
+                        // Call the function to load episodes on page load
+                        loadEpisodes();
+                    });
+                </script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

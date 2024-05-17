@@ -130,15 +130,32 @@
         <input type="text" id="city_origin" name="city_origin" required><br>
 
         <label for="interests">Role:</label><br>
-        <label for="Podcaster">Podcaster:</label>
-        <input type="checkbox" id="podcaster" name="podcaster" value="podcaster"><br>
-        <label for="Podcaster">Artist:</label>
-        <input type="checkbox" id="artist" name="artist" value="artist"><br>
-        <label for="Podcaster">Songwriter:</label>
-        <input type="checkbox" id="songwriter" name="songwriter" value="songwriter"><br>
-
+        <input type="radio" id="podcaster" name="role" value="podcaster">
+        <label for="podcaster">Podcaster</label><br>
+        <input type="radio" id="artist" name="role" value="artist">
+        <label for="artist">Artist</label><br>
+        <input type="radio" id="songwriter" name="role" value="songwriter">
+        <label for="songwriter">Songwriter</label><br>
+        <div id="phone_number_div" style="display: none;">
+            <label for="phone_number">Contact:</label>
+            <input type="text" id="contact" name="contact"><br>
+        </div>
+        <script>
+            document.querySelectorAll('input[name="role"]').forEach(function(radio) {
+                radio.addEventListener('change', function() {
+                    if (this.value === 'label') {
+                        document.getElementById('phone_number_div').style.display = 'block';
+                        document.getElementById('contact').required = true;
+                    } else {
+                        document.getElementById('phone_number_div').style.display = 'none';
+                        document.getElementById('contact').required = false;
+                    }
+                });
+            });
+        </script>
         <input type="submit" value="Register">
     </form>
+    
     <!-- Optional JavaScript and Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>

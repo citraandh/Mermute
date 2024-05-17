@@ -140,6 +140,42 @@
             </div> 
         </div>
     </div>
+    <script>
+        $(document).ready(function() {
+            // Function to handle the AJAX request
+            function loadPodcasts() {
+                $.ajax({
+                    url: '/api/podcasts', // Replace with your API endpoint
+                    method: 'GET',
+                    success: function(response) {
+                        // Handle the response data and update the table
+                        var podcasts = response.data;
+                        var tableBody = $('#podcast-table tbody');
+                        tableBody.empty();
+
+                        podcasts.forEach(function(podcast) {
+                            var row = $('<tr>');
+                            row.append($('<td>').text(podcast.title));
+                            row.append($('<td>').text(podcast.count));
+                            row.append($('<td>').text(podcast.duration));
+                            row.append($('<td>').html(`
+                                <a href="/podcast/${podcast.id}">Detail</a>
+                                <a href="/podcast/${podcast.id}/add">Tambah Episode</a>
+                                <a href="/podcast/${podcast.id}/delete">Delete</a>
+                            `));
+                            tableBody.append(row);
+                        });
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            }
+
+            // Call the function to load podcasts on page load
+            loadPodcasts();
+        });
+    </script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
