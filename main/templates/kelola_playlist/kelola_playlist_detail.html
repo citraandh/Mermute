@@ -163,7 +163,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="add-to-playlist-form" method="POST" action="{% url 'add_song_to_playlist' %}">
+                    <form id="add-to-playlist-form" method="POST" action="#">
                         {% csrf_token %}
                         <div class="form-group">
                             <label for="song">Lagu:</label>
