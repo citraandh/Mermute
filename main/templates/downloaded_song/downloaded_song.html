@@ -69,27 +69,21 @@
                 </tr>
             </thead>
             <tbody>
+                <!-- for loop -->
+                {% for song in downloaded_songs %}
                 <tr>
-                    <td>Song1</td>
-                    <td>Artist1</td>
-                    <td>20/02/2024</td>
+                    <td>{{ song.judul_lagu }}</td>
+                    <td>{{ song.nama_artis }}</td>
+                    <td>{{ song.tanggal_download_lagu }}</td>
                     <td>
-                        <a href="lihat.html" class="btn btn-primary btn-sm">LIHAT</a>
-                        <button class="btn btn-danger btn-sm">HAPUS</button>
+                        <a href="#" class="btn btn-outline-primary">Lihat</a>
+                        <a href="#" class="btn btn-outline-danger">Hapus</a>
                     </td>
                 </tr>
-                <tr>
-                    <td>Song2</td>
-                    <td>Artist2</td>
-                    <td>21/03/2024</td>
-                    <td>
-                        <a href="lihat.html" class="btn btn-primary btn-sm">LIHAT</a>
-                        <button class="btn btn-danger btn-sm">HAPUS</button>
-                    </td>
-                </tr>
+                {% endfor %}
             </tbody>
         </table>
-        <a href="#" class="btn btn-outline-secondary">Kembali</a>
+        <a href="{% url 'main:dashboard' %}" class="btn btn-outline-secondary">Kembali</a>
     </div>
 
     <!-- Optional JavaScript and Bootstrap JS -->

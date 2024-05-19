@@ -328,19 +328,38 @@ def search(request):
         # Use LOWER function to make the SQL query case-insensitive
         query = f"SELECT KONTEN.judul, AKUN.nama, CASE WHEN SONG.id_konten IS NOT NULL THEN 'song' WHEN PODCAST.id_konten IS NOT NULL THEN 'podcast' WHEN USER_PLAYLIST.id_user_playlist IS NOT NULL THEN 'user playlist' END AS TIPE FROM KONTEN LEFT JOIN SONG ON KONTEN.id = SONG.id_konten LEFT JOIN PODCAST ON KONTEN.id = PODCAST.id_konten LEFT JOIN USER_PLAYLIST ON KONTEN.id = USER_PLAYLIST.id_playlist JOIN ARTIST ON SONG.id_artist = ARTIST.id JOIN AKUN ON ARTIST.email_akun = AKUN.email WHERE (SONG.id_konten IS NOT NULL OR PODCAST.id_konten IS NOT NULL OR USER_PLAYLIST.id_user_playlist IS NOT NULL) AND LOWER(KONTEN.judul) LIKE '%{search_query}%'"
         # Execute the query with case-insensitive search
-        print(query)
         results = execute_query(query)
-        print(results)
     return render(request, 'search_bar/search_bar.html', {'results': results})
 
 
 def detail_konten(request, judul, nama, tipe):
-    print(judul, nama, tipe)
 
     # from konten table, get judul, tanggal_rilis, tahun, and durasi
     query = f"SELECT judul, tanggal_rilis, tahun, durasi FROM KONTEN WHERE judul = '{judul}'"
     konten = execute_query(query)
 
     context = {'konten': konten, 'judul': judul, 'nama': nama, 'tipe': tipe}
-    print(context)
     return render(request, 'search_bar/detail_konten.html', context)
+
+
+def downloaded_song(request):
+    email = 'user_verified_78@example.com'
+    # asumsi: dapatkan data dari akun_play_song untuk tanggal_download_lagu
+    query = f"""SELECT 
+                    KONTEN.judul AS judul_lagu,
+                    AKUN.nama AS nama_artis,
+                    MAX(akun_play_song.waktu) AS tanggal_download_lagu
+                FROM DOWNLOADED_SONG
+                JOIN SONG ON DOWNLOADED_SONG.id_song = SONG.id_konten
+                JOIN KONTEN ON SONG.id_konten = KONTEN.id
+                JOIN ARTIST ON SONG.id_artist = ARTIST.id
+                JOIN AKUN ON ARTIST.email_akun = AKUN.email
+                LEFT JOIN akun_play_song ON DOWNLOADED_SONG.id_song = akun_play_song.id_song
+                WHERE DOWNLOADED_SONG.email_downloader = '{email}'
+                GROUP BY KONTEN.judul, AKUN.nama;
+            """
+    results = execute_query(query)
+    context = {
+        'downloaded_songs': results
+    }
+    return render(request, 'downloaded_song/downloaded_song.html', context)
