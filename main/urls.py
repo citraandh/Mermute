@@ -12,13 +12,16 @@ urlpatterns = [
     path('logout/', logout_user, name='logout'),
 
     # Hanan
-    path('artist_songwriter/', artist_songwriter_report, name='artist_songwriter_report'),
+    path('artist_songwriter/', artist_songwriter_report,
+         name='artist_songwriter_report'),
     path('delete_album/<uuid:album_id>', delete_album, name='delete_album'),
-    path('artist_songwriter/<uuid:album_id>', album_detail, name='album_detail'),
+    path('artist_songwriter/<uuid:album_id>',
+         album_detail, name='album_detail'),
     path('delete_song/<uuid:song_id>', delete_song, name='delete_song'),
     path('royalti/', royalti_detail, name='royalti_detail'),
     path('label/', label_detail, name='label_detail'),
-    path('delete_album/<uuid:album_id>', delete_album_in_label, name='delete_album_in_label'),
+    path('delete_album/<uuid:album_id>',
+         delete_album_in_label, name='delete_album_in_label'),
 
     # citra
     path('kelola_playlist/', kelola_playlist, name='kelola_playlist'),
@@ -26,8 +29,9 @@ urlpatterns = [
     path('kelola_playlist/<uuid:id_playlist>/',
          user_playlist_detail, name='kelola_playlist_detail'),
     path('play/<uuid:id_song>/', play_song, name='play_song'),
-    #path('delete_user_playlist', delete_user_playlist, name='delete_user_playlist'),
-    path('delete_user_playlist/<int:playlist_id>/', delete_user_playlist, name='delete_user_playlist'),
+    # path('delete_user_playlist', delete_user_playlist, name='delete_user_playlist'),
+    path('delete_user_playlist/<int:playlist_id>/',
+         delete_user_playlist, name='delete_user_playlist'),
     path('tambah_playlist', tambah_playlist, name='tambah_playlist'),
 
 
@@ -46,6 +50,7 @@ urlpatterns = [
     path('downloaded-song-delete/<str:judul>',
          downloaded_song_delete, name='downloaded_song_delete'),
     path('bukan_premium/', bukan_premium, name='bukan_premium'),
+    path('lihat/<str:judul>', lihat, name='lihat'),
 
     # clarence
     path('podcast/detail/', podcast_detail, name='podcast_page'),

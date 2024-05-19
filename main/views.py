@@ -500,6 +500,7 @@ def user_playlist_detail(request, id_playlist):
     print(context)
     return render(request, 'kelola_playlist/kelola_playlist_detail.html', context)
 
+
 def tambah_playlist(request):
     if request.method == 'POST':
         judul = request.POST.get('judul')
@@ -526,30 +527,32 @@ def tambah_playlist(request):
             return JsonResponse({'error': str(e)}, status=500)
 
     return render(request, 'add_playlist.html')
-        
-        
+
+
 def delete_user_playlist(request, playlist_id):
     try:
         query_delete_songs = f"DELETE FROM PLAYLIST_SONG WHERE id_playlist = '{playlist_id}'"
         execute_query(query_delete_songs)
-        
+
         query_delete_playlist = f"DELETE FROM USER_PLAYLIST WHERE id_playlist = '{playlist_id}'"
         execute_query(query_delete_playlist)
-        
+
         return redirect('main:daftar_playlist')
     except Exception as e:
         print(f"Error deleting playlist: {e}")
         return JsonResponse({'error': str(e)}, status=500)
 
+
 def delete_song_from_playlist(request, playlist_id, song_id):
     try:
         query_delete_song = f"DELETE FROM PLAYLIST_SONG WHERE id_playlist = '{playlist_id}' AND id_song = '{song_id}'"
         execute_query(query_delete_song)
-        
+
         return redirect('main:user_playlist_detail', id_playlist=playlist_id)
     except Exception as e:
         print(f"Error deleting song from playlist: {e}")
         return JsonResponse({'error': str(e)}, status=500)
+
 
 @ csrf_exempt
 def pembayaran_final(request):
@@ -606,7 +609,9 @@ def search(request):
         # Use LOWER function to make the SQL query case-insensitive
         query = f"SELECT KONTEN.judul, AKUN.nama, CASE WHEN SONG.id_konten IS NOT NULL THEN 'song' WHEN PODCAST.id_konten IS NOT NULL THEN 'podcast' WHEN USER_PLAYLIST.id_user_playlist IS NOT NULL THEN 'user playlist' END AS TIPE FROM KONTEN LEFT JOIN SONG ON KONTEN.id = SONG.id_konten LEFT JOIN PODCAST ON KONTEN.id = PODCAST.id_konten LEFT JOIN USER_PLAYLIST ON KONTEN.id = USER_PLAYLIST.id_playlist JOIN ARTIST ON SONG.id_artist = ARTIST.id JOIN AKUN ON ARTIST.email_akun = AKUN.email WHERE (SONG.id_konten IS NOT NULL OR PODCAST.id_konten IS NOT NULL OR USER_PLAYLIST.id_user_playlist IS NOT NULL) AND LOWER(KONTEN.judul) LIKE '%{search_query}%'"
         # Execute the query with case-insensitive search
+        print('query', query)
         results = execute_query(query)
+        print('results', results)
     return render(request, 'search_bar/search_bar.html', {'results': results})
 
 
@@ -625,20 +630,10 @@ def downloaded_song(request):
         # email = 'user_verified_34@example.com'
         email = request.session.get('email')
         # asumsi: dapatkan data dari akun_play_song untuk tanggal_download_lagu
-        query = f"""SELECT
-                        KONTEN.judul AS judul_lagu,
-                        AKUN.nama AS nama_artis,
-                        MAX(akun_play_song.waktu) AS tanggal_download_lagu
-                    FROM DOWNLOADED_SONG
-                    JOIN SONG ON DOWNLOADED_SONG.id_song = SONG.id_konten
-                    JOIN KONTEN ON SONG.id_konten = KONTEN.id
-                    JOIN ARTIST ON SONG.id_artist = ARTIST.id
-                    JOIN AKUN ON ARTIST.email_akun = AKUN.email
-                    LEFT JOIN akun_play_song ON DOWNLOADED_SONG.id_song = akun_play_song.id_song
-                    WHERE DOWNLOADED_SONG.email_downloader = '{email}'
-                    GROUP BY KONTEN.judul, AKUN.nama;
-                """
+        query = f"SELECT KONTEN.judul AS judul_lagu, AKUN.nama AS nama_artis, MAX(akun_play_song.waktu) AS tanggal_download_lagu FROM DOWNLOADED_SONG JOIN SONG ON DOWNLOADED_SONG.id_song = SONG.id_konten JOIN KONTEN ON SONG.id_konten = KONTEN.id JOIN ARTIST ON SONG.id_artist = ARTIST.id JOIN AKUN ON ARTIST.email_akun = AKUN.email LEFT JOIN akun_play_song ON DOWNLOADED_SONG.id_song = akun_play_song.id_song WHERE DOWNLOADED_SONG.email_downloader = '{email}' GROUP BY KONTEN.judul, AKUN.nama;"
         results = execute_query(query)
+        print(query)
+        print(results)
         context = {
             'downloaded_songs': results
         }
@@ -649,6 +644,16 @@ def downloaded_song(request):
 
 def bukan_premium(request):
     return render(request, 'downloaded_song/bukan_premium.html')
+
+
+def lihat(request, judul):
+    query = f"SELECT * FROM KONTEN WHERE judul = '{judul}'"
+    konten = execute_query(query)
+    context = {
+        'konten': konten[0]
+    }
+    print(context)
+    return render(request, 'downloaded_song/lihat.html', context)
 
 
 def downloaded_song_delete(request, judul):
@@ -753,6 +758,7 @@ def play_song(request, id_song):
 
 # Hanan
 
+
 def artist_songwriter_report(request):
     query = 'SELECT ALBUM.id, ALBUM.judul, LABEL.nama, ALBUM.jumlah_lagu, ALBUM.total_durasi FROM ALBUM INNER JOIN LABEL ON ALBUM.id_label = LABEL.id;'
 
@@ -766,18 +772,20 @@ def artist_songwriter_report(request):
 
     return render(request, 'artist_songwriter/list_album.html', context)
 
+
 def delete_album(request, album_id):
     try:
         # Ensure album_id is correctly formatted as a string
         album_id_str = str(album_id)
         query = f"DELETE FROM ALBUM WHERE id = '{album_id_str}';"
         execute_query(query)
-        
+
         return redirect('main:artist_songwriter_report')
     except Exception as e:
         print(f"Error deleting album: {e}")  # Debug print
         return JsonResponse({'error': str(e)}, status=500)
-    
+
+
 def delete_song(request, song_id):
     try:
         query = f"SELECT song.id_album FROM SONG WHERE id_konten = '{song_id}';"
@@ -785,12 +793,13 @@ def delete_song(request, song_id):
         album_id = album_id_result[0].get('id_album')
         query = f"DELETE FROM SONG WHERE id_konten = '{song_id}';"
         execute_query(query)
-        
+
         return redirect('main:album_detail', album_id=album_id)
     except Exception as e:
         print(f"Error deleting album: {e}")  # Debug print
         return JsonResponse({'error': str(e)}, status=500)
-    
+
+
 def album_detail(request, album_id):
     query = f"SELECT SONG.id_konten, KONTEN.judul, KONTEN.durasi, SONG.total_play, SONG.total_download FROM SONG JOIN KONTEN ON SONG.id_konten = KONTEN.id WHERE SONG.id_album = '{album_id}';"
 
@@ -803,6 +812,7 @@ def album_detail(request, album_id):
     }
 
     return render(request, 'artist_songwriter/album_detail.html', context)
+
 
 def royalti_detail(request):
     query = f"SELECT KONTEN.judul as judul_lagu, ALBUM.judul as judul_album, SONG.total_play, SONG.total_download, CONCAT('Rp ', SUM(ROYALTI.jumlah * SONG.total_play)) AS total_royalti FROM KONTEN INNER JOIN SONG ON KONTEN.id = SONG.id_konten INNER JOIN ALBUM ON SONG.id_album = ALBUM.id INNER JOIN ROYALTI ON SONG.id_konten = ROYALTI.id_song GROUP BY KONTEN.judul, ALBUM.judul, SONG.total_play, SONG.total_download;"
@@ -817,6 +827,7 @@ def royalti_detail(request):
 
     return render(request, 'royalti/list_royalti.html', context)
 
+
 def label_detail(request):
     query = f"SELECT ALBUM.id, ALBUM.judul, ALBUM.jumlah_lagu, ALBUM.total_durasi FROM ALBUM INNER JOIN LABEL ON ALBUM.id_label = LABEL.id;"
 
@@ -830,13 +841,14 @@ def label_detail(request):
 
     return render(request, 'label/list_album.html', context)
 
+
 def delete_album_in_label(request, album_id):
     try:
         # Ensure album_id is correctly formatted as a string
         album_id_str = str(album_id)
         query = f"DELETE FROM ALBUM WHERE id = '{album_id_str}';"
         execute_query(query)
-        
+
         return redirect('main:label')
     except Exception as e:
         print(f"Error deleting album: {e}")  # Debug print
