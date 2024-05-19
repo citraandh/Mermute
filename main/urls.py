@@ -9,8 +9,16 @@ urlpatterns = [
     path('konten/', konten, name='konten'),
     path('login/', login_user, name='login'),
     path('register/', register, name='register'),
+    path('logout/', logout_user, name='logout'),
 
-
+    # Hanan
+    path('artist_songwriter/', artist_songwriter_report, name='artist_songwriter_report'),
+    path('delete_album/<uuid:album_id>', delete_album, name='delete_album'),
+    path('artist_songwriter/<uuid:album_id>', album_detail, name='album_detail'),
+    path('delete_song/<uuid:song_id>', delete_song, name='delete_song'),
+    path('royalti/', royalti_detail, name='royalti_detail'),
+    path('label/', label_detail, name='label_detail'),
+    path('delete_album/<uuid:album_id>', delete_album_in_label, name='delete_album_in_label'),
 
     # citra
     path('kelola_playlist/', kelola_playlist, name='kelola_playlist'),
@@ -21,6 +29,7 @@ urlpatterns = [
     #path('delete_user_playlist', delete_user_playlist, name='delete_user_playlist'),
     path('delete_user_playlist/<int:playlist_id>/', delete_user_playlist, name='delete_user_playlist'),
     path('tambah_playlist', tambah_playlist, name='tambah_playlist'),
+
 
 
     # darrel
@@ -39,10 +48,22 @@ urlpatterns = [
     path('bukan_premium/', bukan_premium, name='bukan_premium'),
 
     # clarence
-    path('podcast/detail/<uuid:podcast_id>',
-         podcast_detail, name='podcast_page'),
+    path('podcast/detail/', podcast_detail, name='podcast_page'),
     path('chart/', chart_list, name='chart'),
     path('chart/<int:chart_id>', chart_detail, name='chart_detail'),
     path('podcast/', podcast_manager, name='podcast'),
     path('episodes/<uuid:podcast_id>', list_episode_ajax, name='list_episode'),
+    path('podcasts/', list_podcast_ajax, name='list_podcast'),
+    path('podcast/add/', add_podcast, name='add_podcast'),
+    path('podcast/delete/<uuid:podcast_id>',
+         delete_podcast, name='delete_podcast'),
+    path('episode/add/<uuid:podcast_id>', add_episode, name='add_episode'),
+    path('episode/delete/<uuid:episode_id>',
+         delete_episode, name='delete_episode'),
+    path('', landing_page, name='landing_page'),
+    path('dashboard/', dashboard, name='dashboard'),
+    path('konten/', konten, name='konten'),
+    path('login/', login_user, name='login'),
+    path('register/', register, name='register'),
+
 ]

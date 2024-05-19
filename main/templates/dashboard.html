@@ -18,15 +18,15 @@
             Profil Pengguna
         </div>
         <div class="card-body">
-            <h5 class="card-title" id="nama">Nama: John Doe</h5>
-            <p class="card-text" id="email">Email: john.doe@example.com</p>
-            <p class="card-text" id="kontak">Kontak: +123456789</p>
-            <p class="card-text" id="kota-asal">Kota Asal: Jakarta</p>
-            <p class="card-text" id="gender">Gender: Laki-laki</p>
-            <p class="card-text" id="tempat-lahir">Tempat Lahir: Bandung</p>
-            <p class="card-text" id="tanggal-lahir">Tanggal Lahir: 1980-01-01</p>
-            <p class="card-text" id="role">Role: Pengguna Biasa</p>
+            <h5 class="card-title" id="nama">Nama: {{ data_user.nama }}</h5>
+            <p class="card-text" id="email">Email: {{ data_user.email }}</p>
+            <p class="card-text" id="kota-asal">Kota Asal: {{ data_user.kota_asal }}</p>
+            <p class="card-text" id="gender">Gender: {% if data_user.gender == 1 %}Male{% else %}Female{% endif %}</p>
+            <p class="card-text" id="tempat-lahir">Tempat Lahir: {{ data_user.tempat_lahir }}</p>
+            <p class="card-text" id="tanggal-lahir">Tanggal Lahir: {{ data_user.tanggal_lahir|date:"F j, Y" }}</p>
+            <p class="card-text" id="tempat-lahir">Role: {{ role }}</p>
         </div>
+
     </div>
 
     <!-- Daftar Playlist Pengguna Biasa -->
@@ -43,6 +43,8 @@
     </div>
 
     <!-- Daftar Lagu Artist/Songwriter -->
+    <!-- if is_artist or is_songwriter -->
+    {% if is_artist or is_songwriter %}
     <div class="card mt-4" id="lagu-card">
         <div class="card-header">
             Daftar Lagu Saya
@@ -54,8 +56,11 @@
             <li class="list-group-item">Belum Memiliki Lagu</li>
         </ul>
     </div>
+    {% endif %}
 
     <!-- Daftar Podcast Podcaster -->
+    <!-- if is_podcaster:True, show -->
+    {% if is_podcaster %}
     <div class="card mt-4" id="podcast-card">
         <div class="card-header">
             Daftar Podcast Saya
@@ -67,8 +72,11 @@
             <li class="list-group-item">Belum Memiliki Podcast</li>
         </ul>
     </div>
+    {% endif %}
 
     <!-- Daftar Album Label -->
+    <!-- if is_label -->
+    {% if is_label %}
     <div class="card mt-4" id="album-card">
         <div class="card-header">
             Daftar Album Diproduksi
@@ -80,6 +88,7 @@
             <li class="list-group-item">Belum Memproduksi Album</li>
         </ul>
     </div>
+    {% endif %}
 </div>
 
 <!-- Optional JavaScript and Bootstrap JS -->

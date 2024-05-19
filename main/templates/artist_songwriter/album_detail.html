@@ -202,8 +202,8 @@
                         <td>{{ song.total_download }}</td>
                         <td>
                             <a href="#" class="btn btn-info btn-sm">Lihat Detail</a>
-                            <button class="btn btn-primary btn-sm"
-                                onclick="deleteAlbum('{{ album.judul }}')">Hapus</button>
+                            <a href="{% url 'main:delete_song' song.id_konten %}"
+                                class="btn btn-danger btn-sm">Hapus</a>
                         </td>
                     </tr>
                     {% endfor %}
@@ -216,11 +216,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        function deleteAlbum(albumName) {
-            // Logic to delete album entry for albumName
-            alert('Menghapus album: ' + albumName);
-            // Update the table content here to remove the deleted album
-        }
     </script>
 </body>
 
