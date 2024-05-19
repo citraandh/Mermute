@@ -12,7 +12,6 @@ urlpatterns = [
     path('logout/', logout_user, name='logout'),
 
 
-
     # citra
     path('kelola_playlist/', kelola_playlist, name='kelola_playlist'),
     path('daftar_playlist/',

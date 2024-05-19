@@ -1,5 +1,6 @@
 import json
 from datetime import datetime, timedelta
+from random import random
 import uuid
 
 from django.contrib.auth.decorators import login_required
@@ -62,38 +63,49 @@ def login_user(request):
 
         query = f"SELECT * FROM akun WHERE email = '{email}' AND password = '{password}'"
         result = execute_query(query)
-        email = result[0]['email']
-        nama = result[0]['nama']
-        is_verified = result[0]['is_verified']
-        request.session['email'] = email
-        request.session['nama'] = nama
-        request.session['is_verified'] = is_verified
+        # if len(result) != 0: artinya dia adalah akun
+        if len(result) != 0:
+            email = result[0]['email']
+            nama = result[0]['nama']
+            is_verified = result[0]['is_verified']
+            request.session['email'] = email
+            request.session['nama'] = nama
+            request.session['is_verified'] = is_verified
 
-        ctr = 0
-        role = None
-        while len(result) != 0:
-            if ctr == 3:
-                break
-            ctr += 1
-            artist = f"SELECT * FROM artist WHERE artist.email_akun = '{email}'"
-            artist = execute_query(artist)
-            if len(artist) > 0:
-                role = 'artist'
-                break
-            label = f"SELECT * FROM label WHERE label.email = '{email}'"
-            label = execute_query(label)
-            if len(label) > 0:
-                role = 'label'
-                break
-            songwriter = f"SELECT * FROM songwriter WHERE songwriter.email_akun = '{email}'"
-            songwriter = execute_query(songwriter)
-            if len(songwriter) > 0:
-                role = 'songwriter'
-                break
-        request.session['role'] = role
+            ctr = 0
+            role = None
+            while len(result) != 0:
+                if ctr == 3:
+                    break
+                ctr += 1
+                artist = f"SELECT * FROM artist WHERE artist.email_akun = '{email}'"
+                artist = execute_query(artist)
+                if len(artist) > 0:
+                    role = 'artist'
+                    break
+                label = f"SELECT * FROM label WHERE label.email = '{email}'"
+                label = execute_query(label)
+                if len(label) > 0:
+                    role = 'label'
+                    break
+                songwriter = f"SELECT * FROM songwriter WHERE songwriter.email_akun = '{email}'"
+                songwriter = execute_query(songwriter)
+                if len(songwriter) > 0:
+                    role = 'songwriter'
+                    break
+            request.session['role'] = role
 
-        response = HttpResponseRedirect(reverse("main:dashboard"))
-        return response
+            response = HttpResponseRedirect(reverse("main:dashboard"))
+            return response
+        else:
+            # dia adalah label
+            print("email", email)
+            print("password", password)
+            query = f"SELECT * FROM label WHERE email = '{email}' AND password = '{password}'"
+            result = execute_query(query)
+            print("result", result)
+            response = HttpResponseRedirect(reverse("main:dashboard"))
+            return response
     return render(request, 'login.html', {})
 
 
@@ -114,12 +126,11 @@ def register(request):
             id = (uuid.uuid4())
             phc_id = (uuid.uuid4())
 
-            print('role', role)
-
             query_buat_akun = f"INSERT INTO akun(email, password, nama, gender, tempat_lahir, tanggal_lahir, kota_asal, is_verified) VALUES('{email}', '{password}', '{nama}', '{gender}', '{tempat_lahir}', '{tanggal_lahir}', '{kota_asal}', {is_verified})"
             execute_query(query_buat_akun)
 
-            query = f"INSERT INTO pemilik_hak_cipta (id, rate_royalti) VALUES ('{phc_id}', '0')"
+            rate_royalti = random.randint(1, 100)
+            query = f"INSERT INTO pemilik_hak_cipta (id, rate_royalti) VALUES ('{phc_id}', '{rate_royalti}')"
             execute_query(query)
             if role == 'artist':
                 query = f"INSERT INTO artist (id, email_akun, id_pemilik_hak_cipta) VALUES ('{id}', '{email}', '{phc_id}')"
@@ -144,7 +155,8 @@ def register(request):
             set_premium(email, check_premium(email))
         elif request.session.get('actor') == 'label':
             kontak = request.POST.get('contact')
-            query = f"INSERT INTO label (email, password, nama, kontak) VALUES ('{email}', '{password}', '{nama}', '{kontak}')"
+            print("pas register insert value")
+            query = f"INSERT INTO label (email, password, nama, kontak, id_pemilik_hak_cipta) VALUES ('{email}', '{password}', '{nama}', '{kontak}', '{phc_id}')"
             execute_query(query)
 
         return redirect('main:login')
@@ -185,8 +197,6 @@ def dashboard(request):
         'is_podcaster': podcaster,
         'role': role
     }
-    print(context)
-    print(role)
     return render(request, 'dashboard.html', context)
 
 
