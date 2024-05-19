@@ -114,15 +114,14 @@ def register(request):
             id = (uuid.uuid4())
             phc_id = (uuid.uuid4())
 
-        print('role', role)
+            print('role', role)
 
-        query_buat_akun = f"INSERT INTO akun(email, password, nama, gender, tempat_lahir, tanggal_lahir, kota_asal, is_verified) VALUES('{email}', '{password}', '{nama}', '{gender}', '{tempat_lahir}', '{tanggal_lahir}', '{kota_asal}', {is_verified})"
-        execute_query(query_buat_akun)
-        print(role)
+            query_buat_akun = f"INSERT INTO akun(email, password, nama, gender, tempat_lahir, tanggal_lahir, kota_asal, is_verified) VALUES('{email}', '{password}', '{nama}', '{gender}', '{tempat_lahir}', '{tanggal_lahir}', '{kota_asal}', {is_verified})"
+            execute_query(query_buat_akun)
 
-         query = f"INSERT INTO pemilik_hak_cipta (id, rate_royalti) VALUES ('{phc_id}', '0')"
-          execute_query(query)
-           if role == 'artist':
+            query = f"INSERT INTO pemilik_hak_cipta (id, rate_royalti) VALUES ('{phc_id}', '0')"
+            execute_query(query)
+            if role == 'artist':
                 query = f"INSERT INTO artist (id, email_akun, id_pemilik_hak_cipta) VALUES ('{id}', '{email}', '{phc_id}')"
                 execute_query(query)
             if role == 'label':
@@ -131,10 +130,10 @@ def register(request):
             if role == 'songwriter':
                 query = f"INSERT INTO songwriter (id, email_akun, id_pemilik_hak_cipta) VALUES ('{id}', '{email}', '{phc_id}')"
                 execute_query(query)
-        if role == 'podcaster':
-            query = f"INSERT INTO podcaster (email) VALUES ('{email}')"
-            print('masuk podcaster')
-            execute_query(query)
+            if role == 'podcaster':
+                query = f"INSERT INTO podcaster (email) VALUES ('{email}')"
+                print('masuk podcaster')
+                execute_query(query)
 
             # Cek apakah email sudah terdaftar
             if email_exist(email):

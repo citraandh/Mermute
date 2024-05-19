@@ -43,7 +43,8 @@
     </div>
 
     <!-- Daftar Lagu Artist/Songwriter -->
-    {% if role == 'artist' or role == 'songwriter' %}
+    <!-- if is_artist or is_songwriter -->
+    {% if is_artist or is_songwriter %}
     <div class="card mt-4" id="lagu-card">
         <div class="card-header">
             Daftar Lagu Saya
@@ -57,8 +58,9 @@
     </div>
     {% endif %}
 
-    {% if role == 'podcaster' %}
     <!-- Daftar Podcast Podcaster -->
+    <!-- if is_podcaster:True, show -->
+    {% if is_podcaster %}
     <div class="card mt-4" id="podcast-card">
         <div class="card-header">
             Daftar Podcast Saya
@@ -72,8 +74,9 @@
     </div>
     {% endif %}
 
-    {% if role == 'label' %}
     <!-- Daftar Album Label -->
+    <!-- if is_label -->
+    {% if is_label %}
     <div class="card mt-4" id="album-card">
         <div class="card-header">
             Daftar Album Diproduksi
