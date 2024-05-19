@@ -2,51 +2,46 @@
 {% load static %}
 
 {% block title %}
-
 <title>Detail Konten</title>
-
 {% endblock title %}
 
-
 {% block content %}
-
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="content">
-                <div class="content-title">Detail Konten</div>
-                {% if konten %}
-                {% for item in konten %}
-                <div class="info-item">
-                    <span class="info-label">Judul:</span> {{ item.judul }}
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    Detail Konten
                 </div>
-                <div class="info-item">
-                    <span class="info-label">Tanggal Rilis:</span> {{ item.tanggal_rilis }}
+                <div class="card-body">
+                    {% if konten %}
+                    {% for item in konten %}
+                    <div class="info-item">
+                        <span class="info-label">Judul:</span> {{ item.judul }}
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Tanggal Rilis:</span> {{ item.tanggal_rilis }}
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Tahun:</span> {{ item.tahun }}
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Durasi:</span> {{ item.durasi }}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    <div class="info-item">
+                        <span class="info-label">Nama Pembuat:</span> {{ nama }}
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Tipe:</span> {{ tipe }}
+                    </div>
                 </div>
-                <div class="info-item">
-                    <span class="info-label">Tahun:</span> {{ item.tahun }}
+                <div class="card-footer">
+                    <a href="{% url 'main:search_bar' %}" class="btn btn-outline-secondary">Kembali</a>
                 </div>
-                <div class="info-item">
-                    <span class="info-label">Durasi:</span> {{ item.durasi }}
-                </div>
-                {% endfor %}
-                {% endif %}
-                <div class="info-item">
-                    <span class="info-label">Nama Pembuat:</span> {{ nama }}
-                </div>
-                <div class="info-item">
-                    <span class="info-label">Tipe:</span> {{ tipe }}
-                </div>
-                <a href="{% url 'main:search_bar'%}" class="back-link">Kembali</a>
             </div>
         </div>
     </div>
 </div>
-
-<!-- Optional JavaScript and Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 {% endblock content %}
-
-</html>

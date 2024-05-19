@@ -425,27 +425,34 @@ def detail_konten(request, judul, nama, tipe):
 
 
 def downloaded_song(request):
-    email = 'user_verified_34@example.com'
-    # email = request.session.get('email')
-    # asumsi: dapatkan data dari akun_play_song untuk tanggal_download_lagu
-    query = f"""SELECT 
-                    KONTEN.judul AS judul_lagu,
-                    AKUN.nama AS nama_artis,
-                    MAX(akun_play_song.waktu) AS tanggal_download_lagu
-                FROM DOWNLOADED_SONG
-                JOIN SONG ON DOWNLOADED_SONG.id_song = SONG.id_konten
-                JOIN KONTEN ON SONG.id_konten = KONTEN.id
-                JOIN ARTIST ON SONG.id_artist = ARTIST.id
-                JOIN AKUN ON ARTIST.email_akun = AKUN.email
-                LEFT JOIN akun_play_song ON DOWNLOADED_SONG.id_song = akun_play_song.id_song
-                WHERE DOWNLOADED_SONG.email_downloader = '{email}'
-                GROUP BY KONTEN.judul, AKUN.nama;
-            """
-    results = execute_query(query)
-    context = {
-        'downloaded_songs': results
-    }
-    return render(request, 'downloaded_song/downloaded_song.html', context)
+    if check_premium(request.session.get('email')):
+        email = 'user_verified_34@example.com'
+        # email = request.session.get('email')
+        # asumsi: dapatkan data dari akun_play_song untuk tanggal_download_lagu
+        query = f"""SELECT 
+                        KONTEN.judul AS judul_lagu,
+                        AKUN.nama AS nama_artis,
+                        MAX(akun_play_song.waktu) AS tanggal_download_lagu
+                    FROM DOWNLOADED_SONG
+                    JOIN SONG ON DOWNLOADED_SONG.id_song = SONG.id_konten
+                    JOIN KONTEN ON SONG.id_konten = KONTEN.id
+                    JOIN ARTIST ON SONG.id_artist = ARTIST.id
+                    JOIN AKUN ON ARTIST.email_akun = AKUN.email
+                    LEFT JOIN akun_play_song ON DOWNLOADED_SONG.id_song = akun_play_song.id_song
+                    WHERE DOWNLOADED_SONG.email_downloader = '{email}'
+                    GROUP BY KONTEN.judul, AKUN.nama;
+                """
+        results = execute_query(query)
+        context = {
+            'downloaded_songs': results
+        }
+        return render(request, 'downloaded_song/downloaded_song.html', context)
+    else:
+        return redirect('main:bukan_premium')
+
+
+def bukan_premium(request):
+    return render(request, 'downloaded_song/bukan_premium.html')
 
 
 def downloaded_song_delete(request, judul):
