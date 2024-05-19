@@ -314,3 +314,21 @@ def riwayat_transaksi(request):
     print('masuk sini')
     print(context)
     return render(request, 'langganan_paket/riwayat_transaksi.html', context)
+
+
+def search_bar(request):
+    return render(request, 'search_bar/search_bar.html')
+
+
+def search(request):
+    # Convert search query to lowercase
+    search_query = request.GET.get('query', '').lower()
+    results = []
+    if search_query:
+        # Use LOWER function to make the SQL query case-insensitive
+        query = f"SELECT KONTEN.judul, AKUN.nama, CASE WHEN SONG.id_konten IS NOT NULL THEN 'song' WHEN PODCAST.id_konten IS NOT NULL THEN 'podcast' WHEN USER_PLAYLIST.id_user_playlist IS NOT NULL THEN 'user playlist' END AS TIPE FROM KONTEN LEFT JOIN SONG ON KONTEN.id = SONG.id_konten LEFT JOIN PODCAST ON KONTEN.id = PODCAST.id_konten LEFT JOIN USER_PLAYLIST ON KONTEN.id = USER_PLAYLIST.id_playlist JOIN ARTIST ON SONG.id_artist = ARTIST.id JOIN AKUN ON ARTIST.email_akun = AKUN.email WHERE (SONG.id_konten IS NOT NULL OR PODCAST.id_konten IS NOT NULL OR USER_PLAYLIST.id_user_playlist IS NOT NULL) AND LOWER(KONTEN.judul) LIKE '%{search_query}%'"
+        # Execute the query with case-insensitive search
+        print(query)
+        results = execute_query(query)
+        print(results)
+    return render(request, 'search_bar/search_bar.html', {'results': results})

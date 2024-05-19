@@ -103,49 +103,36 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="content">
-                    <div class="content-title">Search Bar</div>
-                    <div class="search-input">
-                        <input type="text" id="searchBar" class="form-control" placeholder="Search...">
-                        <button onclick="search()" class="btn btn-primary search-button">Cari</button>
-                    </div>
-                    <p class="search-result">Hasil Pencarian: love</p>
-                    <table class="table table-bordered">
-                        <thead class="thead-dark">
+                    <form action="{% url 'main:search' %}" method="get">
+                        <div class="content-title">Search Bar</div>
+                        <div class="search-input">
+                            <input type="text" name="query" id="searchBar" class="form-control" placeholder="Search...">
+                            <button type="submit" class="btn btn-primary search-button">Cari</button>
+                        </div>
+                    </form>
+                    {% if results %}
+                    <table class="table">
+                        <thead>
                             <tr>
-                                <th>Tipe</th>
                                 <th>Judul</th>
-                                <th>Oleh</th>
-                                <th>Actions</th>
+                                <th>Artist</th>
+                                <th>Tipe</th>
                             </tr>
                         </thead>
                         <tbody>
+                            {% for item in results %}
                             <tr>
-                                <td>SONG</td>
-                                <td>Love is in the air</td>
-                                <td>Artist1</td>
-                                <td><a href="detail_konten.html" class="btn btn-primary">LIHAT</a></td>
+                                <td>{{ item.judul }}</td>
+                                <td>{{ item.nama }}</td>
+                                <td>{{ item.tipe }}</td>
                             </tr>
-                            <tr>
-                                <td>SONG</td>
-                                <td>What is love</td>
-                                <td>Artist2</td>
-                                <td><a href="detail_konten.html" class="btn btn-primary">LIHAT</a></td>
-                            </tr>
-                            <tr>
-                                <td>PODCAST</td>
-                                <td>Love is Blind Pod</td>
-                                <td>Podcaster1</td>
-                                <td><a href="detail_konten.html" class="btn btn-primary">LIHAT</a></td>
-                            </tr>
-                            <tr>
-                                <td>USER PLAYLIST</td>
-                                <td>90s Love Songs</td>
-                                <td>User1</td>
-                                <td><a href="detail_konten.html" class="btn btn-primary">LIHAT</a></td>
-                            </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
-                    <a href="search_bar.html" class="back-link">Kembali</a>
+                    {% else %}
+                    <p class="search-result">No results found</p>
+                    {% endif %}
+                    <a href="{% url 'main:search_bar' %}" class="back-link">Kembali</a>
                 </div>
             </div>
         </div>
