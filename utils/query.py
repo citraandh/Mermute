@@ -9,11 +9,11 @@ from django.db import connection
 def connect_to_db():
     try:
         connection = psycopg2.connect(
-            user="basdat",
-            password="basdat",
-            host="localhost",
+            user="postgres.guabdrzkgntpcrpwjpff",
+            password="ilovemarmut20204",
+            host="aws-0-ap-southeast-1.pooler.supabase.com",
             port="5432",
-            database="basdat",
+            database="postgres",
         )
         connection.autocommit = True
         return connection

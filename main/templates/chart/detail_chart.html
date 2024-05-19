@@ -126,45 +126,23 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {% for song in songs %}
                         <tr>
-                            <td>Judul1</td>
-                            <td>Artist1</td>
-                            <td>2024-05-02</td>
-                            <td>100000</td>
+                            <td>{{ song.judul }}</td>
+                            <td>{{ song.artist }}</td>
+                            <td>{{ song.tanggal_rilis }}</td>
+                            <td>{{ song.total_plays }}</td>
                             <td>
-                                <a href="/chart/{{ chart.id }}/play/{{ data.id }}">Song Detail</a>
+                                <a href="{% url 'main:play_song' song.id %}" class="btn btn-primary">Detail</a>
                             </td>
                         </tr>
-                        <tr>
-                            <td>Judul2</td>
-                            <td>Artist2</td>
-                            <td>2024-04-02</td>
-                            <td>100000</td>
-                            <td>
-                                <a href="/chart/{{ chart.id }}/play/{{ data.id }}">Song Detail</a>
-                            </td>
-                        </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
                 <button>Back</button>
             </div>
         <div id="result"></div>
-
-        <script>
-            $(document).ready(function() {
-                $.ajax({
-                    url: "/api/chart/details",
-                    method: "GET",
-                    success: function(response) {
-                        // Process the response data and update the DOM
-                        $("#result").html(response);
-                    },
-                    error: function(xhr, status, error) {
-                        console.log(error);
-                    }
-                });
-            });
-        </script>
+        </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

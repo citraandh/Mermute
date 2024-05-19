@@ -379,18 +379,13 @@ def chart_list(request):
 
 
 def chart_detail(request, chart_id):
-    query = f"SELECT * FROM CHART WHERE id = {chart_id}"
-    # Execute the query
-    chart = execute_query(query)
-
-    query = f"SELECT KONTEN.judul, KONTEN.durasi, KONTEN.tanggal_rilis, KONTEN.tahun FROM KONTEN JOIN CHART ON KONTEN.id = CHART.id_konten WHERE CHART.id = {chart_id}"
+    query = f" SELECT s.id, s.judul, a.nama AS artist, s.tanggal_rilis, s.total_play FROM SONG s JOIN ARTIST ar ON s.id_artist = ar.id JOIN AKUN a ON ar.email_akun = a.email JOIN PLAYLIST_SONG ps ON s.id_konten = ps.id_song JOIN PLAYLIST p ON ps.id_playlist = p.id JOIN CHART c ON p.id = c.id_playlist WHERE c.id = {chart_id} ORDER BY s.total_play DESC LIMIT 20;"
     # Execute the query
     konten = execute_query(query)
 
     # Prepare context dictionary with query results
     context = {
-        'chart': chart,
-        'konten': konten
+        'songs': konten
     }
 
     return render(request, 'chart/chart_detail.html', context)

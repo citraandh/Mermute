@@ -51,7 +51,10 @@
                                 <td>{{ episode.judul }}</td>
                                 <td>{{ episode.deskripsi }}</td>
                                 <td>{{ episode.durasi }}</td>
-                                <td>{{ episode.tanggal }}</td>
+                                <td>{{ episode.tanggal_rilis }}</td>
+                                <td>
+                                    <a href="/episode/delete/{{ episode.id }}" class="btn btn-primary">Delete</a>
+                                </td>
                             </tr>
                             {% endfor %}
                         </tbody>
