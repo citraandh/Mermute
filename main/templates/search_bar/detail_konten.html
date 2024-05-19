@@ -1,136 +1,52 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
+{% load static %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detail Konten</title>
-    <nav class="navbar navbar-dark bg-danger">
-        <div class="container">
-            <a class="navbar-brand" href="#">Navigation</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Chart</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Search Bar</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Kelola Playlist</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Langganan Paket</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Kelola Downloaded Songs</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Kelola Podcast</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Kelola Album & Songs</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Kelola Album</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Cek Royalti</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
+{% block title %}
 
-        .content {
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            margin-top: 50px;
-        }
+<title>Detail Konten</title>
 
-        .content-title {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
+{% endblock title %}
 
-        .info-item {
-            margin-bottom: 10px;
-        }
 
-        .info-label {
-            font-weight: bold;
-        }
+{% block content %}
 
-        .back-link {
-            display: block;
-            margin-top: 20px;
-            text-align: center;
-            color: #007bff;
-        }
-
-        .back-link:hover {
-            text-decoration: none;
-        }
-    </style>
-</head>
-
-<body>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="content">
-                    <div class="content-title">Detail Konten</div>
-                    {% if konten %}
-                    {% for item in konten %}
-                    <div class="info-item">
-                        <span class="info-label">Judul:</span> {{ item.judul }}
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Tanggal Rilis:</span> {{ item.tanggal_rilis }}
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Tahun:</span> {{ item.tahun }}
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Durasi:</span> {{ item.durasi }}
-                    </div>
-                    {% endfor %}
-                    {% endif %}
-                    <div class="info-item">
-                        <span class="info-label">Nama Pembuat:</span> {{ nama }}
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Tipe:</span> {{ tipe }}
-                    </div>
-                    <a href="{% url 'main:search_bar'%}" class="back-link">Kembali</a>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="content">
+                <div class="content-title">Detail Konten</div>
+                {% if konten %}
+                {% for item in konten %}
+                <div class="info-item">
+                    <span class="info-label">Judul:</span> {{ item.judul }}
                 </div>
+                <div class="info-item">
+                    <span class="info-label">Tanggal Rilis:</span> {{ item.tanggal_rilis }}
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Tahun:</span> {{ item.tahun }}
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Durasi:</span> {{ item.durasi }}
+                </div>
+                {% endfor %}
+                {% endif %}
+                <div class="info-item">
+                    <span class="info-label">Nama Pembuat:</span> {{ nama }}
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Tipe:</span> {{ tipe }}
+                </div>
+                <a href="{% url 'main:search_bar'%}" class="back-link">Kembali</a>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Optional JavaScript and Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
+<!-- Optional JavaScript and Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock content %}
 
 </html>

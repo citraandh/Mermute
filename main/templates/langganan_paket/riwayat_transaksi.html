@@ -1,93 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
+{% load static %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Riwayat Transaksi</title>
-    <nav class="navbar navbar-dark bg-danger">
-        <div class="container">
-            <a class="navbar-brand" href="#">Navigation</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Chart</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Search Bar</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Kelola Playlist</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Langganan Paket</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Kelola Downloaded Songs</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Kelola Podcast</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Kelola Album & Songs</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Kelola Album</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Cek Royalti</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-</head>
+{% block title %}
 
-<body>
-    <div class="container mt-4">
-        <h1 class="mb-4">Riwayat Transaksi Paket</h1>
-        <table class="table table-bordered">
-            <thead class="thead-dark">
-                <tr>
-                    <th>Jenis</th>
-                    <th>Tanggal Dimulai</th>
-                    <th>Tanggal Berakhir</th>
-                    <th>Metode Pembayaran</th>
-                    <th>Nominal</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- use for loop -->
-                {% for t in transactions %}
-                <tr>
-                    <td>{{ t.jenis_paket }}</td>
-                    <td>{{ t.timestamp_dimulai }}</td>
-                    <td>{{ t.timestamp_berakhir }}</td>
-                    <td>{{ t.metode_bayar }}</td>
-                    <td>{{ t.nominal }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <a href="{% url 'main:langganan_paket' %}" class="btn btn-secondary">Kembali</a>
-    </div>
+<title>Riwayat Hidup</title>
 
-    <!-- Optional JavaScript and Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
+{% endblock title %}
+
+<div class="container mt-4">
+    <h1 class="mb-4">Riwayat Transaksi Paket</h1>
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Jenis</th>
+                <th>Tanggal Dimulai</th>
+                <th>Tanggal Berakhir</th>
+                <th>Metode Pembayaran</th>
+                <th>Nominal</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- use for loop -->
+            {% for t in transactions %}
+            <tr>
+                <td>{{ t.jenis_paket }}</td>
+                <td>{{ t.timestamp_dimulai }}</td>
+                <td>{{ t.timestamp_berakhir }}</td>
+                <td>{{ t.metode_bayar }}</td>
+                <td>{{ t.nominal }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'main:langganan_paket' %}" class="btn btn-secondary">Kembali</a>
+</div>
+
+<!-- Optional JavaScript and Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock content %}
 
 </html>

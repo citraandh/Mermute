@@ -1,44 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
+{% load static %}
 
+{% block title %}
 
+<title>Pembayaran</title>
 
-<body>
-    <div class="container mt-4">
-        <h1 class="mb-3">Pembayaran Paket</h1>
-        <p>Informasi Paket yang ingin dibeli:</p>
-        <table class="table table-bordered mb-3">
-            <thead class="thead-dark">
-                <tr>
-                    <th>Durasi</th>
-                    <th>Harga</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>{{ jenis }}</td>
-                    <td>{{ harga }}</td>
-                </tr>
-            </tbody>
-        </table>
-        <form method="POST" action="{% url 'main:pembayaran_final' %}">
-            <input type="hidden" name="jenis" value="{{ jenis }}">
-            <input type="hidden" name="harga" value="{{ harga }}">
-            <label for="pembayaran">Metode Pembayaran:</label>
-            <select id="pembayaran" name="metode_bayar" class="form-control">
-                <option value="transfer">Transfer Bank</option>
-                <option value="GoPay">GoPay</option>
-                <option value="Dana">Dana</option>
-                <option value="OVO">OVO</option>
-            </select>
-            <button type="submit" class="btn btn-primary">Bayar</button>
-        </form>
-    </div>
+{% endblock title %}
 
-    <!-- Optional JavaScript and Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
+<div class="container mt-4">
+    <h1 class="mb-3">Pembayaran Paket</h1>
+    <p>Informasi Paket yang ingin dibeli:</p>
+    <table class="table table-bordered mb-3">
+        <thead class="thead-dark">
+            <tr>
+                <th>Durasi</th>
+                <th>Harga</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ jenis }}</td>
+                <td>{{ harga }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <form method="POST" action="{% url 'main:pembayaran_final' %}">
+        <input type="hidden" name="jenis" value="{{ jenis }}">
+        <input type="hidden" name="harga" value="{{ harga }}">
+        <label for="pembayaran">Metode Pembayaran:</label>
+        <select id="pembayaran" name="metode_bayar" class="form-control">
+            <option value="transfer">Transfer Bank</option>
+            <option value="GoPay">GoPay</option>
+            <option value="Dana">Dana</option>
+            <option value="OVO">OVO</option>
+        </select>
+        <button type="submit" class="btn btn-primary">Bayar</button>
+    </form>
+</div>
+
+<!-- Optional JavaScript and Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock content %}
 
 </html>
