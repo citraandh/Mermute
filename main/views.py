@@ -11,6 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 from psycopg2 import ProgrammingError
 
 from utils.query import connect_to_db, execute_query
+from django.urls import reverse
 
 
 def email_exist(email):
@@ -651,3 +652,140 @@ def play_song(request, id_song):
     }
     print(context)
     return render(request, "play_song/play_song.html", context)
+
+
+def play_song(request, id_song):
+    song = execute_query(
+        "SELECT * "
+        "FROM SONG "
+        f"WHERE id_konten = '{id_song}'"
+    )[0]
+    konten = execute_query(
+        "SELECT judul, durasi, tanggal_rilis, tahun "
+        "FROM KONTEN "
+        f"WHERE id = '{id_song}'"
+    )[0]
+    artist = execute_query(
+        "SELECT nama "
+        "FROM ARTIST "
+        "JOIN AKUN ON ARTIST.email_akun = AKUN.email "
+        f"WHERE id = '{song['id_artist']}'"
+    )[0]
+    album = execute_query(
+        "SELECT judul "
+        "FROM ALBUM "
+        f"WHERE id = '{song['id_album']}'"
+    )[0]
+    genres = execute_query(
+        "SELECT genre "
+        "FROM GENRE "
+        f"WHERE id_konten = '{id_song}'"
+    )
+    songwriters = execute_query(
+        "SELECT nama "
+        "FROM SONGWRITER S "
+        "JOIN AKUN A ON S.email_akun = A.email "
+        "JOIN SONGWRITER_WRITE_SONG SS ON SS.id_songwriter = S.id "
+        f"WHERE SS.id_song = '{id_song}'"
+    )
+    context = {
+        'song': song,
+        'konten': konten,
+        'artist': artist,
+        'album': album,
+        'genres': [genre['genre'] for genre in genres],
+        'songwriters': [songwriter['nama'] for songwriter in songwriters]
+    }
+    print(context)
+    return render(request, "play_song/play_song.html", context)
+
+# Hanan
+
+def artist_songwriter_report(request):
+    query = 'SELECT ALBUM.id, ALBUM.judul, LABEL.nama, ALBUM.jumlah_lagu, ALBUM.total_durasi FROM ALBUM INNER JOIN LABEL ON ALBUM.id_label = LABEL.id;'
+
+    # Execute the query
+    results = execute_query(query)
+
+    # Prepare context dictionary with query results
+    context = {
+        'albums': results
+    }
+
+    return render(request, 'artist_songwriter/list_album.html', context)
+
+def delete_album(request, album_id):
+    try:
+        # Ensure album_id is correctly formatted as a string
+        album_id_str = str(album_id)
+        query = f"DELETE FROM ALBUM WHERE id = '{album_id_str}';"
+        execute_query(query)
+        
+        return redirect('main:artist_songwriter_report')
+    except Exception as e:
+        print(f"Error deleting album: {e}")  # Debug print
+        return JsonResponse({'error': str(e)}, status=500)
+    
+def delete_song(request, song_id):
+    try:
+        query = f"SELECT song.id_album FROM SONG WHERE id_konten = '{song_id}';"
+        album_id_result = execute_query(query)
+        album_id = album_id_result[0].get('id_album')
+        query = f"DELETE FROM SONG WHERE id_konten = '{song_id}';"
+        execute_query(query)
+        
+        return redirect('main:album_detail', album_id=album_id)
+    except Exception as e:
+        print(f"Error deleting album: {e}")  # Debug print
+        return JsonResponse({'error': str(e)}, status=500)
+    
+def album_detail(request, album_id):
+    query = f"SELECT SONG.id_konten, KONTEN.judul, KONTEN.durasi, SONG.total_play, SONG.total_download FROM SONG JOIN KONTEN ON SONG.id_konten = KONTEN.id WHERE SONG.id_album = '{album_id}';"
+
+    # Execute the query
+    results = execute_query(query)
+
+    # Prepare context dictionary with query results
+    context = {
+        'songs': results
+    }
+
+    return render(request, 'artist_songwriter/album_detail.html', context)
+
+def royalti_detail(request):
+    query = f"SELECT KONTEN.judul as judul_lagu, ALBUM.judul as judul_album, SONG.total_play, SONG.total_download, CONCAT('Rp ', SUM(ROYALTI.jumlah * SONG.total_play)) AS total_royalti FROM KONTEN INNER JOIN SONG ON KONTEN.id = SONG.id_konten INNER JOIN ALBUM ON SONG.id_album = ALBUM.id INNER JOIN ROYALTI ON SONG.id_konten = ROYALTI.id_song GROUP BY KONTEN.judul, ALBUM.judul, SONG.total_play, SONG.total_download;"
+
+    # Execute the query
+    results = execute_query(query)
+
+    # Prepare context dictionary with query results
+    context = {
+        'royalti': results
+    }
+
+    return render(request, 'royalti/list_royalti.html', context)
+
+def label_detail(request):
+    query = f"SELECT ALBUM.id, ALBUM.judul, ALBUM.jumlah_lagu, ALBUM.total_durasi FROM ALBUM INNER JOIN LABEL ON ALBUM.id_label = LABEL.id;"
+
+    # Execute the query
+    results = execute_query(query)
+
+    # Prepare context dictionary with query results
+    context = {
+        'albums': results
+    }
+
+    return render(request, 'label/list_album.html', context)
+
+def delete_album_in_label(request, album_id):
+    try:
+        # Ensure album_id is correctly formatted as a string
+        album_id_str = str(album_id)
+        query = f"DELETE FROM ALBUM WHERE id = '{album_id_str}';"
+        execute_query(query)
+        
+        return redirect('main:label')
+    except Exception as e:
+        print(f"Error deleting album: {e}")  # Debug print
+        return JsonResponse({'error': str(e)}, status=500)

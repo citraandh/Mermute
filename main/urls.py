@@ -11,6 +11,14 @@ urlpatterns = [
     path('register/', register, name='register'),
     path('logout/', logout_user, name='logout'),
 
+    # Hanan
+    path('artist_songwriter/', artist_songwriter_report, name='artist_songwriter_report'),
+    path('delete_album/<uuid:album_id>', delete_album, name='delete_album'),
+    path('artist_songwriter/<uuid:album_id>', album_detail, name='album_detail'),
+    path('delete_song/<uuid:song_id>', delete_song, name='delete_song'),
+    path('royalti/', royalti_detail, name='royalti_detail'),
+    path('label/', label_detail, name='label_detail'),
+    path('delete_album/<uuid:album_id>', delete_album_in_label, name='delete_album_in_label'),
 
     # citra
     path('kelola_playlist/', kelola_playlist, name='kelola_playlist'),
