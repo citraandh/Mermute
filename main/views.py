@@ -332,3 +332,15 @@ def search(request):
         results = execute_query(query)
         print(results)
     return render(request, 'search_bar/search_bar.html', {'results': results})
+
+
+def detail_konten(request, judul, nama, tipe):
+    print(judul, nama, tipe)
+
+    # from konten table, get judul, tanggal_rilis, tahun, and durasi
+    query = f"SELECT judul, tanggal_rilis, tahun, durasi FROM KONTEN WHERE judul = '{judul}'"
+    konten = execute_query(query)
+
+    context = {'konten': konten, 'judul': judul, 'nama': nama, 'tipe': tipe}
+    print(context)
+    return render(request, 'search_bar/detail_konten.html', context)

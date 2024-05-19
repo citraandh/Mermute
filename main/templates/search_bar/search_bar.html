@@ -111,12 +111,14 @@
                         </div>
                     </form>
                     {% if results %}
+                    <p class="search-result-message">Hasil pencarian "{{ request.GET.query }}"</p>
                     <table class="table">
                         <thead>
                             <tr>
                                 <th>Judul</th>
                                 <th>Artist</th>
                                 <th>Tipe</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -125,6 +127,9 @@
                                 <td>{{ item.judul }}</td>
                                 <td>{{ item.nama }}</td>
                                 <td>{{ item.tipe }}</td>
+                                <td><a
+                                        href="{% url 'main:detail_konten' judul=item.judul nama=item.nama tipe=item.tipe %}">Detail</a>
+                                </td>
                             </tr>
                             {% endfor %}
                         </tbody>

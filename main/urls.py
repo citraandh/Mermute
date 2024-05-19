@@ -29,6 +29,8 @@ urlpatterns = [
     path('riwayat_transaksi/', riwayat_transaksi, name='riwayat_transaksi'),
     path('search_bar/', search_bar, name='search_bar'),
     path('search', search, name='search'),
+    path('detail-konten/<str:judul>/<str:nama>/<str:tipe>',
+         detail_konten, name='detail_konten'),
 
     #     clarence
     path('podcast/detail/<uuid:podcast_id>',

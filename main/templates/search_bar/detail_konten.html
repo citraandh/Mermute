@@ -99,19 +99,29 @@
             <div class="col-md-6">
                 <div class="content">
                     <div class="content-title">Detail Konten</div>
+                    {% if konten %}
+                    {% for item in konten %}
                     <div class="info-item">
-                        <span class="info-label">Judul:</span> Love is in the air
+                        <span class="info-label">Judul:</span> {{ item.judul }}
                     </div>
                     <div class="info-item">
-                        <span class="info-label">Tanggal Rilis:</span> 2021-02-14
+                        <span class="info-label">Tanggal Rilis:</span> {{ item.tanggal_rilis }}
                     </div>
                     <div class="info-item">
-                        <span class="info-label">Tahun:</span> 2021
+                        <span class="info-label">Tahun:</span> {{ item.tahun }}
                     </div>
                     <div class="info-item">
-                        <span class="info-label">Durasi:</span> 154 menit
+                        <span class="info-label">Durasi:</span> {{ item.durasi }}
                     </div>
-                    <a href="search_bar.html" class="back-link">Kembali</a>
+                    {% endfor %}
+                    {% endif %}
+                    <div class="info-item">
+                        <span class="info-label">Nama Pembuat:</span> {{ nama }}
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Tipe:</span> {{ tipe }}
+                    </div>
+                    <a href="{% url 'main:search_bar'%}" class="back-link">Kembali</a>
                 </div>
             </div>
         </div>
