@@ -152,6 +152,7 @@ def register(request):
             if email_exist(email):
                 return redirect('main:login')
 
+            print("pas register insert value")
             query = f"INSERT INTO akun (email, password, nama, gender, tempat_lahir, tanggal_lahir, kota_asal, is_verified) VALUES ('{email}', '{password}', '{nama}', '{gender}', '{tempat_lahir}', '{tanggal_lahir}', '{kota_asal}', {is_verified})"
             execute_query(query)
             set_premium(email, check_premium(email))
