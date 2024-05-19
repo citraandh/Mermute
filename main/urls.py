@@ -14,12 +14,11 @@ urlpatterns = [
 
     # citra
     path('kelola_playlist/', kelola_playlist, name='kelola_playlist'),
-    path('kelola_playlist/daftar_playlist',
+    path('daftar_playlist/',
          daftar_playlist, name='daftar_playlist'),
-    path('kelola_playlist/kelola_playlist_awal',
-         playlist_awal, name='playlist_awal'),
-    path('kelola_playlist/kelola_playlist_detail',
+    path('kelola_playlist/<uuid:id_playlist>/',
          user_playlist_detail, name='kelola_playlist_detail'),
+    path('play/<uuid:id_song>/', play_song, name='play_song'),
 
     # darrel
     path('langganan_paket/', langganan_paket, name='langganan_paket'),

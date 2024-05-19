@@ -100,13 +100,14 @@
             <div class="card-header text-center">
                 USER PLAYLIST DETAIL
             </div>
+            {% comment %} {% for playlist in UserPlaylist %} {% endcomment %}
             <div class="card-body">
-                <hp class="card-text" id="judul-playlist" {{UserPlaylist.judul}}>Judul: </p>
-                <p class="card-text" id="pembuat">Pembuat: Pembuat1</p>
-                <p class="card-text" id="jumlah-lagu">Jumlah Lagu: 12</p>
-                <p class="card-text" id="total-durasi">Total Durasi: 8 jam 20 menit</p>
-                <p class="card-text" id="tanggal-dibuat">Tanggal Dibuat: 18/03/24</p>
-                <p class="card-text" id="deskripsi-playlist">Deskripsi: Lorem Ipsum ….</p>
+                <hp class="card-text" id="judul-playlist" >Judul: {{playlist.judul}} </p>
+                <p class="card-text" id="pembuat">Pembuat: {{pembuat.nama}}</p>
+                <p class="card-text" id="jumlah-lagu">Jumlah Lagu: {{playlist.jumlah_lagu}}</p>
+                <p class="card-text" id="total-durasi">Total Durasi: {{playlist.total_durasi}}</p>
+                <p class="card-text" id="tanggal-dibuat">Tanggal Dibuat: {{playlist.tanggal_dibuat}}</p>
+                <p class="card-text" id="deskripsi-playlist">Deskripsi: {{playlist.deskripsi}}</p>
                 <div class="text-center">
                     <button class="btn btn-primary mb-2" id="shuffle-play">Shuffle Play</button>
                     <button class="btn btn-primary mb-2" id="kembali">Kembali</button>
@@ -128,15 +129,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for song in Songs %}
+                    {% for song in songs %}
                     <!-- Contoh Daftar Lagu -->
                     <tr>
                         <td>{{song.judul}}</td>
-                        <td>{{Artist1}}</td>
+                        <td>{{song.nama}}</td>
                         <td>{{song.durasi}}</td>
                         <td>
-                            <a href="#" class="btn btn-info btn-sm">Lihat</a>
-                            <button class="btn btn-primary btn-sm" onclick="playSong('Song1')">Play</button>
+                            <a href="{% url 'main:play_song' song.id %}" class="btn btn-info btn-sm">Lihat</a>
+                            <button class="btn btn-primary btn-sm" onclick="playSong('{{song.judul}}')">Play</button>
                             <button class="btn btn-danger btn-sm">Hapus</button>
                         </td>
                     </tr>
@@ -199,4 +200,17 @@
         }
     </script>
 </body>
-</html>
+{% for playlist in UserPlaylist %}
+<!-- Contoh Daftar Lagu -->
+<tr>
+    <td>{{playlist.judul}}</td>
+    <td>{{Artist1}}</td>
+    <td>{{playlist.durasi}}</td>
+    <td>
+        <a href="#" class="btn btn-info btn-sm">Lihat</a>
+        <button class="btn btn-primary btn-sm" onclick="playSong('Song1')">Play</button>
+        <button class="btn btn-danger btn-sm">Hapus</button>
+    </td>
+</tr>
+<!-- Daftar lagu akan dilanjutkan... -->
+{% endfor %}

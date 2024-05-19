@@ -123,24 +123,26 @@
                 SONG DETAIL
             </div>
             <div class="card-body">
-                <h5 class="card-text" id="judul">Judul: Song1</h5>
+                <h5 class="card-text" id="judul">Judul: {{ konten.judul }}</h5>
                 <p class="card-text">
                     Genre(s):<br>
-                    <span id="genre">- Genre1</span><br>
-                    <span id="genre">- Genre2</span>
+                    {% for genre in genres %}
+                    <span id="genre">- {{ genre }}</span><br>
+                    {% endfor %}
                 </p>
-                <p class="card-text" id="artist">Artist: Artist1</p>
+                <p class="card-text" id="artist">Artist: {{ artist.nama }}</p>
                 <p class="card-text">
                     Songwriter(s):<br>
-                    <span id="songwriter">- Songwriter1</span><br>
-                    <span id="songwriter">- Songwriter2</span>
+                    {% for songwriter in songwriters %}
+                    <span id="songwriter">- {{ songwriter }}</span><br>
+                    {% endfor %}
                 </p>
-                <p class="card-text" id="durasi">Durasi: 3 menit</p>
-                <p class="card-text" id="tanggal-rilis">Tanggal Rilis: 18/03/24</p>
-                <p class="card-text" id="tahun">Tahun: 2024</p>
-                <p class="card-text" id="total-play">Total Play: 0</p>
-                <p class="card-text" id="total-downloads">Total Downloads: 0</p>
-                <p class="card-text" id="album">Album: Album1</p>
+                <p class="card-text" id="durasi">Durasi: {{ konten.durasi }} menit</p>
+                <p class="card-text" id="tanggal-rilis">Tanggal Rilis: {{ konten.tanggal_rilis }}</p>
+                <p class="card-text" id="tahun">Tahun: {{ konten.tahun }}</p>
+                <p class="card-text" id="total-play">Total Play: {{ song.total_play }}</p>
+                <p class="card-text" id="total-downloads">Total Downloads: {{ song.total_download }}</p>
+                <p class="card-text" id="album">Album: {{ album.judul }}</p>
                 <input type="range" class="form-control-range" id="song-progress" min="0" max="100">
                 <div class="mt-3 text-center">
                     <button class="btn btn-primary" id="play">Play</button>

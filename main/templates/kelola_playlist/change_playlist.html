@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ubah Playlist - Marmut</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .modal-header {
+            background-color: #d9534f;
+            color: white;
+        }
+
+        .modal-title {
+            color: white;
+        }
+
+        .close {
+            color: white;
+            opacity: 1;
+        }
+
+        .modal-content {
+            border-radius: 0.5rem;
+        }
+
+        .btn-red {
+            background-color: #d9534f;
+            color: white;
+        }
+
+        .btn-red:hover {
+            background-color: #c9302c;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Modal Ubah Playlist -->
+    <div class="modal fade" id="ubahPlaylistModal" tabindex="-1" role="dialog"
+        aria-labelledby="ubahPlaylistModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ubahPlaylistModalLabel">Ubah Playlist</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="form-ubah-playlist" action="{% url 'user_playlist:ubah_playlist' playlist.id %}" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="judul">Judul:</label>
+                            <input type="text" class="form-control" id="judul" name="judul" value="{{ playlist.judul }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="deskripsi">Deskripsi:</label>
+                            <textarea class="form-control" id="deskripsi" name="deskripsi" required>{{ playlist.deskripsi }}</textarea>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-red">Simpan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">Ubah Playlist</div>
+
+                <div class="card-body">
+                    <form id="form-ubah-playlist" action="{% url 'user_playlist:ubah_playlist' playlist.id %}" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="judul">Judul:</label>
+                            <input type="text" class="form-control" id="judul" name="judul" value="{{ playlist.judul }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="deskripsi">Deskripsi:</label>
+                            <textarea class="form-control" id="deskripsi" name="deskripsi" required>{{ playlist.deskripsi }}</textarea>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-danger">Simpan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

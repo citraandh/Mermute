@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 import uuid
 
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect, HttpResponseNotAllowed
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
@@ -295,10 +295,14 @@ def beli_paket(request, jenis):
 # # @login_required
 def kelola_playlist(request):
     # Ambil email pengguna yang sedang login
-    current_user_email = request.user.email
+    current_user_email = request.session.get('email')
+    print(current_user_email)
+    
+    if not current_user_email:
+        return HttpResponseNotAllowed("Login diperlukan")
 
     # Query SQL untuk mengambil playlist yang dibuat oleh pengguna yang sedang login
-    query = f"SELECT judul, jumlah_lagu, total_durasi FROM USER_PLAYLIST WHERE email_pembuat = '{current_user_email}'"
+    query = f"SELECT id_playlist, judul, jumlah_lagu, total_durasi FROM USER_PLAYLIST WHERE email_pembuat = '{current_user_email}'"
     results = execute_query(query)
 
     # Cek apakah pengguna telah membuat playlist atau belum
@@ -316,8 +320,7 @@ def playlist_awal(request):
 
 
 def daftar_playlist(request):
-    query = 'SELECT USER_PLAYLIST.judul, USER_PLAYLIST.jumlah_lagu, USER_PLAYLIST.total_durasi FROM USER_PLAYLIST;'
-
+    query = f"SELECT id_playlist, judul, jumlah_lagu, total_durasi FROM USER_PLAYLIST"
     results = execute_query(query)
 
     context = {
@@ -327,31 +330,51 @@ def daftar_playlist(request):
     return render(request, 'kelola_playlist/daftar_playlist.html', context)
 
 
-def user_playlist_detail(request):
+def user_playlist_detail(request, id_playlist):
     # Query untuk mengambil detail dari USER_PLAYLIST berdasarkan user_playlist_id
-    query_playlist = f"""
-        SELECT judul, email_pembuat, jumlah_lagu, total_durasi, tanggal_dibuat, deskripsi
-        FROM USER_PLAYLIST
-    """
-    playlist_detail = execute_query(query_playlist)
+    playlist_detail = execute_query(
+        "SELECT judul, email_pembuat, jumlah_lagu, total_durasi, tanggal_dibuat, deskripsi "
+        "FROM USER_PLAYLIST "
+        f"WHERE id_playlist = '{id_playlist}'"
+    )
 
-    if not playlist_detail:
-        return render(request, 'kelola_playlist/kelola_playlist_awal.html', {'error': 'Playlist tidak ditemukan'})
+    # if not playlist_detail:
+    #     return render(request, 'kelola_playlist/kelola_playlist_awal.html', {'error': 'Playlist tidak ditemukan'})
+
+    # Query untuk mengambil nama pembuat playlist
+    playlist_detail = playlist_detail[0]
+    pembuat = execute_query(
+        "SELECT nama "
+        "FROM AKUN "
+        f"WHERE email = '{playlist_detail['email_pembuat']}'"
+    )[0]
 
     # Query untuk mengambil semua lagu yang ada di dalam USER_PLAYLIST
-    query_songs = f"""
-        SELECT KONTEN.judul, KONTEN.durasi
-        FROM SONG
-        JOIN KONTEN ON SONG.id_konten = KONTEN.id_konten
-    """
-    songs = execute_query(query_songs)
+    songsid = execute_query(
+        "SELECT id_song "
+        "FROM PLAYLIST_SONG "
+        f"WHERE id_playlist = '{id_playlist}'"
+    )
+    songs = []
+    for song in songsid:
+        song_detail = execute_query(
+            "SELECT judul, durasi, nama "
+            "FROM KONTEN "
+            "JOIN SONG ON KONTEN.id = SONG.id_konten "
+            "JOIN ARTIST ON SONG.id_artist = ARTIST.id "
+            "JOIN AKUN ON ARTIST.email_akun = AKUN.email "
+            f"WHERE KONTEN.id = '{song['id_song']}'"
+        )[0]
+        song_detail['id'] = song['id_song']
+        songs.append(song_detail)
 
     # Siapkan context untuk render template
     context = {
-        # Ambil detail pertama dari hasil query
-        'UserPlaylist': playlist_detail[0],
-        'Songs': songs
+        'playlist': playlist_detail,
+        'pembuat': pembuat,
+        'songs': songs
     }
+    print(context)
     return render(request, 'kelola_playlist/kelola_playlist_detail.html', context)
 
 
@@ -462,3 +485,48 @@ def downloaded_song_delete(request, judul):
     except ProgrammingError as e:
         print(f"An error occurred: {e}")
     return redirect('main:downloaded_song')
+
+def play_song(request, id_song):
+    song = execute_query(
+        "SELECT * "
+        "FROM SONG "
+        f"WHERE id_konten = '{id_song}'"
+    )[0]
+    konten = execute_query(
+        "SELECT judul, durasi, tanggal_rilis, tahun "
+        "FROM KONTEN "
+        f"WHERE id = '{id_song}'"
+    )[0]
+    artist = execute_query(
+        "SELECT nama "
+        "FROM ARTIST "
+        "JOIN AKUN ON ARTIST.email_akun = AKUN.email "
+        f"WHERE id = '{song['id_artist']}'"
+    )[0]
+    album = execute_query(
+        "SELECT judul "
+        "FROM ALBUM "
+        f"WHERE id = '{song['id_album']}'"
+    )[0]
+    genres = execute_query(
+        "SELECT genre "
+        "FROM GENRE "
+        f"WHERE id_konten = '{id_song}'"
+    )
+    songwriters = execute_query(
+        "SELECT nama "
+        "FROM SONGWRITER S "
+        "JOIN AKUN A ON S.email_akun = A.email "
+        "JOIN SONGWRITER_WRITE_SONG SS ON SS.id_songwriter = S.id "
+        f"WHERE SS.id_song = '{id_song}'"
+    )
+    context = {
+        'song': song,
+        'konten': konten,
+        'artist': artist,
+        'album': album,
+        'genres': [genre['genre'] for genre in genres],
+        'songwriters': [songwriter['nama'] for songwriter in songwriters]
+    }
+    print(context)
+    return render(request, "play_song/play_song.html", context)
