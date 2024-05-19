@@ -98,16 +98,20 @@
                     
                         <h5 class="card-title">Judul: {{podcast.judul}}</h5>
                         <p class="card-text">Genre(s):</p>
-                        {% for genre in podcast.genre %}
-                        <p class="card-text">- {{podcast.genre}}</p>
-                        <p class="card-text">- Genre2</p>
-                        <p class="card-text">Podcaster: {{podcast.podcaster}}</p>
+                        {% for genre in genres %}
+                        <p class="card-text">- {{genre.genre}}</p>    
+                        {% endfor %}
+                        <p class="card-text">Podcaster: {{podcast.nama}}</p>
                         <p class="card-text">Total Durasi: {{podcast.durasi}}</p>
-                        <p class="card-text">Tanggal Rilis: {{podcast.tanggal}}</p>
-                        <p class="card-text">Tahun: 2024</p>
-                        <button class="btn btn-primary">Back</button>
+                        <p class="card-text">Tanggal Rilis: {{podcast.tanggal_rilis}}</p>
+                        <p class="card-text">Tahun: {{ podcast.tahun}}</p>
+                        <button class="btn btn-primary">
+                            <a href="#" style="color: white;">
+                                Lihat Episodes
+                            </a>
+                        </button>
                     </div>
-                    <div class="container">
+                    <div id="episode" class="container">
                         <div class="card mt-4">
                             <div class="card-header">
                                 <h5>Daftar Episodes</h5>
@@ -124,12 +128,12 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {% for album in albums %}
+                                            {% for episode in episodes %}
                                             <tr>
                                                 <td>{{ episode.judul }}</td>
                                                 <td>{{ episode.deskripsi }}</td>
                                                 <td>{{ episode.durasi }}</td>
-                                                <td>{{ episode.tanggal }}</td>
+                                                <td>{{ episode.tanggal_rilis }}</td>
                                             </tr>
                                             {% endfor %}
                                         </tbody>
@@ -139,36 +143,42 @@
                 </div>
 
                 <script>
-                    $(document).ready(function() {
-                        // Function to handle the AJAX request
-                        function loadEpisodes() {
-                            $.ajax({
-                                url: "", // Replace with the actual URL to fetch episodes data
-                                method: "GET",
-                                success: function(response) {
-                                    // Handle the response data and update the table
-                                    var episodes = response.episodes;
-                                    var tableBody = "";
-                                    episodes.forEach(function(episode) {
-                                        tableBody += "<tr>";
-                                        tableBody += "<td>" + episode.title + "</td>";
-                                        tableBody += "<td>" + episode.description + "</td>";
-                                        tableBody += "<td>" + episode.duration + "</td>";
-                                        tableBody += "<td>" + episode.date + "</td>";
-                                        tableBody += "</tr>";
-                                    });
-                                    $("#episodeTable tbody").html(tableBody);
-                                },
-                                error: function(xhr, status, error) {
-                                    // Handle the error case
-                                    console.log("Error:", error);
-                                }
-                            });
-                        }
+                    async function fetchEpisodes() {
+                        const parsedUrl = new URL(url);
 
-                        // Call the function to load episodes on page load
-                        loadEpisodes();
-                    });
+                        // Split the pathname to get the UUID
+                        const pathParts = parsedUrl.pathname.split('/');
+
+                        // The UUID is the last part of the path
+                        const uuid = pathParts[pathParts.length - 1];
+                        const response = await fetch(`{% url 'main:list_episode' ${{uuid}} %}`);
+                        const data = await response.json();
+                        data.forEach(episode => {
+                            document.getElementById('episode').innerHTML += `
+                            <div class="card mt-4">
+                                <div class="card-header">
+                                    <h5>${episode.judul}</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p>${episode.deskripsi}</p>
+                                    <p>${episode.durasi}</p>
+                                    <p>${episode.tanggal_rilis}</p>
+                                </div>
+                            </div>
+                            `;
+                        });
+                        if (data.length === 0) {
+                            document.getElementById('episode').innerHTML = `
+                            <div class="card mt-4">
+                                <div class="card-header">
+                                    <h5>Belum ada episode</h5>
+                                </div>
+                            </div>
+                            `;
+                        }
+                        console.log(data);
+                    };
+
                 </script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>

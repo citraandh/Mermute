@@ -145,7 +145,25 @@
                 </table>
             </div>
     </div>
-    
+    <script>
+        function deleteEpisode(episodeId) {
+            // Send an AJAX request to delete the episode
+            $.ajax({
+                url: '/episode/' + episodeId + '/delete',
+                type: 'DELETE',
+                success: function(response) {
+                    // Handle the success response
+                    console.log('Episode deleted successfully');
+                    // You can perform additional actions here, such as updating the UI
+                },
+                error: function(xhr, status, error) {
+                    // Handle the error response
+                    console.error('Error deleting episode:', error);
+                    // You can display an error message or perform other error handling actions here
+                }
+            });
+        }
+    </script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
