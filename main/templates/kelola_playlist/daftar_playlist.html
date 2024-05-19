@@ -141,7 +141,7 @@
                                 <td>
                                     <a class="btn btn-info btn-sm" href="{% url 'main:kelola_playlist_detail' Playlist.id_playlist %}">Detail</a>
                                     <button class="btn btn-secondary btn-sm">Ubah</button>
-                                    <button class="btn btn-danger btn-sm">Hapus</button>
+                                    <a href="{% url 'main:delete_user_playlist' Playlist.id_playlist %}" class="btn btn-danger">Hapus</a>
                                 </td>
                             </tr>
                             <!-- Daftar lagu akan dilanjutkan... -->

@@ -157,24 +157,34 @@
         <div class="modal-dialog text-center" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addToPlaylistModalLabel">Add Song to User Playlist</h5>
+                    <h5 class="modal-title" id="addToPlaylistModalLabel">Tambah Lagu</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="add-to-playlist-form">
-                        <p>Judul: Song1</p>
-                        <p>Artist: Artist1</p>
+                    <form id="add-to-playlist-form" method="POST" action="{% url 'add_song_to_playlist' %}">
+                        {% csrf_token %}
                         <div class="form-group">
-                            <label for="playlist">Playlist:</label>
-                            <select class="form-control" id="playlist" required>
-                                <!-- Options should be populated based on user's playlists -->
+                            <label for="song">Lagu:</label>
+                            <select class="form-control" id="song" name="song_id" required>
+                                {% for song in all_songs %}
+                                    <option value="{{ song.id }}">{{ song.judul }} - {{ song.artist }}</option>
+                                {% endfor %}
                             </select>
                         </div>
                         <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Tambah</button>
-                        <a href="daftar_playlist.html" class="btn btn-secondary">Kembali</a>                    </div>
+                            <label for="playlist">Playlist:</label>
+                            <select class="form-control" id="playlist" name="playlist_id" required>
+                                {% for playlist in user_playlists %}
+                                    <option value="{{ playlist.id }}">{{ playlist.judul }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Tambah</button>
+                            <a href="daftar_playlist.html" class="btn btn-secondary">Kembali</a>
+                        </div>
                     </form>
                 </div>
             </div>

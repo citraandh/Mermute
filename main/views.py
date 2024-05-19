@@ -10,6 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from psycopg2 import ProgrammingError
 
 from utils.query import connect_to_db, execute_query
+from datetime import date
 
 
 def email_exist(email):
@@ -377,6 +378,56 @@ def user_playlist_detail(request, id_playlist):
     print(context)
     return render(request, 'kelola_playlist/kelola_playlist_detail.html', context)
 
+def tambah_playlist(request):
+    if request.method == 'POST':
+        judul = request.POST.get('judul')
+        deskripsi = request.POST.get('deskripsi')
+        email_pembuat = request.session.get('email')
+
+        id_user_playlist = str(uuid.uuid4())
+        id_playlist = str(uuid.uuid4())
+        tanggal_dibuat = date.today()
+
+        try:
+            query = f"INSERT INTO PLAYLIST (id) VALUES ('{id_playlist}');"
+            execute_query(query)
+
+            query = f"""
+                INSERT INTO USER_PLAYLIST (email_pembuat, id_user_playlist, judul, deskripsi, jumlah_lagu, tanggal_dibuat, id_playlist, total_durasi)
+                VALUES ('{email_pembuat}', '{id_user_playlist}', '{judul}', '{deskripsi}', 0, '{tanggal_dibuat}', '{id_playlist}', 0);
+            """
+            execute_query(query)
+
+            return HttpResponseRedirect(reverse('daftar_playlist'))
+        except Exception as e:
+            print(f"Error adding playlist: {e}")
+            return JsonResponse({'error': str(e)}, status=500)
+
+    return render(request, 'add_playlist.html')
+        
+        
+def delete_user_playlist(request, playlist_id):
+    try:
+        query_delete_songs = f"DELETE FROM PLAYLIST_SONG WHERE id_playlist = '{playlist_id}'"
+        execute_query(query_delete_songs)
+        
+        query_delete_playlist = f"DELETE FROM USER_PLAYLIST WHERE id_playlist = '{playlist_id}'"
+        execute_query(query_delete_playlist)
+        
+        return redirect('main:daftar_playlist')
+    except Exception as e:
+        print(f"Error deleting playlist: {e}")
+        return JsonResponse({'error': str(e)}, status=500)
+
+def delete_song_from_playlist(request, playlist_id, song_id):
+    try:
+        query_delete_song = f"DELETE FROM PLAYLIST_SONG WHERE id_playlist = '{playlist_id}' AND id_song = '{song_id}'"
+        execute_query(query_delete_song)
+        
+        return redirect('main:user_playlist_detail', id_playlist=playlist_id)
+    except Exception as e:
+        print(f"Error deleting song from playlist: {e}")
+        return JsonResponse({'error': str(e)}, status=500)
 
 @csrf_exempt
 def pembayaran_final(request):
