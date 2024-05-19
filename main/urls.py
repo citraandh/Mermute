@@ -32,6 +32,8 @@ urlpatterns = [
     path('detail-konten/<str:judul>/<str:nama>/<str:tipe>',
          detail_konten, name='detail_konten'),
     path('downloaded-song/', downloaded_song, name='downloaded_song'),
+    path('downloaded-song-delete/<str:judul>',
+         downloaded_song_delete, name='downloaded_song_delete'),
 
     #     clarence
     path('podcast/detail/<uuid:podcast_id>',

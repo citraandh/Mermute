@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
+from psycopg2 import ProgrammingError
 
 from utils.query import connect_to_db, execute_query
 
@@ -343,7 +344,7 @@ def detail_konten(request, judul, nama, tipe):
 
 
 def downloaded_song(request):
-    email = 'user_verified_78@example.com'
+    email = 'user_verified_34@example.com'
     # asumsi: dapatkan data dari akun_play_song untuk tanggal_download_lagu
     query = f"""SELECT 
                     KONTEN.judul AS judul_lagu,
@@ -363,3 +364,13 @@ def downloaded_song(request):
         'downloaded_songs': results
     }
     return render(request, 'downloaded_song/downloaded_song.html', context)
+
+
+def downloaded_song_delete(request, judul):
+    print(judul)
+    try:
+        query_delete = f"DELETE FROM DOWNLOADED_SONG WHERE id_song = (SELECT id FROM KONTEN WHERE judul = '{judul}')"
+        execute_query(query_delete)
+    except ProgrammingError as e:
+        print(f"An error occurred: {e}")
+    return redirect('main:downloaded_song')

@@ -76,8 +76,9 @@
                     <td>{{ song.nama_artis }}</td>
                     <td>{{ song.tanggal_download_lagu }}</td>
                     <td>
-                        <a href="#" class="btn btn-outline-primary">Lihat</a>
-                        <a href="#" class="btn btn-outline-danger">Hapus</a>
+                        <a href="" class="btn btn-outline-primary">Lihat</a>
+                        <a href="{% url 'main:downloaded_song_delete' song.judul_lagu %}"
+                            class="btn btn-outline-danger">Hapus</a>
                     </td>
                 </tr>
                 {% endfor %}
