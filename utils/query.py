@@ -28,8 +28,8 @@ def execute_query(query):
     cursor = connection.cursor()
     cursor.execute("set search_path to marmut")
     cursor.execute(query)
-    result = cursor.fetchall()
     desc = cursor.description
-    cursor.close()
+
     if first_word.lower() == 'select':
-        return [dict(zip([col[0] for col in desc], row)) for row in result]
+        return [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]
+    cursor.close()

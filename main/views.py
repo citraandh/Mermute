@@ -5,6 +5,7 @@ import uuid
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from psycopg2 import ProgrammingError
 
@@ -19,17 +20,23 @@ def email_exist(email):
 
 def set_premium(email, is_premium):
     if is_premium:
-        query = f'INSERT INTO premium (email) VALUES ("{email}")'
+        query = f"INSERT INTO premium (email) VALUES ('{email}')"
     else:
-        query = f'DELETE FROM premium WHERE email = "{email}"'
-        execute_query(query)
-        query = f'INSERT INTO nonpremium (email) VALUES ("{email}")'
+        query = f"INSERT INTO nonpremium (email) VALUES ('{email}')"
     execute_query(query)
 
 
-def check_premium(user):
+def remove_premium(email, is_premium):
+    if is_premium:
+        query = f"DELETE FROM premium WHERE email = '{email}'"
+    else:
+        query = f"DELETE FROM nonpremium WHERE email = '{email}'"
+    execute_query(query)
+
+
+def check_premium(email):
     # Cek apakah user adalah premium
-    query = f"SELECT * FROM premium WHERE email = '{user.email}'"
+    query = f"SELECT * FROM premium WHERE email = '{email}'"
     result = execute_query(query)
     return len(result) > 0
 
@@ -48,9 +55,7 @@ def landing_page(request):
 
 @csrf_exempt
 def login_user(request):
-    print(request)
     if request.method == 'POST':
-        print("masuk sini")
         email = request.POST.get('email')
         password = request.POST.get('password')
         # Cek apakah email dan password sesuai
@@ -64,7 +69,6 @@ def login_user(request):
         request.session['nama'] = nama
         request.session['is_verified'] = is_verified
 
-        print(request.session.get('email', None))
         ctr = 0
         role = None
         while len(result) != 0:
@@ -86,7 +90,6 @@ def login_user(request):
             if len(songwriter) > 0:
                 role = 'songwriter'
                 break
-        print(role)
         request.session['role'] = role
 
         response = HttpResponseRedirect(reverse("main:dashboard"))
@@ -110,6 +113,9 @@ def register(request):
 
         id = (uuid.uuid4())
         phc_id = (uuid.uuid4())
+
+        print(role)
+
         query = f"INSERT INTO pemilik_hak_cipta (id, rate_royalti) VALUES ('{phc_id}', '0')"
         execute_query(query)
         if request.session.get('role') == 'artist':
@@ -126,13 +132,9 @@ def register(request):
         if email_exist(email):
             return redirect('main:login')
 
-        # Register user
-        print(email, password, nama, gender, tempat_lahir,
-              tanggal_lahir, kota_asal, is_verified)
         query = f"INSERT INTO akun (email, password, nama, gender, tempat_lahir, tanggal_lahir, kota_asal, is_verified) VALUES ('{email}', '{password}', '{nama}', '{gender}', '{tempat_lahir}', '{tanggal_lahir}', '{kota_asal}', {is_verified})"
-        print(query)
         execute_query(query)
-        set_premium(email, False)
+        set_premium(email, check_premium(email))
         return redirect('main:login')
     return render(request, 'register.html')
 
@@ -163,6 +165,7 @@ def podcast_detail(request, podcast_id):
 
     return render(request, 'podcast/podcast_page.html', context=context)
 
+
 def podcast_manager(request):
     query = f"SELECT KONTEN.id, KONTEN.judul, AKUN.nama, KONTEN.durasi, KONTEN.tanggal_rilis, KONTEN.tahun, COUNT(E.id) as episode_count FROM PODCAST JOIN KONTEN ON PODCAST.id_konten = KONTEN.id JOIN PODCASTER ON PODCAST.email_podcaster = PODCASTER.email JOIN AKUN ON PODCASTER.email = AKUN.email LEFT JOIN EPISODE AS E ON KONTEN.id = E.id_konten_podcast GROUP BY KONTEN.id, KONTEN.judul, AKUN.nama, KONTEN.durasi, KONTEN.tanggal_rilis, KONTEN.tahun"
     podcast = execute_query(query)
@@ -175,6 +178,7 @@ def podcast_manager(request):
         'episodes': episode
     }
     return render(request, 'podcast/podcast_manager.html', context)
+
 
 def add_podcast(request):
     if request.method == 'POST':
@@ -197,6 +201,7 @@ def add_podcast(request):
         return redirect('main:podcast_manager')
     return render(request, 'podcast_manager.html')
 
+
 def add_episode(request, podcast_id):
     if request.method == 'POST':
         judul = request.POST.get('judul')
@@ -210,22 +215,26 @@ def add_episode(request, podcast_id):
         return redirect('main:podcast_manager')
     return render(request, 'podcast_manager.html')
 
+
 def delete_podcast(request, podcast_id):
     if request.method == 'DELETE':
         query = f"DELETE FROM KONTEN WHERE id = '{podcast_id}'"
         execute_query(query)
         return redirect('main:podcast_manager')
 
+
 def delete_episode(request, episode_id):
     if request.method == 'DELETE':
         query = f"DELETE FROM KONTEN WHERE id = '{episode_id}'"
         execute_query(query)
         return redirect('main:podcast_manager')
-    
+
+
 def list_podcast_ajax(request):
     query = "SELECT * FROM PODCAST"
     podcasts = execute_query(query)
     return JsonResponse({'podcasts': podcasts})
+
 
 def list_episode_ajax(request, podcast_id):
     query = f"SELECT * FROM EPISODE WHERE id_konten_podcast = '{podcast_id}'"
@@ -349,8 +358,8 @@ def user_playlist_detail(request):
 @csrf_exempt
 def pembayaran_final(request):
     if request.method == 'POST':
-        # email = request.session.get('email')
         email = 'user_verified_136@example.com'
+        email = request.session.get('email')
         jenis_paket = request.POST.get('jenis')
         timestamp_mulai = datetime.now()
         timestamp_selesai = timestamp_mulai
@@ -364,26 +373,28 @@ def pembayaran_final(request):
         elif jenis_paket == '1 tahun':
             timestamp_selesai = timestamp_mulai + timedelta(days=365)
 
-        metode_bayar = request.POST.get('metode_pembayaran')
+        metode_bayar = request.POST.get('metode_bayar')
+        print('metode_bayar', metode_bayar)
         nominal = request.POST.get('harga')
         id = (uuid.uuid4())
         query = f"INSERT INTO TRANSACTION (id, email, jenis_paket, timestamp_dimulai, timestamp_berakhir, metode_bayar, nominal) VALUES ('{id}', '{email}', '{jenis_paket}', '{timestamp_mulai}', '{timestamp_selesai}', '{metode_bayar}', {nominal})"
         execute_query(query)
         set_premium(email, True)
-        return redirect('langganan_paket/langganan_paket.html')
+        # remove from non_premium
+        remove_premium(email, False)
+        return redirect('main:langganan_paket')
 
-    return render(request, 'langganan_paket/pembayaran.html')
+    return redirect('main:langganan_paket')
 
 
 def riwayat_transaksi(request):
     email = 'user_verified_136@example.com'
+    email = request.session.get('email')
     query = f"SELECT * FROM TRANSACTION WHERE email = '{email}'"
     results = execute_query(query)
     context = {
         'transactions': results
     }
-    print('masuk sini')
-    print(context)
     return render(request, 'langganan_paket/riwayat_transaksi.html', context)
 
 
@@ -414,7 +425,8 @@ def detail_konten(request, judul, nama, tipe):
 
 
 def downloaded_song(request):
-    email = 'user_verified_34@example.com'
+    # email = 'user_verified_34@example.com'
+    email = request.session.get('email')
     # asumsi: dapatkan data dari akun_play_song untuk tanggal_download_lagu
     query = f"""SELECT 
                     KONTEN.judul AS judul_lagu,
@@ -437,7 +449,6 @@ def downloaded_song(request):
 
 
 def downloaded_song_delete(request, judul):
-    print(judul)
     try:
         query_delete = f"DELETE FROM DOWNLOADED_SONG WHERE id_song = (SELECT id FROM KONTEN WHERE judul = '{judul}')"
         execute_query(query_delete)
