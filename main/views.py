@@ -114,19 +114,27 @@ def register(request):
             id = (uuid.uuid4())
             phc_id = (uuid.uuid4())
 
-            print(role)
+        print('role', role)
 
-            query = f"INSERT INTO pemilik_hak_cipta (id, rate_royalti) VALUES ('{phc_id}', '0')"
-            execute_query(query)
-            if request.session.get('role') == 'artist':
+        query_buat_akun = f"INSERT INTO akun(email, password, nama, gender, tempat_lahir, tanggal_lahir, kota_asal, is_verified) VALUES('{email}', '{password}', '{nama}', '{gender}', '{tempat_lahir}', '{tanggal_lahir}', '{kota_asal}', {is_verified})"
+        execute_query(query_buat_akun)
+        print(role)
+
+         query = f"INSERT INTO pemilik_hak_cipta (id, rate_royalti) VALUES ('{phc_id}', '0')"
+          execute_query(query)
+           if role == 'artist':
                 query = f"INSERT INTO artist (id, email_akun, id_pemilik_hak_cipta) VALUES ('{id}', '{email}', '{phc_id}')"
                 execute_query(query)
-            if request.session.get('role') == 'label':
+            if role == 'label':
                 query = f"INSERT INTO label (id, nama, email, password,  kontak, id_pemilik_hak_cipta) VALUES ('{id}', '{nama}', '{email}', '{password}', '{kontak}', '{phc_id}')"
                 execute_query(query)
-            if request.session.get('role') == 'songwriter':
+            if role == 'songwriter':
                 query = f"INSERT INTO songwriter (id, email_akun, id_pemilik_hak_cipta) VALUES ('{id}', '{email}', '{phc_id}')"
                 execute_query(query)
+        if role == 'podcaster':
+            query = f"INSERT INTO podcaster (email) VALUES ('{email}')"
+            print('masuk podcaster')
+            execute_query(query)
 
             # Cek apakah email sudah terdaftar
             if email_exist(email):
@@ -145,12 +153,84 @@ def register(request):
 
 
 def dashboard(request):
-    return render(request, 'dashboard.html')
+    email = request.session.get('email')
+    query = f"SELECT * FROM akun WHERE email = '{email}'"
+    result = execute_query(query)
+    pengguna_biasa = is_pengguna_biasa(request)
+    artis = is_artist(request)
+    label = is_label(request)
+    songwriter = is_songwriter(request)
+    podcaster = is_podcaster(request)
+
+    # role is pengguna_biasa, artis, label, songwriter, podcaster concatenated with ','
+    role = 'pengguna biasa, '
+    if artis:
+        role += 'artis, '
+    if label:
+        role += 'label, '
+    if songwriter:
+        role += 'songwriter, '
+    if podcaster:
+        role += 'podcaster'
+
+    # remove comma at the end if exist
+    if role[-2] == ',':
+        role = role[:-2]
+
+    context = {
+        'data_user': result[0],
+        'is_pengguna_biasa': pengguna_biasa,
+        'is_artist': artis,
+        'is_label': label,
+        'is_songwriter': songwriter,
+        'is_podcaster': podcaster,
+        'role': role
+    }
+    print(context)
+    print(role)
+    return render(request, 'dashboard.html', context)
+
+
+def is_pengguna_biasa(request):
+    return True
+
+
+def is_artist(request):
+    email = request.session.get('email')
+    query = f"SELECT * FROM artist WHERE email_akun = '{email}'"
+    result = execute_query(query)
+    return len(result) > 0
+
+
+def is_label(request):
+    email = request.session.get('email')
+    query = f"SELECT * FROM label WHERE email = '{email}'"
+    result = execute_query(query)
+    return len(result) > 0
+
+
+def is_songwriter(request):
+    email = request.session.get('email')
+    query = f"SELECT * FROM songwriter WHERE email_akun = '{email}'"
+    result = execute_query(query)
+    return len(result) > 0
+
+
+def is_podcaster(request):
+    email = request.session.get('email')
+    query = f"SELECT * FROM podcaster WHERE email = '{email}'"
+    result = execute_query(query)
+    return len(result) > 0
+
+
+def logout_user(request):
+    request.session.flush()
+    return redirect('main:landing_page')
 
 
 def podcast_detail(request):
     podcast_id = request.GET.get('id')
-    
+
     query = f"SELECT KONTEN.judul, AKUN.nama, KONTEN.durasi, KONTEN.tanggal_rilis, KONTEN.tahun FROM PODCAST JOIN KONTEN ON PODCAST.id_konten = KONTEN.id JOIN PODCASTER ON PODCAST.email_podcaster = PODCASTER.email JOIN AKUN ON PODCASTER.email = AKUN.email WHERE KONTEN.id = '{podcast_id}'"
     podcast = execute_query(query)
     print(podcast)
@@ -186,7 +266,7 @@ def podcast_manager(request):
     if id is not None:
         query = f"SELECT K.id, E.judul, E.deskripsi, E.durasi, E.tanggal_rilis FROM EPISODE AS E JOIN KONTEN AS K ON E.id_konten_podcast = K.id WHERE K.id = '{id}'"
         episode = execute_query(query)
-    
+
         query = f"SELECT KONTEN.judul FROM PODCAST JOIN KONTEN ON PODCAST.id_konten = KONTEN.id WHERE KONTEN.id = '{id}'"
         podcast_selected = execute_query(query)
 
@@ -203,7 +283,6 @@ def podcast_manager(request):
             'genres': genre
         }
     print(episode)
-
 
     return render(request, 'podcast/podcast_manager.html', context)
 
@@ -315,7 +394,7 @@ def langganan_paket(request):
     return render(request, 'langganan_paket/langganan_paket.html', context)
 
 
-@csrf_exempt
+@ csrf_exempt
 def pembayaran(request, jenis_paket, harga):
     return render(request, 'langganan_paket/pembayaran.html', {'jenis': jenis_paket, 'harga': harga})
 
@@ -329,7 +408,7 @@ def kelola_playlist(request):
     # Ambil email pengguna yang sedang login
     current_user_email = request.session.get('email')
     print(current_user_email)
-    
+
     if not current_user_email:
         return HttpResponseNotAllowed("Login diperlukan")
 
@@ -410,7 +489,7 @@ def user_playlist_detail(request, id_playlist):
     return render(request, 'kelola_playlist/kelola_playlist_detail.html', context)
 
 
-@csrf_exempt
+@ csrf_exempt
 def pembayaran_final(request):
     if request.method == 'POST':
         # email = 'user_verified_136@example.com'
@@ -484,7 +563,7 @@ def downloaded_song(request):
         # email = 'user_verified_34@example.com'
         email = request.session.get('email')
         # asumsi: dapatkan data dari akun_play_song untuk tanggal_download_lagu
-        query = f"""SELECT 
+        query = f"""SELECT
                         KONTEN.judul AS judul_lagu,
                         AKUN.nama AS nama_artis,
                         MAX(akun_play_song.waktu) AS tanggal_download_lagu
@@ -517,6 +596,7 @@ def downloaded_song_delete(request, judul):
     except ProgrammingError as e:
         print(f"An error occurred: {e}")
     return redirect('main:downloaded_song')
+
 
 def play_song(request, id_song):
     song = execute_query(
