@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+
 {% load static %}
 
 {% block title %}
@@ -7,6 +8,31 @@
 
 {% endblock title %}
 
+{% block content %}
+<div class="container mt-4">
+    <div class="card mb-3">
+        <div class="card-header text-center">
+            Create New Podcast
+        </div>
+        <div class="card-body">
+            <form action="{% url 'main:add_podcast' %}" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="judul">Judul</label>
+                    <input type="text" class="form-control" id="judul" name="judul" required>
+                    <label for="genre">Genre:</label>
+                    <select name="genre" id="genre" class="form-control" required>
+                        {% for genre in genres %}
+                        <option value="{{ genre.id }}">{{ genre.genre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Create</button>
+            </form>
+        </div>
+    </div>
+</div>
+<br>
 <div class="container mt-4">
     <div class="card mb-3">
         <div class="card-header text-center">
@@ -30,10 +56,11 @@
                             <td>{{ podcast.episode_count }}</td>
                             <td>{{ podcast.durasi }}</td>
                             <td>
-                                <div class="btn">
-                                    <a href="/podcast/{{podcast.id}}">Detail</a>
-                                    <a href="/podcast/{{podcast.id}}/add">Tambah Episode</a>
-                                    <a href="/podcast/{{podcast.id}}/delete">Delete</a>
+                                <div>
+                                    <a href="/podcast/detail/?id={{podcast.id}}" class="btn btn-primary">Detail</a>
+                                    <!-- <a href="/podcast/?id={{ podcast.id }}" class="btn btn-primary" onclick=setId(podcast.id)>Tambah Episode</a> -->
+                                    <a href="/podcast/?id={{ podcast.id }}" class="btn btn-primary" onclick="setId('{{ podcast.id }}')">Tambah Episode</a>
+                                    <a href="/podcast/delete/{{podcast.id}}" class="btn bg-danger text-white">Delete</a>
                                 </div>
                             </td>
                         </tr>
@@ -43,46 +70,88 @@
             </div>
         </div>
     </div>
+</div>
 
-    <div class="container mt-4">
-        <div class="card mb-3">
-            <div class="card-header text-center">
-                Episode List pada {{ podcast.judul }}
-            </div>
-            <div class="card-body">
-                <div class="card-title">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Judul</th>
-                                <th>Deskripsi</th>
-                                <th>Durasi</th>
-                                <th>Tanggal</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Subjudul1</td>
-                                <td>Deskripsi1</td>
-                                <td>50menit</td>
-                                <td>2021-08-01</td>
-                                <td>
-                                    <a href="/episode/{{ episode.id }}/delete">Delete</a>
-                                </td>
-                            </tr>
-                    </table>
+<div class="container mt-4">
+    <div class="card mb-3">
+        <div class="card-header text-center">
+            Create New Episode
+        </div>
+        <div class="card-body">
+            <p hidden id="podcast_id"></p>
+            <p class="card-text">Podcast: {{ podcast_selected.judul }}</p>
+            <form id="form_eps" action="/episode/add/{{podcast.id}}" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="judul">Judul</label>
+                    <input type="text" class="form-control" id="judul" name="judul" required>
                 </div>
+                <div class="form-group">
+                    <label for="deskripsi">Deskripsi</label>
+                    <textarea class="form-control" id="deskripsi" name="deskripsi" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="durasi">Durasi</label>
+                    <input type="text" class="form-control" id="durasi" name="durasi" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Create</button>
+            </form>
+        </div>
+    </div>
+</div>
+    <br>
+<div class="container mt-4">
+    <div class="card mb-3">
+        <div class="card-header text-center">
+            Episode List pada {{ podcast.judul }}
+        </div>
+        <div class="card-body">
+            <div class="card-title">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Judul</th>
+                            <th>Deskripsi</th>
+                            <th>Durasi</th>
+                            <th>Tanggal</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for episode in episodes %}
+                        <tr>
+                            <td>{{ episode.judul }}</td>
+                            <td>{{ episode.deskripsi }}</td>
+                            <td>{{ episode.durasi }}</td>
+                            <td>{{ episode.tanggal_rilis }}</td>
+                            <td>
+                                <form action="{% url 'main:delete_episode'  episode.id  %}" method="POST">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn bg-danger text-white">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 </div>
 <script>
-
+    async function setId() {
+        id = new URLSearchParams(window.location.search).get('id');
+        console.log(id + " set");
+        document.getElementById('podcast_id').innerText = id;
+        document.getElementById('form_eps').action = "/episode/add/" + id;
+    }
+    setId();
 </script>
+
+{% endblock content %}
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-{% endblock content %}
 
 </html>

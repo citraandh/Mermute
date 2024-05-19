@@ -1,185 +1,68 @@
-<!DOCTYPE html>
-<html lang="en">
-    
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Podcast</title>
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f8f9fa; /* Warna latar belakang */
-        }
-        .card {
-            border: none;
-            border-radius: 0.5rem;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); /* Efek bayangan */
-        }
-        .card-header {
-            background-color: #d9534f; /* Warna merah */
-            color: white; /* Warna teks */
-            border-bottom: none;
-        }
-        .btn-primary {
-            background-color: #d9534f; /* Warna merah */
-            border-color: #d9534f; /* Warna border */
-        }
-        .btn-primary:hover {
-            background-color: #c9302c; /* Warna merah yang sedikit lebih gelap */
-            border-color: #c9302c;
-        }
-        .btn-outline-secondary {
-            color: #d9534f; /* Warna merah */
-            border-color: #d9534f;
-        }
-        .btn-outline-secondary:hover {
-            background-color: #f8f9fa; /* Warna latar belakang */
-        }
-        .card-title,
-        .card-text {
-            color: #212529; /* Warna teks utama */
-        }
-    </style>
-    <nav class="navbar navbar-dark bg-danger">
-        <div class="container">
-            <a class="navbar-brand" href="#">Navigation</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Chart</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Search Bar</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Kelola Playlist</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Langganan Paket</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Kelola Downloaded Songs</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Kelola Podcast</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Kelola Album & Songs</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Kelola Album</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Cek Royalti</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-</head>
+{% extends 'base.html' %}
 
-<body>
+{% load static %}
+
+{% block title %}
+
+<title>Podcast</title>
+
+{% endblock title %}
+
+{% block content %}
+
     <div class="container mt-4">
         <div class="card">
             <div class="card-header">
                 <h5>Podcast</h5>
             </div>
             <div class="card-body">
-                    
-                        <h5 class="card-title">Judul: {{podcast.judul}}</h5>
-                        <p class="card-text">Genre(s):</p>
-                        {% for genre in genres %}
-                        <p class="card-text">- {{genre.genre}}</p>    
-                        {% endfor %}
-                        <p class="card-text">Podcaster: {{podcast.nama}}</p>
-                        <p class="card-text">Total Durasi: {{podcast.durasi}}</p>
-                        <p class="card-text">Tanggal Rilis: {{podcast.tanggal_rilis}}</p>
-                        <p class="card-text">Tahun: {{ podcast.tahun}}</p>
-                        <button class="btn btn-primary">
-                            <a href="#" style="color: white;">
-                                Lihat Episodes
-                            </a>
-                        </button>
-                    </div>
-                    <div id="episode" class="container">
-                        <div class="card mt-4">
-                            <div class="card-header">
-                                <h5>Daftar Episodes</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="card-title">
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>Judul</th>
-                                                <th>Deskripsi</th>
-                                                <th>Durasi</th>
-                                                <th>Tanggal</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for episode in episodes %}
-                                            <tr>
-                                                <td>{{ episode.judul }}</td>
-                                                <td>{{ episode.deskripsi }}</td>
-                                                <td>{{ episode.durasi }}</td>
-                                                <td>{{ episode.tanggal_rilis }}</td>
-                                            </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <br>
+                <h5 class="card-title">Judul: {{ podcast.judul }}</h5>
+                <p class="card-text">Genre(s):</p>
+                {% for genre in genres %}
+                <p class="card-text">- {{ genre.genre }}</p>    
+                {% endfor %}
+                <p class="card-text">Podcaster: {{ podcast.nama }}</p>
+                <p class="card-text">Total Durasi: {{ podcast.durasi }}</p>
+                <p class="card-text">Tanggal Rilis: {{ podcast.tanggal_rilis }}</p>
+                <p class="card-text">Tahun: {{ podcast.tahun }}</p>
+                <button class="btn btn-primary" > Back
+                </button>
+            </div>
+        </div>
+        <div id="episode" class="container">
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5>Episode</h5>
                 </div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Judul</th>
+                                <th>Deskripsi</th>
+                                <th>Durasi</th>
+                                <th>Tanggal</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for episode in episodes %}
+                            <tr>
+                                <td>{{ episode.judul }}</td>
+                                <td>{{ episode.deskripsi }}</td>
+                                <td>{{ episode.durasi }}</td>
+                                <td>{{ episode.tanggal }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                <script>
-                    async function fetchEpisodes() {
-                        const parsedUrl = new URL(url);
+{% endblock content %}
 
-                        // Split the pathname to get the UUID
-                        const pathParts = parsedUrl.pathname.split('/');
-
-                        // The UUID is the last part of the path
-                        const uuid = pathParts[pathParts.length - 1];
-                        const response = await fetch(`{% url 'main:list_episode' ${{uuid}} %}`);
-                        const data = await response.json();
-                        data.forEach(episode => {
-                            document.getElementById('episode').innerHTML += `
-                            <div class="card mt-4">
-                                <div class="card-header">
-                                    <h5>${episode.judul}</h5>
-                                </div>
-                                <div class="card-body">
-                                    <p>${episode.deskripsi}</p>
-                                    <p>${episode.durasi}</p>
-                                    <p>${episode.tanggal_rilis}</p>
-                                </div>
-                            </div>
-                            `;
-                        });
-                        if (data.length === 0) {
-                            document.getElementById('episode').innerHTML = `
-                            <div class="card mt-4">
-                                <div class="card-header">
-                                    <h5>Belum ada episode</h5>
-                                </div>
-                            </div>
-                            `;
-                        }
-                        console.log(data);
-                    };
-
-                </script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

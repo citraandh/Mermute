@@ -10,7 +10,7 @@ def connect_to_db():
     try:
         connection = psycopg2.connect(
             user="basdat",
-            password="basdat",
+            password="admin",
             host="localhost",
             port="5432",
             database="basdat",

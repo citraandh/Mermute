@@ -1,165 +1,123 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %}
 
-<head>
-    <title>Register Page</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <nav class="navbar navbar-dark bg-danger">
-        <div class="container">
-            <a class="navbar-brand" href="#">Navigation</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Chart</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Search Bar</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Kelola Playlist</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Langganan Paket</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Kelola Downloaded Songs</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Kelola Podcast</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Kelola Album & Songs</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Kelola Album</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Cek Royalti</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Logout</a>
-                    </li>
-                </ul>
+{% load static %}
+
+{% block title %}
+<title>Register</title>
+{% endblock title %}
+
+{% block content %}
+<body>
+    
+    <div class="container" style="margin-top: 200px;">
+        <div class="card">
+            <div class="card-header">
+                <h1>Register</h1>
+            </div>
+            <div class="card-body" style="margin-left: 375px;">
+                <div class="card-title">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div id="role">
+                            <label for="pengguna">Pengguna</label>
+                            <input type="checkbox" id="pengguna" name="actor" value="pengguna" required>
+                            <label for="label">Label</label>
+                            <input type="checkbox" id="label" name="actor" value="label">
+                        </div>
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required><br>
+                        
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" required><br>
+                        
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" required><br>
+                        <div id="gender" style="display: block;">
+                            <label for="gender">Gender:</label>
+                            <select name="gender" >
+                                <option value="0">Male</option>
+                                <option value="1">Female</option>
+                            </select><br>
+                        </div>
+                        <div id="place_of_birth" style="display: block;">
+                            <label for="place_of_birth">Place of Birth:</label>
+                            <input type="text" id="place_of_birth" name="place_of_birth"><br>
+                        </div>
+                        <div id="date_of_birth" style="display: block;">
+                            <label for="date_of_birth">Date of Birth:</label>
+                            <input type="date" id="date_of_birth" name="date_of_birth"><br>
+                        </div>
+                        <div id="city_origin" style="display: block;">
+                            <label for="city_origin">City of Origin:</label>
+                            <input type="text" id="city_origin" name="city_origin"><br>
+                        </div>
+                        
+                        <div id="interests">
+                            <label for="interests">Role:</label><br>
+                            <input type="radio" id="podcaster" name="role" value="podcaster">
+                            <label for="podcaster">Podcaster</label><br>
+                            <input type="radio" id="artist" name="role" value="artist">
+                            <label for="artist">Artist</label><br>
+                            <input type="radio" id="songwriter" name="role" value="songwriter">
+                            <label for="songwriter">Songwriter</label><br>
+                        </div>
+                        <div id="phone_number_div" style="display: none;">
+                            <label for="phone_number">Contact:</label>
+                            <input type="text" id="contact" name="contact"><br>
+                        </div>
+                        <input type="submit" value="Register">
+                    </form>
+                </div>
             </div>
         </div>
-    </nav>
-</head>
-<style>
-    body {
-        background-color: #f8f9fa;
-        /* Warna latar belakang */
-    }
-    .card {
-        border: none;
-        border-radius: 0.5rem;
-        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-        /* Efek bayangan */
-        margin-bottom: 20px;
-    }
-
-    .card-header {
-        background-color: #d9534f;
-        /* Warna merah */
-        color: white;
-        /* Warna teks */
-        border-bottom: none;
-    }
-
-    .btn-primary {
-        background-color: #d9534f;
-        /* Warna merah */
-        border-color: #d9534f;
-        /* Warna border */
-    }
-
-    .btn-primary:hover {
-        background-color: #c9302c;
-        /* Warna merah yang sedikit lebih gelap */
-        border-color: #c9302c;
-    }
-
-    .btn-outline-secondary {
-        color: #d9534f;
-        /* Warna merah */
-        border-color: #d9534f;
-    }
-
-    .btn-outline-secondary:hover {
-        background-color: #f8f9fa;
-        /* Warna latar belakang */
-    }
-
-    .card-title,
-    .card-text {
-        color: #212529;
-        /* Warna teks utama */
-    }
-</style>
-<body>
-    <h1>Register</h1>
-    <form method="POST">
-        {% csrf_token %}
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br>
-
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required><br>
-
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required><br>
-
-        <label for="gender">Gender:</label>
-        <input type="text" id="gender" name="gender" required><br>
-
-        <label for="place_of_birth">Place of Birth:</label>
-        <input type="text" id="place_of_birth" name="place_of_birth" required><br>
-
-        <label for="date_of_birth">Date of Birth: </label>
-        <input type="date" id="date_of_birth" name="date_of_birth" required><br>
-
-        <label for="city_origin">City of Origin:</label>
-        <input type="text" id="city_origin" name="city_origin" required><br>
-
-        <label for="interests">Role:</label><br>
-        <input type="radio" id="podcaster" name="role" value="podcaster">
-        <label for="podcaster">Podcaster</label><br>
-        <input type="radio" id="artist" name="role" value="artist">
-        <label for="artist">Artist</label><br>
-        <input type="radio" id="songwriter" name="role" value="songwriter">
-        <label for="songwriter">Songwriter</label><br>
-        <div id="phone_number_div" style="display: none;">
-            <label for="phone_number">Contact:</label>
-            <input type="text" id="contact" name="contact"><br>
-        </div>
-        <script>
-            document.querySelectorAll('input[name="role"]').forEach(function(radio) {
-                radio.addEventListener('change', function() {
+    </div>
+    <script>
+        document.querySelectorAll('input[name="actor"]').forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                if (this.checked) {
+                    document.querySelectorAll('input[name="actor"]').forEach(function(otherCheckbox) {
+                        if (otherCheckbox !== checkbox) {
+                            otherCheckbox.checked = false;
+                        }
+                    });
                     if (this.value === 'label') {
+                        document.getElementById('pengguna').removeAttribute('required');
                         document.getElementById('phone_number_div').style.display = 'block';
                         document.getElementById('contact').required = true;
+                        document.getElementById('gender').style.display = 'none';
+                        document.getElementById('gender').removeAttribute('required');
+                        document.getElementById('place_of_birth').style.display = 'none';
+                        document.getElementById('place_of_birth').removeAttribute('required');
+                        document.getElementById('date_of_birth').style.display = 'none';
+                        document.getElementById('date_of_birth').removeAttribute('required');
+                        document.getElementById('city_origin').style.display = 'none';
+                        document.getElementById('city_origin').removeAttribute('required');
+                        document.getElementById('interests').style.display = 'none';
+                        
                     } else {
+                        document.getElementById('pengguna').setAttribute('required');
                         document.getElementById('phone_number_div').style.display = 'none';
-                        document.getElementById('contact').required = false;
+                        document.getElementById('contact').removeAttribute('required');
+                        document.getElementById('gender').style.display = 'block';
+                        document.getElementById('gender').setAttribute('required', 'true');
+                        document.getElementById('place_of_birth').style.display = 'block';
+                        document.getElementById('place_of_birth').setAttribute('required', 'true');
+                        document.getElementById('date_of_birth').style.display = 'block';
+                        document.getElementById('date_of_birth').setAttribute('required', 'true');
+                        document.getElementById('city_origin').style.display = 'block';
+                        document.getElementById('city_origin').setAttribute('required', 'true');
+                        document.getElementById('interests').style.display = 'block';
                     }
-                });
+                }
             });
-        </script>
-        <input type="submit" value="Register">
-    </form>
+        });
+    </script>
     
     <!-- Optional JavaScript and Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+{% endblock content %}
 
 </html>

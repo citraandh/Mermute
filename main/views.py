@@ -103,38 +103,43 @@ def register(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
         nama = request.POST.get('name')
-        gender = request.POST.get('gender')
-        tempat_lahir = request.POST.get('place_of_birth')
-        tanggal_lahir = request.POST.get('date_of_birth')
-        kota_asal = request.POST.get('city_origin')
-        is_verified = False
-        role = request.POST.get('role')
-        kontak = request.POST.get('contact')
+        if request.session.get('actor') == 'pengguna':
+            gender = request.POST.get('gender')
+            tempat_lahir = request.POST.get('place_of_birth')
+            tanggal_lahir = request.POST.get('date_of_birth')
+            kota_asal = request.POST.get('city_origin')
+            is_verified = False
+            role = request.POST.get('role')
 
-        id = (uuid.uuid4())
-        phc_id = (uuid.uuid4())
+            id = (uuid.uuid4())
+            phc_id = (uuid.uuid4())
 
-        print(role)
+            print(role)
 
-        query = f"INSERT INTO pemilik_hak_cipta (id, rate_royalti) VALUES ('{phc_id}', '0')"
-        execute_query(query)
-        if request.session.get('role') == 'artist':
-            query = f"INSERT INTO artist (id, email_akun, id_pemilik_hak_cipta) VALUES ('{id}', '{email}', '{phc_id}')"
+            query = f"INSERT INTO pemilik_hak_cipta (id, rate_royalti) VALUES ('{phc_id}', '0')"
             execute_query(query)
-        if request.session.get('role') == 'label':
-            query = f"INSERT INTO label (id, nama, email, password,  kontak, id_pemilik_hak_cipta) VALUES ('{id}', '{nama}', '{email}', '{password}', '{kontak}', '{phc_id}')"
+            if request.session.get('role') == 'artist':
+                query = f"INSERT INTO artist (id, email_akun, id_pemilik_hak_cipta) VALUES ('{id}', '{email}', '{phc_id}')"
+                execute_query(query)
+            if request.session.get('role') == 'label':
+                query = f"INSERT INTO label (id, nama, email, password,  kontak, id_pemilik_hak_cipta) VALUES ('{id}', '{nama}', '{email}', '{password}', '{kontak}', '{phc_id}')"
+                execute_query(query)
+            if request.session.get('role') == 'songwriter':
+                query = f"INSERT INTO songwriter (id, email_akun, id_pemilik_hak_cipta) VALUES ('{id}', '{email}', '{phc_id}')"
+                execute_query(query)
+
+            # Cek apakah email sudah terdaftar
+            if email_exist(email):
+                return redirect('main:login')
+
+            query = f"INSERT INTO akun (email, password, nama, gender, tempat_lahir, tanggal_lahir, kota_asal, is_verified) VALUES ('{email}', '{password}', '{nama}', '{gender}', '{tempat_lahir}', '{tanggal_lahir}', '{kota_asal}', {is_verified})"
             execute_query(query)
-        if request.session.get('role') == 'songwriter':
-            query = f"INSERT INTO songwriter (id, email_akun, id_pemilik_hak_cipta) VALUES ('{id}', '{email}', '{phc_id}')"
+            set_premium(email, check_premium(email))
+        elif request.session.get('actor') == 'label':
+            kontak = request.POST.get('contact')
+            query = f"INSERT INTO label (email, password, nama, kontak) VALUES ('{email}', '{password}', '{nama}', '{kontak}')"
             execute_query(query)
 
-        # Cek apakah email sudah terdaftar
-        if email_exist(email):
-            return redirect('main:login')
-
-        query = f"INSERT INTO akun (email, password, nama, gender, tempat_lahir, tanggal_lahir, kota_asal, is_verified) VALUES ('{email}', '{password}', '{nama}', '{gender}', '{tempat_lahir}', '{tanggal_lahir}', '{kota_asal}', {is_verified})"
-        execute_query(query)
-        set_premium(email, check_premium(email))
         return redirect('main:login')
     return render(request, 'register.html')
 
@@ -143,40 +148,63 @@ def dashboard(request):
     return render(request, 'dashboard.html')
 
 
-def podcast_detail(request, podcast_id):
+def podcast_detail(request):
+    podcast_id = request.GET.get('id')
+    
     query = f"SELECT KONTEN.judul, AKUN.nama, KONTEN.durasi, KONTEN.tanggal_rilis, KONTEN.tahun FROM PODCAST JOIN KONTEN ON PODCAST.id_konten = KONTEN.id JOIN PODCASTER ON PODCAST.email_podcaster = PODCASTER.email JOIN AKUN ON PODCASTER.email = AKUN.email WHERE KONTEN.id = '{podcast_id}'"
-    # Execute the query
     podcast = execute_query(query)
+    print(podcast)
     podcast = podcast[0]
 
     query = f"SELECT E.judul, E.deskripsi, E.durasi, E.tanggal_rilis FROM EPISODE AS E JOIN KONTEN AS K ON E.id_konten_podcast = K.id WHERE K.id = '{podcast_id}'"
-    # Execute the query
     episode = execute_query(query)
 
     query = f"SELECT G.genre FROM KONTEN AS K JOIN PODCAST AS P ON K.id = P.id_konten JOIN GENRE AS G ON K.id = G.id_konten WHERE K.id = '{podcast_id}'"
     genre = execute_query(query)
 
-    # # Prepare context dictionary with query results
     context = {
         'podcast': podcast,
         'episodes': episode,
         'genres': genre
     }
 
-    return render(request, 'podcast/podcast_page.html', context=context)
+    return render(request, 'podcast/podcast_page.html', context)
 
 
 def podcast_manager(request):
-    query = f"SELECT KONTEN.id, KONTEN.judul, AKUN.nama, KONTEN.durasi, KONTEN.tanggal_rilis, KONTEN.tahun, COUNT(E.id) as episode_count FROM PODCAST JOIN KONTEN ON PODCAST.id_konten = KONTEN.id JOIN PODCASTER ON PODCAST.email_podcaster = PODCASTER.email JOIN AKUN ON PODCASTER.email = AKUN.email LEFT JOIN EPISODE AS E ON KONTEN.id = E.id_konten_podcast GROUP BY KONTEN.id, KONTEN.judul, AKUN.nama, KONTEN.durasi, KONTEN.tanggal_rilis, KONTEN.tahun"
+    query = f"SELECT KONTEN.id, KONTEN.judul, AKUN.nama, KONTEN.durasi, KONTEN.tanggal_rilis, KONTEN.tahun, COUNT(E.id_konten_podcast) as episode_count FROM PODCAST JOIN KONTEN ON PODCAST.id_konten = KONTEN.id JOIN PODCASTER ON PODCAST.email_podcaster = PODCASTER.email JOIN AKUN ON PODCASTER.email = AKUN.email LEFT JOIN EPISODE AS E ON KONTEN.id = E.id_konten_podcast GROUP BY KONTEN.id, KONTEN.judul, AKUN.nama, KONTEN.durasi, KONTEN.tanggal_rilis, KONTEN.tahun"
     podcast = execute_query(query)
 
-    query = f"SELECT E.judul, E.deskripsi, E.durasi, E.tanggal_rilis FROM EPISODE AS E JOIN KONTEN AS K ON E.id_konten_podcast = K.id"
+    query = f"SELECT K.id, E.judul, E.deskripsi, E.durasi, E.tanggal_rilis FROM EPISODE AS E JOIN KONTEN AS K ON E.id_konten_podcast = K.id"
     episode = execute_query(query)
 
-    context = {
-        'podcasts': podcast,
-        'episodes': episode
-    }
+    query = f"SELECT G.genre FROM KONTEN AS K JOIN PODCAST AS P ON K.id = P.id_konten JOIN GENRE AS G ON K.id = G.id_konten"
+    genre = execute_query(query)
+
+    id = request.GET.get('id')
+    print(id)
+    if id is not None:
+        query = f"SELECT K.id, E.judul, E.deskripsi, E.durasi, E.tanggal_rilis FROM EPISODE AS E JOIN KONTEN AS K ON E.id_konten_podcast = K.id WHERE K.id = '{id}'"
+        episode = execute_query(query)
+    
+        query = f"SELECT KONTEN.judul FROM PODCAST JOIN KONTEN ON PODCAST.id_konten = KONTEN.id WHERE KONTEN.id = '{id}'"
+        podcast_selected = execute_query(query)
+
+        context = {
+            'podcasts': podcast,
+            'episodes': episode,
+            'genres': genre,
+            'podcast_selected': podcast_selected[0]
+        }
+    else:
+        context = {
+            'podcasts': podcast,
+            'episodes': episode,
+            'genres': genre
+        }
+    print(episode)
+
+
     return render(request, 'podcast/podcast_manager.html', context)
 
 
@@ -184,18 +212,19 @@ def add_podcast(request):
     if request.method == 'POST':
         email = request.session.get('email')
         judul = request.POST.get('judul')
-        durasi = request.POST.get('durasi')
-        tanggal_rilis = request.POST.get('tanggal_rilis')
-        tahun = request.POST.get('tahun')
-        deskripsi = request.POST.get('deskripsi')
-        genre = request.POST.get('genre')
+        tanggal_rilis = datetime.now()
+        tahun = datetime.now().year
+        genres = request.POST.get('genre')
+        genres = genres.split(',')
+        durasi = 0
         id = (uuid.uuid4())
         query = f"INSERT INTO KONTEN (id, judul, durasi, tanggal_rilis, tahun) VALUES ('{id}', '{judul}', '{durasi}', '{tanggal_rilis}', '{tahun}')"
         execute_query(query)
         query = f"INSERT INTO PODCAST (id_konten, email_podcaster) VALUES ('{id}', '{email}')"
         execute_query(query)
-        query = f"INSERT INTO GENRE (id_konten, genre) VALUES ('{id}', '{genre}')"
-        execute_query(query)
+        for genre in genres:
+            query = f"INSERT INTO GENRE (id_konten, genre) VALUES ('{id}', '{genre}')"
+            execute_query(query)
         query = f"INSERT INTO PODCASTER (email) VALUES ('{email}')"
         execute_query(query)
         return redirect('main:podcast_manager')
@@ -206,13 +235,15 @@ def add_episode(request, podcast_id):
     if request.method == 'POST':
         judul = request.POST.get('judul')
         durasi = request.POST.get('durasi')
-        tanggal_rilis = request.POST.get('tanggal_rilis')
+        tanggal_rilis = datetime.now()
+        tahun = datetime.now().year
         deskripsi = request.POST.get('deskripsi')
-        query = f"INSERT INTO KONTEN (id, judul, durasi, tanggal_rilis) VALUES ('{podcast_id}', '{judul}', '{durasi}', '{tanggal_rilis}')"
+        id = (uuid.uuid4())
+        query = f"INSERT INTO KONTEN (id, judul, durasi, tanggal_rilis, tahun) VALUES ('{id}', '{judul}', '{durasi}', '{tanggal_rilis}', '{tahun}')"
         execute_query(query)
-        query = f"INSERT INTO EPISODE (id_konten_podcast) VALUES ('{podcast_id}')"
+        query = f"INSERT INTO EPISODE (id_episode, id_konten_podcast, judul, deskripsi, durasi, tanggal_rilis) VALUES ('{id}', '{podcast_id}', '{judul}', '{deskripsi}', '{durasi}', '{tanggal_rilis}')"
         execute_query(query)
-        return redirect('main:podcast_manager')
+        return redirect(reverse('main:podcast'))
     return render(request, 'podcast_manager.html')
 
 
@@ -224,10 +255,11 @@ def delete_podcast(request, podcast_id):
 
 
 def delete_episode(request, episode_id):
-    if request.method == 'DELETE':
-        query = f"DELETE FROM KONTEN WHERE id = '{episode_id}'"
-        execute_query(query)
-        return redirect('main:podcast_manager')
+    print(request.method)
+    print(episode_id)
+    query = f"DELETE FROM EPISODE WHERE id_episode = '{episode_id}'"
+    execute_query(query)
+    return HttpResponseRedirect(reverse('main:podcast'))
 
 
 def list_podcast_ajax(request):
