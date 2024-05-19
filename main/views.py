@@ -425,8 +425,8 @@ def detail_konten(request, judul, nama, tipe):
 
 
 def downloaded_song(request):
-    # email = 'user_verified_34@example.com'
-    email = request.session.get('email')
+    email = 'user_verified_34@example.com'
+    # email = request.session.get('email')
     # asumsi: dapatkan data dari akun_play_song untuk tanggal_download_lagu
     query = f"""SELECT 
                     KONTEN.judul AS judul_lagu,

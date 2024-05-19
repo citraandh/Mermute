@@ -1,190 +1,91 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
+{% load static %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Pengguna</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <nav class="navbar navbar-dark bg-danger">
-        <div class="container">
-            <a class="navbar-brand" href="#">Navigation</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Chart</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Search Bar</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Kelola Playlist</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Langganan Paket</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Kelola Downloaded Songs</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Kelola Podcast</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Kelola Album & Songs</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Kelola Album</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Cek Royalti</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Logout</a>
-                    </li>
-                </ul>
-            </div>
+{% block title %}
+
+<title>Dashboard</title>
+
+{% endblock title %}
+
+
+
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Profil Pengguna -->
+    <div class="card">
+        <div class="card-header text-center">
+            Profil Pengguna
         </div>
-    </nav>
-
-    <style>
-        body {
-            background-color: #f8f9fa;
-            /* Warna latar belakang */
-        }
-
-        .card {
-            border: none;
-            border-radius: 0.5rem;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-            /* Efek bayangan */
-            margin-bottom: 20px;
-        }
-
-        .card-header {
-            background-color: #d9534f;
-            /* Warna merah */
-            color: white;
-            /* Warna teks */
-            border-bottom: none;
-        }
-
-        .btn-primary {
-            background-color: #d9534f;
-            /* Warna merah */
-            border-color: #d9534f;
-            /* Warna border */
-        }
-
-        .btn-primary:hover {
-            background-color: #c9302c;
-            /* Warna merah yang sedikit lebih gelap */
-            border-color: #c9302c;
-        }
-
-        .btn-outline-secondary {
-            color: #d9534f;
-            /* Warna merah */
-            border-color: #d9534f;
-        }
-
-        .btn-outline-secondary:hover {
-            background-color: #f8f9fa;
-            /* Warna latar belakang */
-        }
-
-        .card-title,
-        .card-text {
-            color: #212529;
-            /* Warna teks utama */
-        }
-    </style>
-
-</head>
-
-<body>
-    <div class="container mt-4">
-        <!-- Profil Pengguna -->
-        <div class="card">
-            <div class="card-header text-center">
-                Profil Pengguna
-            </div>
-            <div class="card-body">
-                <h5 class="card-title" id="nama">Nama: John Doe</h5>
-                <p class="card-text" id="email">Email: john.doe@example.com</p>
-                <p class="card-text" id="kontak">Kontak: +123456789</p>
-                <p class="card-text" id="kota-asal">Kota Asal: Jakarta</p>
-                <p class="card-text" id="gender">Gender: Laki-laki</p>
-                <p class="card-text" id="tempat-lahir">Tempat Lahir: Bandung</p>
-                <p class="card-text" id="tanggal-lahir">Tanggal Lahir: 1980-01-01</p>
-                <p class="card-text" id="role">Role: Pengguna Biasa</p>
-            </div>
-        </div>
-
-        <!-- Daftar Playlist Pengguna Biasa -->
-        <div class="card mt-4" id="playlist-card">
-            <div class="card-header">
-                Daftar Playlist Saya
-            </div>
-            <ul class="list-group list-group-flush" id="playlist-list">
-                <!-- Contoh Playlist -->
-                <li class="list-group-item">My Favorite Songs</li>
-                <!-- Jika tidak memiliki playlist -->
-                <li class="list-group-item" >Belum Memiliki Playlist</li>
-            </ul>
-        </div>
-
-        <!-- Daftar Lagu Artist/Songwriter -->
-        <div class="card mt-4" id="lagu-card">
-            <div class="card-header">
-                Daftar Lagu Saya
-            </div>
-            <ul class="list-group list-group-flush" id="lagu-list">
-                <!-- Contoh Lagu -->
-                <li class="list-group-item">we can't be friends</li>
-                <!-- Jika belum memiliki lagu -->
-                <li class="list-group-item">Belum Memiliki Lagu</li>
-            </ul>
-        </div>
-
-        <!-- Daftar Podcast Podcaster -->
-        <div class="card mt-4" id="podcast-card">
-            <div class="card-header">
-                Daftar Podcast Saya
-            </div>
-            <ul class="list-group list-group-flush" id="podcast-list">
-                <!-- Contoh Podcast -->
-                <li class="list-group-item" style="display: none">Weekly Tech Update</li>
-                <!-- Jika belum memiliki podcast -->
-                <li class="list-group-item" >Belum Memiliki Podcast</li>
-            </ul>
-        </div>
-
-        <!-- Daftar Album Label -->
-        <div class="card mt-4" id="album-card">
-            <div class="card-header">
-                Daftar Album Diproduksi
-            </div>
-            <ul class="list-group list-group-flush" id="album-list">
-                <!-- Contoh Album -->
-                <li class="list-group-item">Hits of the Decade</li>
-                <!-- Jika belum memproduksi album -->
-                <li class="list-group-item">Belum Memproduksi Album</li>
-            </ul>
+        <div class="card-body">
+            <h5 class="card-title" id="nama">Nama: John Doe</h5>
+            <p class="card-text" id="email">Email: john.doe@example.com</p>
+            <p class="card-text" id="kontak">Kontak: +123456789</p>
+            <p class="card-text" id="kota-asal">Kota Asal: Jakarta</p>
+            <p class="card-text" id="gender">Gender: Laki-laki</p>
+            <p class="card-text" id="tempat-lahir">Tempat Lahir: Bandung</p>
+            <p class="card-text" id="tanggal-lahir">Tanggal Lahir: 1980-01-01</p>
+            <p class="card-text" id="role">Role: Pengguna Biasa</p>
         </div>
     </div>
 
-    <!-- Optional JavaScript and Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
+    <!-- Daftar Playlist Pengguna Biasa -->
+    <div class="card mt-4" id="playlist-card">
+        <div class="card-header">
+            Daftar Playlist Saya
+        </div>
+        <ul class="list-group list-group-flush" id="playlist-list">
+            <!-- Contoh Playlist -->
+            <li class="list-group-item">My Favorite Songs</li>
+            <!-- Jika tidak memiliki playlist -->
+            <li class="list-group-item">Belum Memiliki Playlist</li>
+        </ul>
+    </div>
+
+    <!-- Daftar Lagu Artist/Songwriter -->
+    <div class="card mt-4" id="lagu-card">
+        <div class="card-header">
+            Daftar Lagu Saya
+        </div>
+        <ul class="list-group list-group-flush" id="lagu-list">
+            <!-- Contoh Lagu -->
+            <li class="list-group-item">we can't be friends</li>
+            <!-- Jika belum memiliki lagu -->
+            <li class="list-group-item">Belum Memiliki Lagu</li>
+        </ul>
+    </div>
+
+    <!-- Daftar Podcast Podcaster -->
+    <div class="card mt-4" id="podcast-card">
+        <div class="card-header">
+            Daftar Podcast Saya
+        </div>
+        <ul class="list-group list-group-flush" id="podcast-list">
+            <!-- Contoh Podcast -->
+            <li class="list-group-item" style="display: none">Weekly Tech Update</li>
+            <!-- Jika belum memiliki podcast -->
+            <li class="list-group-item">Belum Memiliki Podcast</li>
+        </ul>
+    </div>
+
+    <!-- Daftar Album Label -->
+    <div class="card mt-4" id="album-card">
+        <div class="card-header">
+            Daftar Album Diproduksi
+        </div>
+        <ul class="list-group list-group-flush" id="album-list">
+            <!-- Contoh Album -->
+            <li class="list-group-item">Hits of the Decade</li>
+            <!-- Jika belum memproduksi album -->
+            <li class="list-group-item">Belum Memproduksi Album</li>
+        </ul>
+    </div>
+</div>
+
+<!-- Optional JavaScript and Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock content %}
 
 </html>
