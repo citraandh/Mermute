@@ -299,4 +299,18 @@ def pembayaran_final(request):
         query = f"INSERT INTO TRANSACTION (id, email, jenis_paket, timestamp_dimulai, timestamp_berakhir, metode_bayar, nominal) VALUES ('{id}', '{email}', '{jenis_paket}', '{timestamp_mulai}', '{timestamp_selesai}', '{metode_bayar}', {nominal})"
         execute_query(query)
         set_premium(email, True)
-        return redirect('main:dashboard')
+        return redirect('langganan_paket/langganan_paket.html')
+
+    return render(request, 'langganan_paket/pembayaran.html')
+
+
+def riwayat_transaksi(request):
+    email = 'user_verified_136@example.com'
+    query = f"SELECT * FROM TRANSACTION WHERE email = '{email}'"
+    results = execute_query(query)
+    context = {
+        'transactions': results
+    }
+    print('masuk sini')
+    print(context)
+    return render(request, 'langganan_paket/riwayat_transaksi.html', context)
